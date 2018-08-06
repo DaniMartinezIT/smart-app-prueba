@@ -56,16 +56,20 @@
     </div>
   </header>
 
-  <div id='errors'>
-  </div>
-  <div id="loading" class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>
-    
-  <!-- SECTION grafica1 -->
+  <section id="errores">
+    <div id='errors'>
+    </div>
+  </section>
 
+  <section id="load">
+    <div id="loading" class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </section>
+
+  <!-- SECTION grafica1 -->
   <section id="grafica">
     <div class="container-fluid" id="contenedor">
     </div>
@@ -93,6 +97,8 @@
         //Display Patient Demographics and Observations if extractData was success
         function(p) {
           console.log(p);
+          prepareHTML('contenedor');
+          prepareData();
         },
         //Display 'Failed to call FHIR Service' if extractData failed
         function() {

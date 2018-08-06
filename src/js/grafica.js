@@ -36,8 +36,6 @@
             results.forEach(function (observation) {
               getSignosVitales(observation);
             });
-            prepareHTML('contenedor');
-            prepareData();
           }
         });
       }else {
