@@ -47,7 +47,7 @@
     return ret.promise();
 
   };
-  window.prepareHTML(iId) = function(iId){
+  window.prepareHTML() = function(){
     $("#loading").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row"><div class="col-xl-auto" id="vsSelect"></div><div class="col-xl" id="vsGraph"></div></div></div>';
@@ -63,7 +63,7 @@
     makeCollapse(bHTML,'bhSection','balanceHidrico','Balance Hídrico',null);
     makeCollapse(bHTML,'medSection','medicacion','Medicación',null);
     bHTML.push('</div>');
-    $("#"+iId).html(bHTML.join(""));
+    $("#contenedor").html(bHTML.join(""));
   }
   window.prepareData() = function(){
     data.sort(compare);

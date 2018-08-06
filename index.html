@@ -96,7 +96,7 @@
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
         function() {
-          prepareHTML('contenedor');
+          prepareHTML();
           prepareData();
         },
         //Display 'Failed to call FHIR Service' if extractData failed
