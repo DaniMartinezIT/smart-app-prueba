@@ -289,16 +289,15 @@ var finEjeX;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
-    console.log(codingCode);
     fecha = observation.effectiveDateTime;
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
       unidades = observation.valueQuantity.unit;
-      console.log("No tension arterial: "+valor);
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
         valor = component.valueQuantity.value;
+        console.log(component);
         if(typeof valor != 'undefined'){
           codingCode = component.code.coding.code;
           unidades = component.valueQuantity.unit;
@@ -306,7 +305,6 @@ var finEjeX;
           console.log("Codigo: "+codingCode);
           console.log("Unidades: "+unidades);
         }
-        console.log("Tension arterial: "+valor);
       });
     }
     switch (codingCode)
@@ -1513,6 +1511,7 @@ var finEjeX;
   function prepareData()
   {
     data.sort(compare);
+    console.log($.jqplot);
   
     var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
     shownSeries = false,shownLabel = false,
