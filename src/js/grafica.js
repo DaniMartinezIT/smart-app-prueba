@@ -299,7 +299,7 @@ var finEjeX;
         valor = component.valueQuantity.value;
         console.log(component);
         if(typeof valor != 'undefined'){
-          codingCode = component.code.coding.code;
+          codingCode = component.code.coding[0].code;
           unidades = component.valueQuantity.unit;
           console.log("Valor: "+valor);
           console.log("Codigo: "+codingCode);
@@ -1511,7 +1511,6 @@ var finEjeX;
   function prepareData()
   {
     data.sort(compare);
-    console.log($.jqplot);
   
     var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
     shownSeries = false,shownLabel = false,
