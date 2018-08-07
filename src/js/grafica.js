@@ -32,6 +32,7 @@
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function (results, refs) {
+          console.log(results);
           if ( results.length > 0){
             results.forEach(function (observation) {
               getSignosVitales(observation);
