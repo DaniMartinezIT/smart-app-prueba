@@ -213,7 +213,6 @@ var finEjeX;
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades, 1));
-    console.log(data);
   }
   
   function getCateteres(json){
@@ -1597,60 +1596,6 @@ var finEjeX;
   return tPlot;
   }
   
-  /* helper function for all graphs to resize accordingly */
-  function resizeGraph(iPlotTarget){
-      var target = $(iPlotTarget);
-      var containerWidth = parseInt(target.parent().parent().parent().innerWidth());
-      var legend = target.parent().parent().children(".legend");
-      var legendWidth = (legend && !isNaN(parseInt(legend.innerWidth())))?parseInt(legend.innerWidth()):0;
-      var graphWidth = (containerWidth - legendWidth)*0.98;
-      target.css("width",graphWidth+"px");
-  }
-  
-  /* helper function for showBPData, selectSeries, drawCtrGraph, drawChoiceGraph, and drawWhiskerGraph */
-  function updateYAxis(iSeries, iAxis){
-    var minVal = Number.POSITIVE_INFINITY, maxVal = Number.NEGATIVE_INFINITY;
-    for (var i=0;i<iSeries.length;i++){
-      if (iSeries[i].show && iSeries[i].minY != null && iSeries[i].maxY != null){
-        minVal = Math.min(minVal,parseFloat(iSeries[i].minY));
-        maxVal = Math.max(maxVal,parseFloat(iSeries[i].maxY));
-      }
-    }
-    var isPositive = (minVal > 0);
-    var newMax = (maxVal != Number.NEGATIVE_INFINITY)?maxVal*1.1:1;
-    var newMin = (minVal != Number.POSITIVE_INFINITY)?minVal*0.9:0;
-    newMin = (isPositive && newMin<0)?0:newMin;
-    iAxis.min = newMin;
-    iAxis.max = (newMin==newMax)?newMax+1:newMax;
-  }
-  
-  /* Helper function for drawChoiceGraph and drawCtrGraph function (onclick event for each button) */
-  function	selectSeries (iBtn, mSelected, plot){
-    var p = plot;
-    var numSelected = 0;
-    for (var i=0;i<p.series.length;i++){
-      if (p.series[i].show)
-        numSelected++;
-    }
-    if (p != null){
-      if (iBtn != null && iBtn != ""){
-        var idSplit = iBtn.id.split("_");
-        var index = idSplit[1];
-        if (!p.series[index].show && numSelected != mSelected){
-          iBtn.className = "btn series-on";
-          p.series[index].show = true;
-        }
-        else if (p.series[index].show){
-          iBtn.className = "btn series-off";
-          p.series[index].show = false;
-        }
-      }
-        /* updating all graphs so that changes on one graph can be reflected on the others */
-        p.redraw();
-      }
-    return true;
-  }
-  
   function parametro(rangoSup, rangoInf, color, ejeY, id)
   {
     this.rangoSuperior = [[inicioEjeX, rangoSup], [finEjeX, rangoSup]];
@@ -1687,50 +1632,6 @@ var finEjeX;
       rango = new parametro(80,60,'rgba(151,0,0, 0.4)', 'yaxis','tam'); //TAM
     }
     return rango;
-  }
-  
-  function seleccionaRangos (obj)
-  {
-    var numDatos=auxPlot.series.length;
-    
-    if($(obj).attr('id')=="sat")
-    {
-      this.dibujaRangos(numDatos,'sat');			
-    }
-    else if($(obj).attr('id')=="temp")
-    {
-      this.dibujaRangos(numDatos,'temp');			
-    }
-    else if($(obj).attr('id')=="fr")
-    {
-      this.dibujaRangos(numDatos, 'fr');			
-    }
-    else if($(obj).attr('id')=="fc")
-    {
-      this.dibujaRangos(numDatos,'fc');			
-    }
-    else if($(obj).attr('id')=="pvc")
-    {
-      this.dibujaRangos(numDatos,'pvc');			
-    }
-    else if($(obj).attr('id')=="tas")
-    {
-      this.dibujaRangos(numDatos,'tas');			
-    }
-    else if($(obj).attr('id')=="tad")
-    {
-      this.dibujaRangos(numDatos,'tad');			
-    }
-    else if($(obj).attr('id')=="tam")
-    {
-      this.dibujaRangos(numDatos,'tam');			
-    }
-    else if($(obj).attr('id')=="inicial")
-    {
-      this.dibujaRangos(numDatos,'inicial');			
-    }
-    auxPlot.redraw();
-    if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
   }
   
   function dibujaRangos (datosTotales, id)
@@ -1854,3 +1755,100 @@ var finEjeX;
   }
 
 })(window);
+/* Helper function for drawChoiceGraph and drawCtrGraph function (onclick event for each button) */
+function selectSeries (iBtn, mSelected, plot){
+  var p = plot;
+  var numSelected = 0;
+  for (var i=0;i<p.series.length;i++){
+    if (p.series[i].show)
+      numSelected++;
+  }
+  if (p != null){
+    if (iBtn != null && iBtn != ""){
+      var idSplit = iBtn.id.split("_");
+      var index = idSplit[1];
+      if (!p.series[index].show && numSelected != mSelected){
+        iBtn.className = "btn series-on";
+        p.series[index].show = true;
+      }
+      else if (p.series[index].show){
+        iBtn.className = "btn series-off";
+        p.series[index].show = false;
+      }
+    }
+      /* updating all graphs so that changes on one graph can be reflected on the others */
+      p.redraw();
+    }
+  return true;
+}
+
+function seleccionaRangos (obj)
+{
+  var numDatos=auxPlot.series.length;
+  
+  if($(obj).attr('id')=="sat")
+  {
+    this.dibujaRangos(numDatos,'sat');			
+  }
+  else if($(obj).attr('id')=="temp")
+  {
+    this.dibujaRangos(numDatos,'temp');			
+  }
+  else if($(obj).attr('id')=="fr")
+  {
+    this.dibujaRangos(numDatos, 'fr');			
+  }
+  else if($(obj).attr('id')=="fc")
+  {
+    this.dibujaRangos(numDatos,'fc');			
+  }
+  else if($(obj).attr('id')=="pvc")
+  {
+    this.dibujaRangos(numDatos,'pvc');			
+  }
+  else if($(obj).attr('id')=="tas")
+  {
+    this.dibujaRangos(numDatos,'tas');			
+  }
+  else if($(obj).attr('id')=="tad")
+  {
+    this.dibujaRangos(numDatos,'tad');			
+  }
+  else if($(obj).attr('id')=="tam")
+  {
+    this.dibujaRangos(numDatos,'tam');			
+  }
+  else if($(obj).attr('id')=="inicial")
+  {
+    this.dibujaRangos(numDatos,'inicial');			
+  }
+  auxPlot.redraw();
+  if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
+}
+
+/* helper function for all graphs to resize accordingly */
+function resizeGraph(iPlotTarget){
+  var target = $(iPlotTarget);
+  var containerWidth = parseInt(target.parent().parent().parent().innerWidth());
+  var legend = target.parent().parent().children(".legend");
+  var legendWidth = (legend && !isNaN(parseInt(legend.innerWidth())))?parseInt(legend.innerWidth()):0;
+  var graphWidth = (containerWidth - legendWidth)*0.98;
+  target.css("width",graphWidth+"px");
+}
+
+/* helper function for showBPData, selectSeries, drawCtrGraph, drawChoiceGraph, and drawWhiskerGraph */
+function updateYAxis(iSeries, iAxis){
+var minVal = Number.POSITIVE_INFINITY, maxVal = Number.NEGATIVE_INFINITY;
+for (var i=0;i<iSeries.length;i++){
+  if (iSeries[i].show && iSeries[i].minY != null && iSeries[i].maxY != null){
+    minVal = Math.min(minVal,parseFloat(iSeries[i].minY));
+    maxVal = Math.max(maxVal,parseFloat(iSeries[i].maxY));
+  }
+}
+var isPositive = (minVal > 0);
+var newMax = (maxVal != Number.NEGATIVE_INFINITY)?maxVal*1.1:1;
+var newMin = (minVal != Number.POSITIVE_INFINITY)?minVal*0.9:0;
+newMin = (isPositive && newMin<0)?0:newMin;
+iAxis.min = newMin;
+iAxis.max = (newMin==newMax)?newMax+1:newMax;
+}
