@@ -162,7 +162,7 @@ var finEjeX;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
-    fecha = observation.effectiveDateTime;
+    fecha = new Date(observation.effectiveDateTime);
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
       unidades = observation.valueQuantity.unit;
@@ -212,16 +212,8 @@ var finEjeX;
         seq=7;
         break; 
     }
-    let anio=fecha.getUTCFullYear();
-    let mes=fecha.getUTCMonth();
-    let dia=fecha.getUTCDay();
-    let hora=fecha.getUTCHours();
-    let minutos=fecha.getUTCMinutes();
-    let segundos=fecha.getUTCSeconds();
-    let milis=fecha.getUTCMilliseconds();
-      fechaFormateada = new Date(anio,mes,dia,hora,minutos,segundos,milis);
-      data.push(new timeline(code,seq,display,valor,fechaFormateada.toString(),unidades, 1));
-      console.log(data);
+    data.push(new timeline(code,seq,display,valor,fecha,unidades, 1));
+    console.log(data);
   }
   
   function getCateteres(json){
