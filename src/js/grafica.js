@@ -177,6 +177,19 @@
     searchMedicacion();
     searchMedicationOrderFHIR();
   };
+  function getBloodPressureValue(BPObservations, typeOfPressure) {
+    var formattedBPObservations = [];
+    BPObservations.forEach(function(observation){
+      var BP = observation.component.find(function(component){
+        return component.code.coding.find(function(coding) {
+          return coding.code == typeOfPressure;
+        });
+      });
+      if (BP) {
+        observation.valueQuantity = BP.valueQuantity;
+        formattedBPObservations.push(observation);
+      }
+    });
 
 var data = [];
 var gPlots=[];
@@ -268,12 +281,21 @@ var finEjeX;
     let display;
     let seq;
     let unidades;
-    console.log(observation);
+    var byCodes = smart.byCodes(obv, 'code');
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
     fecha = observation.effectiveDateTime;
-    valor = observation.valueQuantity.value;
+    if(codingCode != '75367002' && codingCode != '55284-4'){
+      valor = observation.valueQuantity.value;
+      console.log("No tension arterial: "+valor);
+    }
+    else if(codingCode == '55284-4'){
+      observation.component.forEach(function(component){
+        valor = getBloodPressureValue(byCodes('55284-4'),component.code.coding.code);
+        console.log("Tension arterial: "+valor);
+      });
+    }
     unidades = observation.valueQuantity.unit;
     switch (codingCode)
     {
