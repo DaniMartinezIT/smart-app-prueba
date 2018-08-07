@@ -32,62 +32,9 @@
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function (patient,obv) {
-
-          console.log(patient);
-          console.log(obv);
-
-          var byCodes = smart.byCodes(obv, 'code');
-          var gender = patient.gender;
-
-          var fname = '';
-          var lname = '';
-
-          if (typeof patient.name[0] !== 'undefined') {
-            fname = patient.name[0].given.join(' ');
-            lname = patient.name[0].family.join(' ');
-          }
-          var id=patient.id;
-          
-          var tas = getBloodPressureValue(byCodes('55284-4'),'8480-6');
-          var tad = getBloodPressureValue(byCodes('55284-4'),'8462-4');
-          var tam = getBloodPressureValue(byCodes('55284-4'),'8478-0');
-
-          console.log("tas: "+ tas);
-          console.log("tad: "+ tad);
-          console.log("tam: "+ tam);
-          
-          var fc = byCodes('8867-4');
-          var fr = byCodes('9279-1');
-          var sat = byCodes('2710-2');
-          var temp = byCodes('8328-7');
-          var pvc = byCodes('60985-9');
-
-          var p = defaultPatient();
-          p.birthdate = patient.birthDate;
-          p.gender = gender;
-          p.fname = fname;
-          p.lname = lname;
-          p.height = getQuantityValueAndUnit(height[0]);
-          p.id=id;
-
-          if (typeof tas != 'undefined')  {
-            p.tas = tas;
-          }
-
-          if (typeof tad != 'undefined') {
-            p.tad = tad;
-          }
-
-          if (typeof tam != 'undefined') {
-            p.tam = tam;
-          }
-
-
-          ret.resolve(p);
-
-          if (observation.length > 0){
-            observation.forEach(function (obs) {
-              getSignosVitales(obs);
+          if (obv.length > 0){
+            obv.forEach(function (obv) {
+              getSignosVitales(obv);
             });
           }
         });
