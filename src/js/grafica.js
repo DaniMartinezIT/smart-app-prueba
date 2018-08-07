@@ -1,3 +1,12 @@
+var data = [];
+var gPlots=[];
+var rangos=[];
+var graphIndex = 0;
+var initDate = new Date();
+var auxPlot;
+var inicioEjeX;
+var finEjeX;
+
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
@@ -67,15 +76,6 @@
     bHTML.push('</div>');
     $("#contenedor").html(bHTML.join(""));
   };
-  
-var data = [];
-var gPlots=[];
-var rangos=[];
-var graphIndex = 0;
-var initDate = new Date();
-var auxPlot;
-var inicioEjeX;
-var finEjeX;
 
   function searchCateteres(){
     $.getJSON("https://esjcast.github.io/esjcast_resources/json/cateteres.json", function(json){
