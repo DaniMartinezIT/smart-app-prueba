@@ -298,6 +298,10 @@ var finEjeX;
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
         valor = getBloodPressureValue(byCodesfunction('55284-4'),component.code.coding.code);
+        if(typeof valor != 'undefined'){
+          codingCode = component.code.coding.code;
+          unidades = component.valueQuantity.unit;
+        }
         console.log("Tension arterial: "+valor);
       });
     }
