@@ -35,6 +35,8 @@
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
+          prepareHTML();
+          prepareData();
         });
       }else {
         onError();
@@ -46,7 +48,7 @@
 
   };
   
-  window.prepareHTML = function(){
+  function prepareHTML(){
     $("#load").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row"><div class="col-xl-auto" id="vsSelect"></div><div class="col-xl" id="vsGraph"></div></div></div>';
@@ -64,7 +66,7 @@
     bHTML.push('</div>');
     $("#contenedor").html(bHTML.join(""));
   };
-  window.prepareData = function(){
+  function prepareData(){
     data.sort(compare);
   
     var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
