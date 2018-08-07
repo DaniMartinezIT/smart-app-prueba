@@ -31,11 +31,11 @@
 
         $.when(pt, obv).fail(onError);
 
-        $.when(pt, obv).done(function (results, refs) {
-          console.log(results);
-          if ( results.length > 0){
-            results.forEach(function (observation) {
-              getSignosVitales(observation);
+        $.when(pt, obv).done(function (observation) {
+          console.log(observation);
+          if (observation.length > 0){
+            observation.forEach(function (obs) {
+              getSignosVitales(obs);
             });
           }
         });
