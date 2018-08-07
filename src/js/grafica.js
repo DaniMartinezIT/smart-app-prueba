@@ -1491,7 +1491,7 @@ var finEjeX;
     searchNeuro();
     searchBalHid();
     searchMedicacion();
-    searchMedicationOrderFHIR();
+    //searchMedicationOrderFHIR();
   }
   
   function dibujaGrafica(iId, iSelect, assignedTo, iDataSeries, iXAxisObj, iYAxisObj)
