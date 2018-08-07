@@ -151,7 +151,6 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-    console.log(observation);
     let codingCode;
     let code;
     let fecha;
@@ -171,7 +170,6 @@ var finEjeX;
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
         valor = component.valueQuantity.value;
-        console.log(component);
         if(typeof valor != 'undefined'){
           code = component.code.coding[0].code;
           unidades = component.valueQuantity.unit;
