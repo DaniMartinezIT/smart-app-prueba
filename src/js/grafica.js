@@ -32,9 +32,10 @@
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function (patient,obv) {
+          var byCodes = smart.byCodes(obv, 'code');
           obv.forEach(function(obv){
             console.log(obv);
-            getSignosVitales(obv);
+            getSignosVitales(obv, byCodes);
           });
           prepareHTML();
           prepareData();
@@ -194,7 +195,7 @@
     });
 
   };
-  
+
 var data = [];
 var gPlots=[];
 var rangos=[];
@@ -277,7 +278,7 @@ var finEjeX;
     );
   }
   
-  function getSignosVitales(observation) {
+  function getSignosVitales(observation, byCodesfunction) {
     
     let codingCode;
     let fecha;
@@ -285,7 +286,6 @@ var finEjeX;
     let display;
     let seq;
     let unidades;
-    var byCodes = smart.byCodes(obv, 'code');
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
@@ -296,7 +296,7 @@ var finEjeX;
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
-        valor = getBloodPressureValue(byCodes('55284-4'),component.code.coding.code);
+        valor = getBloodPressureValue(byCodesfunction('55284-4'),component.code.coding.code);
         console.log("Tension arterial: "+valor);
       });
     }
