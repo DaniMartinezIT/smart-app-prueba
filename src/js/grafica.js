@@ -213,7 +213,8 @@ var finEjeX;
         seq=7;
         break; 
     }
-      data.push(new timeline(code,seq,display,valor,Date.parse(fecha),unidades, 1));
+      data.push(new timeline(code,seq,display,valor,new Date(Date.parse(fecha)),unidades, 1));
+      console.log(data);
   }
   
   function getCateteres(json){
