@@ -65,7 +65,7 @@
     makeCollapse(bHTML,'medSection','medicacion','Medicación',null);
     bHTML.push('</div>');
     $("#contenedor").html(bHTML.join(""));
-  }
+  };
   window.prepareData() = function(){
     data.sort(compare);
   
@@ -175,7 +175,7 @@
     searchBalHid();
     searchMedicacion();
     searchMedicationOrderFHIR();
-  }
+  };
 
 var data = [];
 var gPlots=[];
