@@ -151,18 +151,14 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-    let codingCode;
-    let code;
-    let fecha;
-    let valor;
-    let display;
-    let seq;
-    let unidades;
-    let fechaFormateada;
+    let codingCode, code, fecha, valor, display, seq, unidades, fechaFormateada, y, m, d, h, min;
+
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
+
     fecha = new Date(observation.effectiveDateTime);
+
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
       unidades = observation.valueQuantity.unit;
@@ -177,6 +173,7 @@ var finEjeX;
         }
       });
     }
+
     switch (code)
     {
       case '2710-2':
@@ -212,7 +209,13 @@ var finEjeX;
         seq=7;
         break; 
     }
-    data.push(new timeline(code,seq,display,valor,fecha,unidades, 1));
+    y = addZeros(fecha.getFullYear());
+    m = addZeros(fecha.getMonth()+1);
+    d = addZeros(fecha.getDate());
+    h = addZeros(fecha.getHours());
+    min = addZeros(fecha.getMinutes());
+    fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
+    data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades, 1));
     console.log(data);
   }
   
@@ -1834,7 +1837,6 @@ var finEjeX;
     return hora;
   }
   
- 
   function valueCheck(value){
       if(isNaN(value) == true && value != "+" && value != "-"){
         if(value.length > 5){
@@ -1845,6 +1847,13 @@ var finEjeX;
       }else{
         return false;
       }
+  }
+
+  function addZeros(i){
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
   }
 
 })(window);
