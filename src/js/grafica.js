@@ -33,6 +33,7 @@
 
         $.when(pt, obv).done(function (patient,obv) {
           obv.forEach(function(obv){
+            console.log(obv);
             getSignosVitales(obv);
           });
           prepareHTML();
@@ -267,6 +268,7 @@ var finEjeX;
     let display;
     let seq;
     let unidades;
+    console.log(observation);
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
