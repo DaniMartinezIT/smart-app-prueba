@@ -32,13 +32,9 @@
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function (patient,obv) {
-          if (obv.length > 0){
-            console.log(obv);
-            obv.forEach(function (observation) {
-              console.log(observation);
-              getSignosVitales(observation);
-            });
-          }
+          obv.forEach(function(obv){
+            console.log(obv.component);
+          });
         });
       }else {
         onError();
@@ -185,7 +181,7 @@
       lname: {value: ''},
       gender: {value: ''},
       birthdate: {value: ''},
-      height: {value: ''},
+      id: {value: ''},
       tas: {value: ''},
       tad: {value: ''},
       tam: {value: ''},
@@ -194,7 +190,6 @@
       fc: {value: ''},
       sat: {value: ''},
       temp: {value: ''},
-      id: {value: ''},
     };
   }
 
