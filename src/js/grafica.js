@@ -212,8 +212,14 @@ var finEjeX;
         seq=7;
         break; 
     }
-      fechaFormateada = new Date(fecha.getUTCFullYear(),fecha.getUTCMonth(),fecha.getUTCDay(),fecha.getUTCHours(),
-                                fecha.getUTCMinutes(),fecha.getUTCSeconds(),fecha.getUTCMilliseconds());
+    let anio=fecha.getUTCFullYear();
+    let mes=fecha.getUTCMonth();
+    let dia=fecha.getUTCDay();
+    let hora=fecha.getUTCHours();
+    let minutos=fecha.getUTCMinutes();
+    let segundos=fecha.getUTCSeconds();
+    let milis=fecha.getUTCMilliseconds();
+      fechaFormateada = new Date(anio,mes,dia,hora,minutos,segundos,milis);
       data.push(new timeline(code,seq,display,valor,fechaFormateada.toString(),unidades, 1));
       console.log(data);
   }
