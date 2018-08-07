@@ -158,6 +158,7 @@ var finEjeX;
     let display;
     let seq;
     let unidades;
+    let fechaFormateada;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
@@ -211,7 +212,8 @@ var finEjeX;
         seq=7;
         break; 
     }
-      data.push(new timeline(code,seq,display,valor,fecha.toString(),unidades, 1));
+      fechaFormateada = new Date(fecha.getFullYear(),fecha.getMonth(),fecha.getDay(),fecha.getHours(),fecha.getMinutes(),fecha.getSeconds(),fecha.getMilliseconds());
+      data.push(new timeline(code,seq,display,valor,fechaFormateada.toString(),unidades, 1));
       console.log(data);
   }
   
