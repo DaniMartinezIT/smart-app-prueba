@@ -33,8 +33,10 @@
 
         $.when(pt, obv).done(function (patient,obv) {
           if (obv.length > 0){
-            obv.forEach(function (obv) {
-              getSignosVitales(obv);
+            console.log(obv);
+            obv.forEach(function (observation) {
+              console.log(observation);
+              getSignosVitales(observation);
             });
           }
         });
