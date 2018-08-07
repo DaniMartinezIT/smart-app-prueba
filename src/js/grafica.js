@@ -63,13 +63,11 @@ var finEjeX;
     var signosVitalesBody='<div class="row"><div class="col-xl-auto" id="vsSelect"></div><div class="col-xl" id="vsGraph"></div></div></div>';
     bHTML.push('<div class="accordion" id="accordion">');
     makeCollapse(bHTML,'vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
-    //makeCollapse(bHTML,'eventosSection','eventos','Eventos',null);
     makeCollapse(bHTML,'cateteresSection','cateteres','Catéteres, sondas y tubos',null);
     makeCollapse(bHTML,'valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
     makeCollapse(bHTML,'ventSection','ventilacion','Ventilación',null);
     makeCollapse(bHTML,'hemoSection','hemo','Hemodinámica',null);
     makeCollapse(bHTML,'neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
-    makeCollapse(bHTML,'depSection','depuracion','Técnicas de depuración extra-renal',null);
     makeCollapse(bHTML,'bhSection','balanceHidrico','Balance Hídrico',null);
     makeCollapse(bHTML,'medSection','medicacion','Medicación',null);
     bHTML.push('</div>');
@@ -215,6 +213,7 @@ var finEjeX;
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades, 1));
+    console.log(data);
   }
   
   function getCateteres(json){
