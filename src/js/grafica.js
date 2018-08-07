@@ -33,7 +33,7 @@
 
         $.when(pt, obv).done(function (patient,obv) {
           obv.forEach(function(obv){
-            console.log(obv.component);
+            getSignosVitales(obv);
           });
         });
       }else {
@@ -47,7 +47,7 @@
   };
   
   window.prepareHTML = function(){
-    $("#loading").hide();
+    $("#load").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row"><div class="col-xl-auto" id="vsSelect"></div><div class="col-xl" id="vsGraph"></div></div></div>';
     bHTML.push('<div class="accordion" id="accordion">');
@@ -174,49 +174,6 @@
     searchMedicacion();
     searchMedicationOrderFHIR();
   };
-  
-  function defaultPatient(){
-    return {
-      fname: {value: ''},
-      lname: {value: ''},
-      gender: {value: ''},
-      birthdate: {value: ''},
-      id: {value: ''},
-      tas: {value: ''},
-      tad: {value: ''},
-      tam: {value: ''},
-      pvc: {value: ''},
-      fr: {value: ''},
-      fc: {value: ''},
-      sat: {value: ''},
-      temp: {value: ''},
-    };
-  }
-
-  function getBloodPressureValue(BPObservations, typeOfPressure) {
-    var formattedBPObservations = [];
-    BPObservations.forEach(function(observation){
-      var BP = observation.component.find(function(component){
-        return component.code.coding.find(function(coding) {
-          return coding.code == typeOfPressure;
-        });
-      });
-      if (BP) {
-        observation.valueQuantity = BP.valueQuantity;
-        formattedBPObservations.push(observation);
-      }
-    });
-  }
-  function getQuantityValueAndUnit(ob) {
-    if (typeof ob != 'undefined' &&
-        typeof ob.valueQuantity != 'undefined' &&
-        typeof ob.valueQuantity.value != 'undefined' &&
-        typeof ob.valueQuantity.unit != 'undefined') {
-          return ob.valueQuantity.value + ' ' + ob.valueQuantity.unit;
-    } else {
-      return undefined;
-    }
-  }
 
 var data = [];
 var gPlots=[];
