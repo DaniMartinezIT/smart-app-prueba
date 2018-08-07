@@ -42,7 +42,6 @@ var finEjeX;
 
         $.when(pt, obv).done(function (patient,obv) {
           obv.forEach(function(obv){
-            console.log(obv);
             getSignosVitales(obv);
           });
           prepareHTML();
@@ -216,7 +215,6 @@ var finEjeX;
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades, 1));
-    console.log(data);
   }
   
   function getCateteres(json){
