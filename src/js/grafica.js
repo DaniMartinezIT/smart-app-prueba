@@ -293,10 +293,12 @@ var finEjeX;
     fecha = observation.effectiveDateTime;
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
+      unidades = observation.valueQuantity.unit;
       console.log("No tension arterial: "+valor);
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
+        console.log(component);
         valor = getBloodPressureValue(byCodesfunction('55284-4'),component.code.coding.code);
         if(typeof valor != 'undefined'){
           codingCode = component.code.coding.code;
@@ -305,7 +307,6 @@ var finEjeX;
         console.log("Tension arterial: "+valor);
       });
     }
-    unidades = observation.valueQuantity.unit;
     switch (codingCode)
     {
       case '2710-2':
