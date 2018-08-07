@@ -289,6 +289,7 @@ var finEjeX;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
+    console.log(codingCode);
     fecha = observation.effectiveDateTime;
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
