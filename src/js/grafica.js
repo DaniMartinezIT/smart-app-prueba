@@ -67,6 +67,7 @@
     bHTML.push('</div>');
     $("#contenedor").html(bHTML.join(""));
   };
+  
   function prepareData(){
     data.sort(compare);
   
@@ -177,6 +178,7 @@
     searchMedicacion();
     searchMedicationOrderFHIR();
   };
+
   function getBloodPressureValue(BPObservations, typeOfPressure) {
     var formattedBPObservations = [];
     BPObservations.forEach(function(observation){
@@ -191,6 +193,8 @@
       }
     });
 
+  };
+  
 var data = [];
 var gPlots=[];
 var rangos=[];
