@@ -212,7 +212,8 @@ var finEjeX;
         seq=7;
         break; 
     }
-      fechaFormateada = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay(),fecha.getHours(),fecha.getMinutes(),fecha.getSeconds(),fecha.getMilliseconds());
+      fechaFormateada = new Date(fecha.getUTCFullYear(),fecha.getUTCMonth(),fecha.getUTCDay(),fecha.getUTCHours(),
+                                fecha.getUTCMinutes(),fecha.getUTCSeconds(),fecha.getUTCMilliseconds());
       data.push(new timeline(code,seq,display,valor,fechaFormateada.toString(),unidades, 1));
       console.log(data);
   }
