@@ -1476,7 +1476,7 @@ var finEjeX;
     let y5Axis = {show:true, min:80, max:100, ticks:[80,82,84,86,88,90,92,94,96,98,100],useSeriesColor: axisColor[4],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Saturacion
     let y6Axis = {show:true, min: 0, max: 50, ticks:[0,5,10,15,20,25,30,35,40,45,50], useSeriesColor: axisColor[5], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:' %#d'}, pad:0};//FR
     
-    let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true}, ticksInterval: '1 day', useDST:false, autoscale:false, pad:1, min:startDate.getTime(), max:endDate.getTime()};
+    let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true, formatString: '%H'}, ticksInterval: '1 hour', useDST:false, autoscale:false, pad:1, min:startDate.getTime(), max:endDate.getTime()};
   
     if (vsData.length>0 && vsData[0].length>0){
       gPlots.push(dibujaGrafica('vsGraph','vsSelect','gPlots['+gPlots.length+']',vsData, xAxis, [yAxis, y2Axis, y3Axis, y4Axis, y5Axis, y6Axis]));
