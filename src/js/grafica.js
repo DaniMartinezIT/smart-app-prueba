@@ -32,10 +32,9 @@
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function (patient,obv) {
-          var byCodes = smart.byCodes(obv, 'code');
           obv.forEach(function(obv){
             console.log(obv);
-            getSignosVitales(obv, byCodes);
+            getSignosVitales(obv);
           });
           prepareHTML();
           prepareData();
@@ -180,22 +179,6 @@
     searchMedicationOrderFHIR();
   };
 
-  function getBloodPressureValue(BPObservations, typeOfPressure) {
-    var formattedBPObservations = [];
-    BPObservations.forEach(function(observation){
-      var BP = observation.component.find(function(component){
-        return component.code.coding.find(function(coding) {
-          return coding.code == typeOfPressure;
-        });
-      });
-      if (BP) {
-        observation.valueQuantity = BP.valueQuantity;
-        formattedBPObservations.push(observation);
-      }
-    });
-
-  };
-
 var data = [];
 var gPlots=[];
 var rangos=[];
@@ -278,9 +261,10 @@ var finEjeX;
     );
   }
   
-  function getSignosVitales(observation, byCodesfunction) {
-    
+  function getSignosVitales(observation) {
+    console.log(observation);
     let codingCode;
+    let code;
     let fecha;
     let valor;
     let display;
@@ -293,21 +277,19 @@ var finEjeX;
     if(codingCode != '75367002' && codingCode != '55284-4'){
       valor = observation.valueQuantity.value;
       unidades = observation.valueQuantity.unit;
+      code = codingCode;
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
         valor = component.valueQuantity.value;
         console.log(component);
         if(typeof valor != 'undefined'){
-          codingCode = component.code.coding[0].code;
+          code = component.code.coding[0].code;
           unidades = component.valueQuantity.unit;
-          console.log("Valor: "+valor);
-          console.log("Codigo: "+codingCode);
-          console.log("Unidades: "+unidades);
         }
       });
     }
-    switch (codingCode)
+    switch (code)
     {
       case '2710-2':
         display = 'Saturación O2 ';
@@ -342,7 +324,7 @@ var finEjeX;
         seq=7;
         break; 
     }
-      data.push(new timeline(codingCode,seq,display,valor,fecha,unidades, 1));
+      data.push(new timeline(code,seq,display,valor,fecha,unidades, 1));
   }
   
   function getCateteres(json){
