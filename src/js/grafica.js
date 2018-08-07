@@ -189,7 +189,7 @@ var inicioEjeX;
 var finEjeX;
 
   function searchCateteres(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/cateteres.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/cateteres.json", function(json){
       getCateteres(json);
     })
     .fail(function(){
@@ -198,7 +198,7 @@ var finEjeX;
   }
   
   function searchVentilacion(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/ventilacion.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/ventilacion.json", function(json){
       getVentilacion(json);
     })
     .fail(function(){
@@ -207,7 +207,7 @@ var finEjeX;
   }
   
   function searchHemo(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/hemo.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/hemo.json", function(json){
       getHemo(json);
     })
     .fail(function(){
@@ -216,7 +216,7 @@ var finEjeX;
   }
   
   function searchNeuro(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/neuro.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/neuro.json", function(json){
       getNeuro(json);
     })
     .fail(function(){
@@ -225,7 +225,7 @@ var finEjeX;
   }
   
   function searchBalHid(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/balHid.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/balHid.json", function(json){
       getBalHid(json);
     })
     .fail(function(){
@@ -234,7 +234,7 @@ var finEjeX;
   }
   
   function searchMedicacion(){
-    $.getJSON("https://raw.githubusercontent.com/esjcast/esjcast_resources/master/json/medicacion.json", function(json){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/medicacion.json", function(json){
       getMedicacion(json);
     })
     .fail(function(){
