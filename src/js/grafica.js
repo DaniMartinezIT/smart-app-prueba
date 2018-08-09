@@ -84,8 +84,8 @@ var finEjeX;
     headerHTML.push("<p><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</p>");
     headerHTML.push("<p>"+getPatientDetail(pt)+"</p>");
     headerHTML.push("</div></div>");
-
     $("#patient_name").append(headerHTML.join(" "));
+    $("#patient_name").show();
   }
 
   function getPatientName(pt) {

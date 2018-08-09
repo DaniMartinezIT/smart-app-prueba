@@ -141,6 +141,9 @@ header{
     text-align:center;
     font-size:1vw;
 }
+#patient_name{
+    display:none;
+}
 #admin{
     background-color:rgb(146,190,139);
 }
