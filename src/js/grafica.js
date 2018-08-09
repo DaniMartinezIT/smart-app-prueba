@@ -108,9 +108,9 @@ var finEjeX;
     if (pt.name) {
       var details = pt.name.map(function (name) {
         return '<div class="col-md-8"><b>MRN: </b>' + pt.MRN + '</div></div>'+
-        '<div class="row flex-nowrap"><div class="col-sm-3"><b>ID:</b>' + pt.id + '</div>'+
+        '<div class="row flex-nowrap"><div class="col-sm-4"><b>ID:</b>' + pt.id + '</div>'+
         '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
-        '<div class="col-sm-6"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
+        '<div class="col-sm-5"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
       });
       return details.join(" / ");
     } else {
