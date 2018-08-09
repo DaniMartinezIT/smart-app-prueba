@@ -102,7 +102,9 @@ var finEjeX;
   function getPatientDetail(pt) {
     if (pt.name) {
       var details = pt.name.map(function (name) {
-        return 'ID:<b>' + pt.id + ' </b>Género:<b>' + pt.gender + ' </b>Fecha de nacimineto:<b>' + pt.birthDate + '</b>';
+        return '<div class="container-fluid"><div class="row flex-nowrap"><div class="col-sm-3"><b>ID:</b>' + pt.id + '</div>'+
+        '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
+        '<div class="col-sm-3"><b>Fecha de nacimineto:</b>' + pt.birthDate+ '</div></div></div>';
       });
       return details.join(" / ");
     } else {
