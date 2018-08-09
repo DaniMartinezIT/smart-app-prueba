@@ -45,7 +45,7 @@ var finEjeX;
             getSignosVitales(obv);
           });
           prepareHTML();
-          prepareData();
+          //prepareData();
         });
       }else {
         onError();
