@@ -167,25 +167,6 @@ var finEjeX;
     })
   }
   
-  function searchMedicationOrderFHIR()
-  {
-    smart.patient.api.fetchAll({type: 'MedicationOrder'}).then(
-      function (results, refs) {
-        if ( results.length > 0){
-          console.log(results);
-  /*         results.forEach(function (observation) {
-            getMedicationOrderFHIR(observation);
-          }); */
-        }else{
-          alert("Error al cargar los datos de MedicationOrder. Es posible que no haya datos.");
-        }
-      },
-      function (failData) {
-        alert("Error al obtener resultados de MedicationOrder");
-      }
-    );
-  }
-  
   function getSignosVitales(observation) {
   let codingCode, fecha, valor, display, seq, unidades, fechaFormateada, y, m, d, h, min;
     observation.code.coding.forEach(function (observationCodeCoding) {
@@ -1513,7 +1494,7 @@ var finEjeX;
     searchNeuro();
     searchBalHid();
     searchMedicacion();
-    //searchMedicationOrderFHIR();
+    searchMedicationOrderFHIR();
   }
   
   function dibujaGrafica(iId, iSelect, assignedTo, iDataSeries, iXAxisObj, iYAxisObj)
@@ -1849,6 +1830,25 @@ function dibujaRangos (datosTotales, id)
       auxPlot.fillBetween.fill=false;
     }
   }
+}
+
+function searchMedicationOrderFHIR()
+{
+  smart.patient.api.fetchAll({type: 'MedicationOrder'}).then(
+    function (results, refs) {
+      if ( results.length > 0){
+        console.log(results);
+/*         results.forEach(function (observation) {
+          getMedicationOrderFHIR(observation);
+        }); */
+      }else{
+        alert("Error al cargar los datos de MedicationOrder. Es posible que no haya datos.");
+      }
+    },
+    function (failData) {
+      alert("Error al obtener resultados de MedicationOrder");
+    }
+  );
 }
 
 $(window).resize(function() {
