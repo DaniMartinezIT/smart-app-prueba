@@ -58,6 +58,7 @@ var finEjeX;
   };
   
   function prepareHTML(){
+    alert("Dentro");
     $("#loading").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
@@ -73,8 +74,7 @@ var finEjeX;
     bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
           '</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
     $("#contenedor").html(bHTML);
-    console.log(bHTML);
-  };
+  }
 
   function searchCateteres(){
     $.getJSON("https://esjcast.github.io/esjcast_resources/json/cateteres.json", function(json){
@@ -1832,6 +1832,7 @@ function seleccionaRangos (obj)
   if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
 }
 
+
 $(window).resize(function() {
 	let plot = auxPlot;
 	if (auxPlot){
@@ -1840,3 +1841,4 @@ $(window).resize(function() {
     auxPlot.replot();
   }
 });
+
