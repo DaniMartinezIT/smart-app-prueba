@@ -45,7 +45,7 @@ var finEjeX;
             getSignosVitales(obv);
           });
           prepareHTML();
-          //prepareData();
+          prepareData();
         });
       }else {
         onError();
@@ -58,7 +58,6 @@ var finEjeX;
   };
   
   function prepareHTML(){
-    alert("Dentro");
     $("#loading").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
