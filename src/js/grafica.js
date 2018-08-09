@@ -1834,8 +1834,9 @@ function seleccionaRangos (obj)
 
 $(window).resize(function() {
 	let plot = auxPlot;
-	if (auxPlot)
-		auxPlot.destroy();
-	auxPlot = plot;
-	auxPlot.replot();
+	if (auxPlot){
+    auxPlot.destroy();
+    auxPlot = plot;
+    auxPlot.replot();
+  }
 });
