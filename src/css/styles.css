@@ -164,6 +164,7 @@ header{
     flex: 0 0 20%;
     font-size:1vw;
 }
+
 /* Graph style */
 #resetBtns {position: relative; width: 20%; white-space: nowrap; border: 1px solid #ddd;height:125px;overflow:auto;margin:2px 39px 2px 0;} 
 #vsSelect, #bpSelect {position: relative;  white-space: nowrap;border: 1px solid #ddd;overflow:auto;margin:2px; overflow:scroll; overflow-y:hidden;
