@@ -44,7 +44,6 @@ var finEjeX;
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
-          alert("Preparar HTML");
           prepareHTML();
           prepareData();
         });
@@ -74,6 +73,7 @@ var finEjeX;
     bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
           '</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
     $("#contenedor").html(bHTML);
+    console.log(bHTML);
   };
 
   function searchCateteres(){
@@ -150,7 +150,7 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-let codingCode, fecha, valor, display, seq, unidades, fechaFormateada, fechaISO, fechaISOString, fechaISODate, y, m, d, h, min;
+  let codingCode, fecha, valor, display, seq, unidades, fechaFormateada, y, m, d, h, min;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
