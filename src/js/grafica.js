@@ -37,7 +37,7 @@ var finEjeX;
                       }
                     }
                   });
-        var meds =   smart.patient.api.fetchAll({type: 'MedicationOrder'});
+        var meds =   smart.patient.api.fetchAll({type: 'MedicationAdministration'});
         console.log(meds);
         console.log(pt);
 
