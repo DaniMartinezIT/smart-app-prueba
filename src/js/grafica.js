@@ -38,15 +38,17 @@ var finEjeX;
                     }
                   });
         var meds =   smart.patient.api.fetchAll({type: 'MedicationAdministration'});
-        console.log(patient);
-        console.log(meds);
 
-        $.when(pt, obv).fail(onError);
+        $.when(pt, obv, meds).fail(onError);
 
-        $.when(pt, obv).done(function (patient,obv) {
+        $.when(pt, obv, meds).done(function (patient,obv, meds) {
+          console.log(patient);
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
+          meds.forEach(function(meds){
+            console.log(meds);
+          })
           prepareHTML(patient);
           prepareData();
         });
