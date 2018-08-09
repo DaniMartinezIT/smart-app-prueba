@@ -79,7 +79,7 @@ var finEjeX;
     if (pt.gender === "male")
       headerHTML.push("<img class='align-selft-start mr-3' src='./src/images/mpatient.png' alt='logo male patient'>");
     else if (pt.gender === "female") 
-      headerHTML.push("<img class='align-selft-start mr-3' src='./src/images/fpatient.png' alt='logo female patient'>");
+      headerHTML.push("<img class='h-25 w-25 align-selft-start mr-3' src='./src/images/fpatient.png' alt='logo female patient'>");
     headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
     headerHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-3'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div>");
     headerHTML.push(getPatientDetail(pt));
