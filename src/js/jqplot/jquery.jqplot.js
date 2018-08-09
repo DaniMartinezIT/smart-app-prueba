@@ -4124,7 +4124,7 @@
             this._elem = null;
         }
 
-        this._elem = $('<div style="position:absolute;" class="jqplot-'+this.axis+'-label"></div>');
+        this._elem = $('<div style="position:relative;" class="jqplot-'+this.axis+'-label"></div>');
         
         if (Number(this.label)) {
             this._elem.css('white-space', 'nowrap');
@@ -4547,7 +4547,7 @@
                                             e = this._right+s;
                                             break;
                                         default:
-                                            b = this._right;
+                                            b = this._right-60;
                                             e = this._right+s;
                                             break;
                                             }
@@ -4579,7 +4579,7 @@
             if (axis.show) {
                 var tn = ticks[axis.numberTicks-1];
                 var t0 = ticks[0];
-                var left = axis.getLeft();
+                var left = axis.getLeft()-28;
                 var points = [[left, tn.getTop() + tn.getHeight()/2], [left, t0.getTop() + t0.getHeight()/2 + 1.0]];
                 // draw the shadow
                 if (this.shadow) {
