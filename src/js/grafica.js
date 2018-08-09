@@ -1351,38 +1351,20 @@ var finEjeX;
     this.unidades=unidades;
     this.show_ind=show
   }
-  
-function prepareHTML(iId)
-{
-  var bHTML=[];
-  var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
-  bHTML+='<div class="accordion" id="accordion">';
-  var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
-  var catHTML = makeCollapse('cateteresSection','cateteres','Catéteres, sondas y tubos',null);
-  var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
-  var ventHTML = makeCollapse('ventSection','ventilacion','Ventilación',null);
-  var hemoHTML = makeCollapse('hemoSection','hemo','Hemodinámica',null);
-  var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
-  var bhHTML = makeCollapse('bhSection','balanceHidrico','Balance Hídrico',null);
-  var medHTML = makeCollapse('medSection','medicacion','Medicación',null);
-	bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
-				'</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
-  $("#"+iId).html(bHTML);
-}
 
-function makeCollapse(target, id, title,card_body){
-	var htmlArray = [];
+  function makeCollapse(target, id, title,card_body){
+    var htmlArray = [];
     htmlArray.push('<div class="card">');
-  htmlArray.push('<div class="card-header" id='+id+'>');
+    htmlArray.push('<div class="card-header" id='+id+'>');
     htmlArray.push('<h6 class="mb-0">');
-  htmlArray.push('<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#'+target+'" aria-expanded="true" aria-controls="collapseOne">');
+    htmlArray.push('<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#'+target+'" aria-expanded="true" aria-controls="collapseOne">');
     htmlArray.push(title,'</button></h6></div>');
-  htmlArray.push('<div id="'+target+'" class="collapse show" aria-labelledby="'+id+'" data-parent="#accordion">');
-	htmlArray.push('<div class="card-body" id="'+id+'-body">');
-	if(card_body!=null)
+    htmlArray.push('<div id="'+target+'" class="collapse show" aria-labelledby="'+id+'" data-parent="#accordion">');
+    htmlArray.push('<div class="card-body" id="'+id+'-body">');
+    if(card_body!=null)
       htmlArray.push(card_body);
-      htmlArray.push('</div>');
-	return htmlArray.join("");
+    htmlArray.push('</div>');
+    return htmlArray.join("");
   }
   
   function prepareData()
@@ -1831,7 +1813,6 @@ function seleccionaRangos (obj)
   auxPlot.redraw();
   if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
 }
-
 
 $(window).resize(function() {
 	let plot = auxPlot;
