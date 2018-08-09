@@ -44,7 +44,7 @@ var finEjeX;
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
-          prepareHTML();
+          prepareHTML(patient);
           prepareData();
         });
       }else {
@@ -57,9 +57,10 @@ var finEjeX;
 
   };
   
-  function prepareHTML(){
+  function prepareHTML(pt){
     $("#loading").hide();
-    var bHTML=[];
+    var bHTML = [];
+    var headerHTML = [];
     var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
     bHTML+='<div class="accordion" id="accordion">';
     var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
@@ -73,6 +74,40 @@ var finEjeX;
     bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
           '</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
     $("#contenedor").html(bHTML);
+
+    headerHTML.push("<div class='media'>");
+    if (pt.gender === "male")
+      headerHTML.push("<img class='align-selft-start mr-3' src='img/mpatient.png' alt='logo male patient'>");
+    else if (pt.gender === "female") 
+      headerHTML.push("<img class='align-selft-start mr-3' src='img/fpatient.png' alt='logo female patient'>");
+    headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
+    headerHTML.push("<p><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</p>");
+    headerHTML.push("<p>"+getPatientDetail(pt)+"</p>");
+    headerHTML.push("</div></div>");
+
+    $("#patient_name").append(headerHTML.join(" "));
+  }
+
+  function getPatientName(pt) {
+    if (pt.name) {
+      var names = pt.name.map(function (name) {
+        return name.given.join(" ") + " " + name.family.join(" ");
+      });
+      return names.join(" / ");
+    } else {
+      return "anonymous";
+    }
+  }
+
+  function getPatientDetail(pt) {
+    if (pt.name) {
+      var details = pt.name.map(function (name) {
+        return 'ID:<b>' + pt.id + ' </b>Género:<b>' + pt.gender + ' </b>Fecha de nacimineto:<b>' + pt.birthDate + '</b>';
+      });
+      return details.join(" / ");
+    } else {
+      return "no data";
+    }
   }
 
   function searchCateteres(){
