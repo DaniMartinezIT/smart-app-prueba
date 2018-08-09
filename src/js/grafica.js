@@ -37,6 +37,8 @@ var finEjeX;
                       }
                     }
                   });
+        var meds =   smart.patient.api.fetchAll({type: 'MedicationOrder'});
+        console.log(meds);
 
         $.when(pt, obv).fail(onError);
 
@@ -1494,7 +1496,6 @@ var finEjeX;
     searchNeuro();
     searchBalHid();
     searchMedicacion();
-    searchMedicationOrderFHIR();
   }
   
   function dibujaGrafica(iId, iSelect, assignedTo, iDataSeries, iXAxisObj, iYAxisObj)
@@ -1509,11 +1510,11 @@ var finEjeX;
         if (iDataSeries[i][1] && iDataSeries[i][1].color && iDataSeries[i][1].markerOptions){
           bSeries.push({size:8,color:iDataSeries[i][1].color,style:iDataSeries[i][1].markerOptions.style});
         }
-        bHTML.push("<div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
+        bHTML.push("<div class='container-fluid'<div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
         bHTML.push(iSelect,"btn_",sCnt);
         bHTML.push("' class='btn ",((iDataSeries[i][1].show)?"series-on":"series-off"),"'>");
         bHTML.push("<canvas class='buttons' id='",iSelect,"canvas_",sCnt,"'></canvas>");
-        bHTML.push("</div><span>&nbsp;&nbsp;&nbsp;",iDataSeries[i][1].label,"<span id='minMax",iId,"_",sCnt,"'></span></span></div></div></div></div>");
+        bHTML.push("</div><span>&nbsp;&nbsp;&nbsp;",iDataSeries[i][1].label,"<span id='minMax",iId,"_",sCnt,"'></span></span></div></div></div>");
       }
     }
   
