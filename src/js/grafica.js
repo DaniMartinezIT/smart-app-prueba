@@ -1502,6 +1502,7 @@ var finEjeX;
   function dibujaGrafica(iId, iSelect, assignedTo, iDataSeries, iXAxisObj, iYAxisObj)
   {
   var tPlot = null, shownData = [], sSeries = [], bSeries = [], bHTML = [], sCnt = 0, oneShown = false;
+  bHTML.push("<div class='container-fluid'>");
     for (let i=0;i<iDataSeries.length;i++,sCnt++){
       shownData.push(iDataSeries[i][0]);
       sSeries.push(iDataSeries[i][1]);
@@ -1511,7 +1512,7 @@ var finEjeX;
         if (iDataSeries[i][1] && iDataSeries[i][1].color && iDataSeries[i][1].markerOptions){
           bSeries.push({size:8,color:iDataSeries[i][1].color,style:iDataSeries[i][1].markerOptions.style});
         }
-        bHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
+        bHTML.push("<div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
         bHTML.push(iSelect,"btn_",sCnt);
         bHTML.push("' class='btn ",((iDataSeries[i][1].show)?"series-on":"series-off"),"'>");
         bHTML.push("<canvas class='buttons' id='",iSelect,"canvas_",sCnt,"'></canvas>");
