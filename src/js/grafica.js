@@ -60,18 +60,19 @@ var finEjeX;
   function prepareHTML(){
     $("#load").hide();
     var bHTML=[];
-    var signosVitalesBody='<div class="row"><div class="col-xl-auto" id="vsSelect"></div><div class="col-xl" id="vsGraph"></div></div></div>';
-    bHTML.push('<div class="accordion" id="accordion">');
-    makeCollapse(bHTML,'vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
-    makeCollapse(bHTML,'cateteresSection','cateteres','Catéteres, sondas y tubos',null);
-    makeCollapse(bHTML,'valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
-    makeCollapse(bHTML,'ventSection','ventilacion','Ventilación',null);
-    makeCollapse(bHTML,'hemoSection','hemo','Hemodinámica',null);
-    makeCollapse(bHTML,'neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
-    makeCollapse(bHTML,'bhSection','balanceHidrico','Balance Hídrico',null);
-    makeCollapse(bHTML,'medSection','medicacion','Medicación',null);
-    bHTML.push('</div>');
-    $("#contenedor").html(bHTML.join(""));
+    var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
+    bHTML+='<div class="accordion" id="accordion">';
+    var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
+    var catHTML = makeCollapse('cateteresSection','cateteres','Catéteres, sondas y tubos',null);
+    var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
+    var ventHTML = makeCollapse('ventSection','ventilacion','Ventilación',null);
+    var hemoHTML = makeCollapse('hemoSection','hemo','Hemodinámica',null);
+    var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
+    var bhHTML = makeCollapse('bhSection','balanceHidrico','Balance Hídrico',null);
+    var medHTML = makeCollapse('medSection','medicacion','Medicación',null);
+    bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
+          '</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
+    $("#contenedor").html(bHTML);
   };
 
   function searchCateteres(){
