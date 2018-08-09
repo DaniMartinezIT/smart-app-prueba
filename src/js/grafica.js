@@ -86,7 +86,7 @@ var finEjeX;
     else if (pt.gender === "female") 
       headerHTML.push("<img class='img-fluid align-selft-start mr-3' width='125px' height='125px' src='./src/images/fpatient.png' alt='logo female patient'>");
     headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
-    headerHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-4'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div>");
+    headerHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-4'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div></div>");
     headerHTML.push(getPatientDetail(pt));
     headerHTML.push("</div></div>");
     $("#patient_name").append(headerHTML.join(" "));
@@ -107,8 +107,7 @@ var finEjeX;
   function getPatientDetail(pt) {
     if (pt.name) {
       var details = pt.name.map(function (name) {
-        return '<div class="col-md-8"><b>MRN: </b>' + pt.MRN + '</div></div>'+
-        '<div class="row flex-nowrap"><div class="col-sm-4"><b>ID:</b>' + pt.id + '</div>'+
+        return '<div class="row flex-nowrap"><div class="col-sm-4"><b>ID:</b>' + pt.id + '</div>'+
         '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
         '<div class="col-sm-5"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
       });
