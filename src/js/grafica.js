@@ -44,6 +44,7 @@ var finEjeX;
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
+          alert("Preparar HTML");
           prepareHTML();
           prepareData();
         });
