@@ -39,6 +39,7 @@ var finEjeX;
                   });
         var meds =   smart.patient.api.fetchAll({type: 'MedicationOrder'});
         console.log(meds);
+        console.log(pt);
 
         $.when(pt, obv).fail(onError);
 
@@ -1831,25 +1832,6 @@ function dibujaRangos (datosTotales, id)
       auxPlot.fillBetween.fill=false;
     }
   }
-}
-
-function searchMedicationOrderFHIR()
-{
-  smart.patient.api.fetchAll({type: 'MedicationOrder'}).then(
-    function (results, refs) {
-      if ( results.length > 0){
-        console.log(results);
-/*         results.forEach(function (observation) {
-          getMedicationOrderFHIR(observation);
-        }); */
-      }else{
-        alert("Error al cargar los datos de MedicationOrder. Es posible que no haya datos.");
-      }
-    },
-    function (failData) {
-      alert("Error al obtener resultados de MedicationOrder");
-    }
-  );
 }
 
 $(window).resize(function() {
