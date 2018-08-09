@@ -141,6 +141,9 @@ header{
     text-align:center;
     font-size:1vw;
 }
+.rangos{
+    font-size:1vw;
+}
 #patient_name{
     display:none;
 }

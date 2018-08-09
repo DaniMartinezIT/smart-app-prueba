@@ -1527,28 +1527,28 @@ var finEjeX;
         if (iDataSeries[i][1] && iDataSeries[i][1].color && iDataSeries[i][1].markerOptions){
           bSeries.push({size:8,color:iDataSeries[i][1].color,style:iDataSeries[i][1].markerOptions.style});
         }
-        bHTML.push("<div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
+        bHTML.push("<div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
         bHTML.push(iSelect,"btn_",sCnt);
         bHTML.push("' class='btn ",((iDataSeries[i][1].show)?"series-on":"series-off"),"'>");
         bHTML.push("<canvas class='buttons' id='",iSelect,"canvas_",sCnt,"'></canvas>");
-        bHTML.push("</div><span>&nbsp;&nbsp;&nbsp;",iDataSeries[i][1].label,"<span id='minMax",iId,"_",sCnt,"'></span></span></div>");
+        bHTML.push("</div><span>&nbsp;&nbsp;&nbsp;",iDataSeries[i][1].label,"<span id='minMax",iId,"_",sCnt,"'></span></span></div></div></div></div>");
       }
     }
   
     bHTML.push("<div class='row'>");
-    bHTML.push("<div class='col-sm-9'><b>Rangos de Normalidad</b></div></div>");
+    bHTML.push("<div class='col-sm-9 rangos'><b>Rangos de Normalidad</b></div></div>");
     bHTML.push("<div class='row'>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='inicial' name='button' value='inicial' checked='checked' onclick=\"seleccionaRangos(this);\">  Inicial</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='sat' name='button' value='sat' onclick =\"seleccionaRangos(this);\">O2</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='temp' name='button' value='temp' onclick=\"seleccionaRangos(this);\">Tª</div></div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='inicial' name='button' value='inicial' checked='checked' onclick=\"seleccionaRangos(this);\">Inicial</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='sat' name='button' value='sat' onclick =\"seleccionaRangos(this);\">O2</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='temp' name='button' value='temp' onclick=\"seleccionaRangos(this);\">Tª</div></div>");
     bHTML.push("<div class='row'>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='fr' name='button' value='fr' onclick=\"seleccionaRangos(this);\">FR</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='fc' name='button' value='fc' onclick=\"seleccionaRangos(this);\">FC</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='pvc' name='button' value='pvc' onclick=\"seleccionaRangos(this);\">PVC</div></div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='fr' name='button' value='fr' onclick=\"seleccionaRangos(this);\">FR</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='fc' name='button' value='fc' onclick=\"seleccionaRangos(this);\">FC</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='pvc' name='button' value='pvc' onclick=\"seleccionaRangos(this);\">PVC</div></div>");
     bHTML.push("<div class='row'>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='tas' name='button' value='tas' onclick=\"seleccionaRangos(this);\">TAS</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='tad' name='button' value='tad' onclick=\"seleccionaRangos(this);\">TAD</div>");
-    bHTML.push("<div class='col-sm-3'><input type='radio' id='tam' name='button' value='tam' onclick=\"seleccionaRangos(this);\">TAM</div></div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='tas' name='button' value='tas' onclick=\"seleccionaRangos(this);\">TAS</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='tad' name='button' value='tad' onclick=\"seleccionaRangos(this);\">TAD</div>");
+    bHTML.push("<div class='col-sm-3 rangos'><input type='radio' id='tam' name='button' value='tam' onclick=\"seleccionaRangos(this);\">TAM</div></div>");
   
     if (!oneShown){
       sSeries[0].show = true;
@@ -1655,36 +1655,6 @@ var finEjeX;
       rango = new parametro(80,60,'rgba(151,0,0, 0.4)', 'yaxis','tam'); //TAM
     }
     return rango;
-  }
-  
-  function dibujaRangos (datosTotales, id)
-  {
-    for(var i=0;i<rangos.length;i++){
-      if(id==rangos[i].id){
-        for(var j=0;j<datosTotales-rangos.length*2-2;j++){
-          auxPlot.series[j].show=false;
-          auxPlot.series[i].show=true;
-          auxPlot.fillBetween.series1=rangos.length+i*2+2;
-          auxPlot.fillBetween.series2=rangos.length+i*2+3;
-          auxPlot.fillBetween.color="rgba(228,26,28, 0.2)";
-          auxPlot.fillBetween.fill=true;
-        }
-        break;
-      }
-      else if(id=="inicial"){
-        for(var j=0;j<rangos.length;j++){
-          auxPlot.series[j].show=true;
-        }
-        auxPlot.fillBetween.series1=rangos.length;
-        auxPlot.fillBetween.series2=rangos.length+1;
-        auxPlot.fillBetween.color="rgba(228,26,28, 0.2)";
-        auxPlot.fillBetween.fill=true;
-      }
-      else{
-        auxPlot.series[i].show=false;	
-        auxPlot.fillBetween.fill=false;
-      }
-    }
   }
   
   function compare(a,b) {
@@ -1848,6 +1818,36 @@ function seleccionaRangos (obj)
   }
   auxPlot.redraw();
   if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
+}
+
+function dibujaRangos (datosTotales, id)
+{
+  for(var i=0;i<rangos.length;i++){
+    if(id==rangos[i].id){
+      for(var j=0;j<datosTotales-rangos.length*2-2;j++){
+        auxPlot.series[j].show=false;
+        auxPlot.series[i].show=true;
+        auxPlot.fillBetween.series1=rangos.length+i*2+2;
+        auxPlot.fillBetween.series2=rangos.length+i*2+3;
+        auxPlot.fillBetween.color="rgba(228,26,28, 0.2)";
+        auxPlot.fillBetween.fill=true;
+      }
+      break;
+    }
+    else if(id=="inicial"){
+      for(var j=0;j<rangos.length;j++){
+        auxPlot.series[j].show=true;
+      }
+      auxPlot.fillBetween.series1=rangos.length;
+      auxPlot.fillBetween.series2=rangos.length+1;
+      auxPlot.fillBetween.color="rgba(228,26,28, 0.2)";
+      auxPlot.fillBetween.fill=true;
+    }
+    else{
+      auxPlot.series[i].show=false;	
+      auxPlot.fillBetween.fill=false;
+    }
+  }
 }
 
 $(window).resize(function() {
