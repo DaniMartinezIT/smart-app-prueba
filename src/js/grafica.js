@@ -90,7 +90,7 @@ var finEjeX;
     headerHTML.push(getPatientDetail(pt));
     headerHTML.push("</div></div>");
     $("#patient_name").append(headerHTML.join(" "));
-    $("#patient_name").show();
+    $(":header").show();
   }
 
   function getPatientName(pt) {

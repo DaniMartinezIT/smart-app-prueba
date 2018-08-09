@@ -38,7 +38,7 @@
 
 header{
     margin-top: 80px;
-    background-color: rgb(237, 234, 227);
+    display:none;    
 }
 
 .cell {
@@ -144,9 +144,7 @@ header{
 .rangos{
     font-size:1vw;
 }
-#patient_name{
-    display:none;
-}
+
 #admin{
     background-color:rgb(146,190,139);
 }
