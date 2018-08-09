@@ -1,7 +1,7 @@
-.jqplot-target{position:relative;color:#666;font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;font-size:1em;}
-.jqplot-axis{font-size:.75em;}
+.jqplot-target{position:relative;color:#666;font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;font-size:1vw;}
+.jqplot-axis{font-size:.75vw;}
 .jqplot-xaxis{margin-top:10px;}
-.jqplot-x2axis{margin-bottom:10px;}
+.jqplot-x2axis{margin-bottom:5%;}
 .jqplot-yaxis{margin-right:10px;white-space: nowrap;}
 .jqplot-y2axis,.jqplot-y3axis,.jqplot-y4axis,.jqplot-y5axis,.jqplot-y6axis,.jqplot-y7axis,.jqplot-y8axis,.jqplot-y9axis{margin-right:5px;position: relative;margin-left:10px;}
 .jqplot-axis-tick,.jqplot-xaxis-tick,.jqplot-yaxis-tick,.jqplot-x2axis-tick,.jqplot-y2axis-tick,.jqplot-y3axis-tick,.jqplot-y4axis-tick,.jqplot-y5axis-tick,.jqplot-y6axis-tick,.jqplot-y7axis-tick,.jqplot-y8axis-tick,.jqplot-y9axis-tick{position:absolute; white-space:pre;}
