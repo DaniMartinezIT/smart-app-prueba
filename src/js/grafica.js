@@ -148,8 +148,7 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-    let codingCode, code, fecha, valor, display, seq, unidades, fechaFormateada, y, m, d, h, min;
-
+let codingCode, fecha, valor, display, seq, unidades, fechaFormateada, fechaISO, fechaISOString, fechaISODate, y, m, d, h, min;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
@@ -170,7 +169,6 @@ var finEjeX;
         }
       });
     }
-
     switch (code)
     {
       case '2710-2':
@@ -219,17 +217,18 @@ var finEjeX;
     initDate = new Date(2018,06,31,0,0,0,0);
     var bHTML = [];
     if(json.RESULTADOS.N > 0){
+		bHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank'></div>");
       //Dibuja las horas
       for(var i = 0; i < 25; i++){
         var bRight = (i==23)?"":" border-right:none;";
-        var mLeft = (i==0)?"margin-left:242px;":""; //formally 122px
+			var mLeft = (i==0)?"margin-left:-10px;":""; //formally 122px
         var hour = i + 8;
         if(hour >= 24){
           hour = hour - 24;
         }
-        bHTML.push("<div style = '",mLeft,"width: 40px;",bRight,"text-align: left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			bHTML.push("<div class='col-no-gutter cell-hour' style = '",mLeft,bRight,"'>",hour,":00","</div>");
       }
-      bHTML.push("<br/>");
+    bHTML.push("</div>");
       //Comprueba cual es el primer día
       var fecha_json = convertir_fecha(json.RESULTADOS.PARAMETROS[0].FECHA);
       var fecha_inicio = new Date(initDate.getFullYear(),initDate.getMonth(),initDate.getDate(),8,0);
@@ -314,26 +313,25 @@ var finEjeX;
           }
         }
         if (pintar){
-          bHTML.push("<div class='div-class' style ='width: 254px; text-indent: 0px; float:left;clear:both;font-size:12px;'>"+tipo[j]+" ("+localizacion[j]+")</div>");
+				bHTML.push("<div class='row flex-nowrap'>");
+				bHTML.push("<div class='col-no-gutter titles'>"+tipo[j]+" ("+localizacion[j]+")</div>");
           var cells = new Array();
           for(var i = 0; i < 24 ;i++){
             if (i > 0 && evolucion[j][i] == undefined){ evolucion[j][i] = evolucion[j][i-1]+1; }
             var bRight = (i==23)?"":" border-right:none;";
             var tiempo = Math.ceil(evolucion[j][i]/24);
             if (isNaN(tiempo) || sumar_horas_fecha(i,fecha_inicio) > fecha_ahora){ tiempo = "-"; }
-            var aviso="<div style='font-weight: bold';font-size:16px;>"+tiempo+"</div>";
-            cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>"+aviso+"</div>");
+					cells.push("<div class='col-no-gutter cell' style='"+bRight+"'>"+tiempo+"</div>");
           }
           bHTML.push(cells.join(""))
-          bHTML.push("<br/>");
+				bHTML.push("</div>");
         }
       }//end for (var j=0;j<localizacion.length; j++)
     }//end if(json.RESULTADOS.N > 0)
     //Muestra la tabla
-    var catBody = document.createElement("div");
-    catBody.setAttribute("class","card-body");
-    document.getElementById("cateteresSection").appendChild(catBody);
-    catBody.innerHTML=bHTML.join("")+"<br/>";
+/*   var catBody = document.createElement("div");
+  catBody.setAttribute("class","card-body"); */
+  $('#cateteres-body').html(bHTML.join("")+"</div>");
   }
   
   function getVentilacion(json){
@@ -342,29 +340,31 @@ var finEjeX;
     var sampleLength = json.RECORD_DATA.SAMPLE_QUAL.length;
     var gasometriaLength = json.RECORD_DATA.GASOMETRIA.length;
     if(ventSubLength > 0 || sampleLength > 0 || gasometriaLength > 0){
+		ventHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank'></div>");
       for(var i = 0; i<25; i++){
         var bRight = (i == 23)?"":" border-right:none;";
-        var mLeft = (i == 0)?"margin-left:244px;":""; //formerly 122px
+			var mLeft = (i == 0)?"margin-left:-10px;":""; //formerly 122px
         var hour = i + 8;
         if(hour >= 24){
           hour = hour - 24;
         }
-        ventHTML.push("<div style = '",mLeft,"width: 40px;",bRight,"text-align:left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			ventHTML.push("<div class='col-no-gutter cell-hour' style = '",mLeft,bRight,"'>",hour,":00","</div>");
       }//end for(var i = 0; i <25; i++)
-      ventHTML.push("<br/>");
+		ventHTML.push("</div>");
   
        if(ventSubLength > 0){
         for(var x = 0; x < ventSubLength; x++){
+				ventHTML.push("<div class='row flex-nowrap'>");
           var unidades = "";
           if (json.RECORD_DATA.VENT_SUB[x].UOM != "")
             unidades = "("+json.RECORD_DATA.VENT_SUB[x].UOM+")";
-          ventHTML.push("<div class='div-class' style ='width: 254px; text-indent: 15px; float:left;clear:both;font-size:12px;margin-top:5px;margin-bottom:5px'>",json.RECORD_DATA.VENT_SUB[x].NAME," ",unidades,"</div>");
+				ventHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.VENT_SUB[x].NAME," ",unidades,"</div>");
   
           var cells = new Array();
           var hovers = new Array();
           for(var j = 0; j < 24;j++){
             var bRight = (j==23)?"":" border-right:none;";
-            cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style='"+bRight+"'>&nbsp;</div>");
             hovers.push("");
           }//end for(var j = 0; j < 24;j++) 
   
@@ -386,14 +386,14 @@ var finEjeX;
   
                 if(valueCheck(json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL) == true){
                   if(json.RECORD_DATA.VENT_SUB[x].SEQUENCE ==10){
-                    cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL.substr(0,4)+"</div>";
+									cells[prevHour] = "<div class='col-no-gutter cell' style='"+bRight+"'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL.substr(0,4)+"</div>";
                     hovers[prevHour] += json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].EVENT_DT_TM_DISP+"<br/><b>"+json.RECORD_DATA.VENT_SUB[x].NAME+"</b> : "+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL+"<br/>";
                   }else{
-                  cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell-img' style='"+bRight+"'>&nbsp;</div>";
                   hovers[prevHour] += "<b>"+json.RECORD_DATA.VENT_SUB[x].NAME+"</b> : "+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL+"<br/>";
                   }
                 }else{
-                  cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL+"</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell' style='"+bRight+"'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].RESULT_VAL+"</div>";
                   if(json.RECORD_DATA.VENT_SUB[x].SEQUENCE ==10){
                     hovers[prevHour] += json.RECORD_DATA.VENT_SUB[x].RESULTS[z-1].EVENT_DT_TM_DISP+"<br/>";
                   }
@@ -408,14 +408,14 @@ var finEjeX;
   
                 if(valueCheck(json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL) == true){
                   if(json.RECORD_DATA.VENT_SUB[x].SEQUENCE ==10){
-                    cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL.substr(0,4)+"</div>";
+									cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL.substr(0,4)+"</div>";
                     hovers[prevHour] += json.RECORD_DATA.VENT_SUB[x].RESULTS[z].EVENT_DT_TM_DISP+"<br/><b>"+json.RECORD_DATA.VENT_SUB[x].NAME+"</b> : "+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL+"<br/>";
                   }else{
-                  cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell-img' style='"+bRight+"'>&nbsp;</div>";
                   hovers[prevHour] += "<b>"+json.RECORD_DATA.VENT_SUB[x].NAME+"</b> : "+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL+"<br/>";
                   }
                 }else{
-                  cells[prevHour] = "<div class = 'div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL+"</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell' style='"+bRight+"'>"+json.RECORD_DATA.VENT_SUB[x].RESULTS[z].RESULT_VAL+"</div>";
                   if(json.RECORD_DATA.VENT_SUB[x].SEQUENCE ==10){
                     hovers[prevHour] += json.RECORD_DATA.VENT_SUB[x].RESULTS[z].EVENT_DT_TM_DISP+"<br/>";
                   }
@@ -441,14 +441,14 @@ var finEjeX;
             }//end if(hoverLength > 0 )
             for(var y = 0; y < 24; y++){
               if(hovers[y] > ""){
-                cells[y]=[cells[y].slice(0,22)," data-toggle='tooltip' data-placement='top' title='",hovers[y],"'",cells[y].slice(22)].join('');
+              cells[y]=[cells[y].slice(0,35)," data-toggle='tooltip' data-placement='top' title='",hovers[y],"'",cells[y].slice(35)].join('');
               }else{
                 cells[y] += hovers[y];
               }
             }//end for(var y = 0; y < 24; y++)
           }//end if(resultsLength > 0)
           ventHTML.push(cells.join(""));
-          ventHTML.push("<br/>");
+				ventHTML.push("</div>");
         }//end for(var x = 0; x < ventSubLength; x++)
       }else{
         ventHTML.push("No se encontraron resultados");
@@ -456,13 +456,14 @@ var finEjeX;
     
   
       if(sampleLength > 0){
-        ventHTML.push("<div class='div-class' style ='width: 254px; float:left;clear:both;'>Gasometr&iacute;a</div>");
+			ventHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter main-title'>Gasometr&iacute;a</div></div>");
+
         var cells = new Array();
         var hovers = new Array();
   
         for(var j = 0; j < 24;j++){
           var bRight = (j==23)?"":" border-right:none;";
-          cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+				cells.push("<div class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
           hovers.push("");
         }
   
@@ -478,13 +479,13 @@ var finEjeX;
           }
           if(prevHour != hour){
             var bRight = (prevHour==23)?"":" border-right:none;";
-            cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+					cells[prevHour] = "<div class='col-no-gutter cell-img' style = '"+bRight+"'>&nbsp;</div>";
             hovers[prevHour] = "<b>"+json.RECORD_DATA.SAMPLE_QUAL[i-1].EVENT_NAME+":</b> "+json.RECORD_DATA.SAMPLE_QUAL[i-1].TYPE+"<br/>";
             prevHour = hour;
           }
           if(i == (sampleLength - 1)){
             var bRight = (prevHour==23)?"":" border-right:none;";
-            cells[prevHour] = "<div class = 'div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align:center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+					cells[prevHour] = "<div class='col-no-gutter cell-img' style = '"+bRight+"'>&nbsp;</div>";
             hovers[prevHour] = "<b>"+json.RECORD_DATA.SAMPLE_QUAL[i].EVENT_NAME+":</b> "+json.RECORD_DATA.SAMPLE_QUAL[i].TYPE+"<br/>";
           }
   
@@ -506,27 +507,28 @@ var finEjeX;
         }//end for(var i = 0;i < sampleLength; i++)
         for(var x = 0; x < 24; x++){
           if(hovers[x] > ""){
-            cells[x]=[cells[x].slice(0,22)," data-toggle='tooltip' data-placement='top' title='",hovers[x],"'",cells[x].slice(22)].join('');
+          cells[x]=[cells[x].slice(0,35)," data-toggle='tooltip' data-placement='top' title='",hovers[x],"'",cells[x].slice(35)].join('');
           }else{
             cells[x] += hovers[x];
           }
         }
         ventHTML.push(cells.join(""))
-        ventHTML.push("<br/>");
+			ventHTML.push("</div>");
       }//end if(sampleLength > 0 )
   
       //CRQ000000479879 Volcar en el apartado de ventilación la gasometría (pO2(T), pCO2(t), pH(T), cHCO3-(P,st)c)
       if(gasometriaLength > 0){
         for(var x = 0; x < gasometriaLength; x++){
+				ventHTML.push("<div class='row flex-nowrap'>");
           var unidades = "";
           if (json.RECORD_DATA.GASOMETRIA[x].UOM != "")
             unidades = "("+json.RECORD_DATA.GASOMETRIA[x].UOM+")";
-          ventHTML.push("<div class='div-class' style ='width: 254px; text-indent: 15px; float:left;clear:both;font-size:12px;margin-top:5px;margin-bottom:5px'>",json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME," ",unidades,"</div>");
+				ventHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME," ",unidades,"</div>");
           var cells = new Array();
           var hovers = new Array();
           for(var j = 0; j < 24;j++){
             var bRight = (j==23)?"":" border-right:none;";
-            cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
             hovers.push("");
           }//end for(var j = 0; j < 24;j++)
           var resultsLength = json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL.length;
@@ -546,14 +548,14 @@ var finEjeX;
                 var bRight = (prevHour==23)?"":" border-right:none;";
                 if(valueCheck(json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL) == true){
                   if(json.RECORD_DATA.GASOMETRIA[x].SEQUENCE == 10){
-                    cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL.substr(0,4)+"</div>";
+									cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL.substr(0,4)+"</div>";
                     hovers[prevHour] += json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].EVENT_DT_TM_DISP+"<br/><b>"+json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME+"</b> : "+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL+"<br/>";
                   }else{
-                    cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+									cells[prevHour] = "<div class='col-no-gutter cell-img' style = '"+bRight+"'>&nbsp;</div>";
                     hovers[prevHour] += "<b>"+json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME+"</b> : "+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL+"<br/>";
                   }
                 }else{
-                  cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL+"</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].RESULT_VAL+"</div>";
                   if(json.RECORD_DATA.GASOMETRIA[x].SEQUENCE == 10){
                     hovers[prevHour] += json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z-1].EVENT_DT_TM_DISP+"<br/>";
                   }
@@ -566,14 +568,14 @@ var finEjeX;
                 var bRight = (prevHour==23)?"":" border-right:none;";
                 if(valueCheck(json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL) == true){
                   if(json.RECORD_DATA.GASOMETRIA[x].SEQUENCE ==10){
-                    cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL.substr(0,4)+"</div>";
+									cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL.substr(0,4)+"</div>";
                     hovers[prevHour] += json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].EVENT_DT_TM_DISP+"<br/><b>"+json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME+"</b> : "+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL+"<br/>";
                   }else{
-                  cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell-img' style = '"+bRight+"'>&nbsp;</div>";
                   hovers[prevHour] += "<b>"+json.RECORD_DATA.GASOMETRIA[x].EVENT_NAME+"</b> : "+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL+"<br/>";
                   }
                 }else{
-                  cells[prevHour] = "<div class = 'div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL+"</div>";
+								cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].RESULT_VAL+"</div>";
                   if(json.RECORD_DATA.GASOMETRIA[x].SEQUENCE == 10){
                     hovers[prevHour] += json.RECORD_DATA.GASOMETRIA[x].RESULT_QUAL[z].EVENT_DT_TM_DISP+"<br/>";
                   }
@@ -597,55 +599,53 @@ var finEjeX;
             }//end if(hoverLength > 0 )
             for(var y = 0; y < 24; y++){
               if(hovers[y] > ""){
-                cells[y]=[cells[y].slice(0,22)," data-toggle='tooltip' data-placement='top' title='",hovers[y],"'",cells[y].slice(22)].join('');
+              cells[y]=[cells[y].slice(0,35)," data-toggle='tooltip' data-placement='top' title='",hovers[y],"'",cells[y].slice(35)].join('');
               }else{
                 cells[y] += hovers[y];
               }
             }//end for(var y = 0; y < 24; y++)
           }//end if(resultsLength > 0) 
           ventHTML.push(cells.join(""));
-          ventHTML.push("<br/>");
+				ventHTML.push("</div>");
         }//end for(var x = 0; x < gasometriaLength; x++)
       }//end if(gasometriaLength > 0){ 
     }else{
       ventHTML.push("No se encontraron resultados");
     }//end if(ventSubLength > 0 || sampleLength > 0)
   
+	$('#ventilacion-body').html(ventHTML.join("")+"</div>");
+
     $(function(){
       $('[data-toggle="tooltip"]').tooltip({html:true})
     })
-    
-    var ventBody = document.createElement("div");
-    ventBody.setAttribute("class","card-body");
-    document.getElementById("ventSection").appendChild(ventBody);
-    ventBody.innerHTML=ventHTML.join("");
   }
   
   function getHemo(json){
     var hemoHTML = [];
     //create the time headers
     if(json.RECORD_DATA.SWAN_QUAL.length > 0 || json.RECORD_DATA.MIN_QUAL.length > 0 || json.RECORD_DATA.VENOUS_QUAL.length > 0){
+		hemoHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank'></div>");
       for(var i = 0;i<25;i++){
         var bRight = (i==23)?"":" border-right:none;";
-        var mLeft = (i==0)?"margin-left:244px;":""; //formerly 122px
+			var mLeft = (i==0)?"margin-left:-10px;":""; //formerly 122px
         var hour = i + 8;
         if(hour >= 24){
           hour = hour - 24;
         }
-        hemoHTML.push("<div style = '",mLeft,"width: 40px;",bRight,"text-align:left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			hemoHTML.push("<div class='col-no-gutter cell-hour' style = '",mLeft,bRight,"'>",hour,":00","</div>");
       }
-  
+		hemoHTML.push("</div>");
       if(json.RECORD_DATA.SWAN_QUAL.length > 0){
         var hemoLength = json.RECORD_DATA.SWAN_QUAL.length;
-        hemoHTML.push("<div style ='float:left;'>Swan-Ganz</div>");
-        hemoHTML.push("<br/>");
+			hemoHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter main-title'>Swan-Ganz</div></div>");
   
         for(var i = 0;i < hemoLength;i++){
-          hemoHTML.push("<div class='div-class' style ='width: 254px; text-indent: 15px; float:left;clear:both;font-size:12px;margin-top:5px;margin-bottom:5px;'>",json.RECORD_DATA.SWAN_QUAL[i].EVENT_NAME,"</div>");
+				hemoHTML.push("<div class='row flex-nowrap'>");
+				hemoHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.SWAN_QUAL[i].EVENT_NAME,"</div>");
           var cells = new Array();
           for(var j = 0; j < 24;j++){
             var bRight = (j==23)?"":" border-right:none;";
-            cells.push("<div class='div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
           }
           var resultsLength = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL.length;
           for(var j = 0;j < resultsLength;j++){
@@ -661,23 +661,22 @@ var finEjeX;
             if(prevHour != hour){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"<br/>";
-                var hoverLength = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
+							var title = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</br>";
+							var hoverLength = jsonData.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
                 if(hoverLength > 0){
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"</span><br/>";
+									title += "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"</span><br/>";								
                   }
                 }
-                cells[prevHour] += "</div>"
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",title,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
                 var hoverLength = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
                 if(hoverLength > 0){
-                  cells[prevHour] += "<div class='hvr'>";
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"</span><br/>";
+									var title="<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"</span><br/>";
+									cells[prevHour]=[cells[prevHour].slice(0,31)," data-toggle='tooltip' data-placement='top' title='",title,"'",cells[prevHour].slice(31)].join('');
                   }
-                  cells[prevHour] += "</div>"
                 }
               }
               prevHour = hour;
@@ -686,42 +685,41 @@ var finEjeX;
             if(j == (resultsLength - 1)){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"<br/>";
+							var title = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</br>";
                 var hoverLength = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
                 if(hoverLength > 0){
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"</span><br/>";
+									title +=  "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"</span><br/>";
                   }
                 }
-                cells[prevHour] += "</div>"
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",title,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-                cells[prevHour] = "<div class = 'div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class = 'col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
                 var hoverLength = json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
                 if(hoverLength > 0){
-                  cells[prevHour] += "<div class='hvr'>";
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"</span><br/>";
+									var title =  "<b>"+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+"</b>: "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.SWAN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"</span><br/>";
+									cells[prevHour]=[cells[prevHour].slice(0,31)," data-toggle='tooltip' data-placement='top' title='",title,"'",cells[prevHour].slice(31)].join('');
                   }
-                  cells[prevHour] += "</div>"
                 }
               }
             }//end if(j == (resultsLength - 1))
           }//end for(var j = 0;j < resultsLength; j++)
           hemoHTML.push(cells.join(""))
-          hemoHTML.push("<br/>");
+				hemoHTML.push("</div>");
         }//end for(var i = 0;i < hemoLength; i++)
       }//end if(json.RECORD_DATA.SWAN_QUAL.length > 0 )
   
       if(json.RECORD_DATA.MIN_QUAL.length > 0){
         var hemoLength = json.RECORD_DATA.MIN_QUAL.length;
-        hemoHTML.push("<div style ='clear:both;float:left;'>PICCO2/VIGILEO</div>");
-        hemoHTML.push("<br/>");
+			hemoHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter main-title'>PICCO2/VIGILEO</div></div>");
         for(var i = 0;i < hemoLength;i++){
-          hemoHTML.push("<div class='div-class' style ='width: 254px; text-indent: 15px; float:left;clear:both;font-size:12px;margin-top:5px;margin-bottom:5px;'>",json.RECORD_DATA.MIN_QUAL[i].EVENT_NAME,"</div>");
+				hemoHTML.push("<div class='row flex-nowrap'>");
+				hemoHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.MIN_QUAL[i].EVENT_NAME,"</div>");
           var cells = new Array();
           for(var j = 0; j < 24;j++){
             var bRight = (j==23)?"":" border-right:none;";
-            cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style='"+bRight+"'>&nbsp;</div>");
           }
           var resultsLength = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL.length;
           for(var j = 0;j < resultsLength;j++){
@@ -737,23 +735,22 @@ var finEjeX;
             if(prevHour != hour){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"<br/>";
+							var title = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</br>";
                 var hoverLength = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
                 if(hoverLength > 0){
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
+									title += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
                   }
                 }
-                cells[prevHour] += "</div>"
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",title,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
                 var hoverLength = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
                 if(hoverLength > 0){
-                  cells[prevHour] += "<div class='hvr'>";
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
+									var title = "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
+									cells[prevHour]=[cells[prevHour].slice(0,31)," data-toggle='tooltip' data-placement='top' title='",title,"'",cells[prevHour].slice(31)].join('');
                   }
-                  cells[prevHour] += "</div>"
                 }
               }
               prevHour = hour;
@@ -761,42 +758,41 @@ var finEjeX;
             if(j == (resultsLength - 1)){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"<br/>";
+							var title = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</br>";
                 var hoverLength = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
                 if(hoverLength > 0){
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
+									title += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
                   }
                 }
-                cells[prevHour] += "</div>"
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",title,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-                cells[prevHour] = "<div class = 'div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class = 'col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
                 var hoverLength = json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
                 if(hoverLength > 0){
-                  cells[prevHour] += "<div class='hvr'>";
                   for(var z = 0;z < hoverLength;z++){
-                    cells[prevHour] += "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
+									var title = "<b>"+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.MIN_QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
+									cells[prevHour]=[cells[prevHour].slice(0,31)," data-toggle='tooltip' data-placement='top' title='",title,"'",cells[prevHour].slice(31)].join('');
                   }
-                  cells[prevHour] += "</div>"
                 }
               }
             }//end if(j == (resultsLength - 1))
           }//end for(var j = 0;j < resultsLength; j++)
           hemoHTML.push(cells.join(""))
-          hemoHTML.push("<br/>");
+				hemoHTML.push("</div>");
         }//end for(var i = 0;i < hemoLength; i++)
       }//end if(json.RECORD_DATA.MIN_QUAL.length > 0 )
   
       if(json.RECORD_DATA.VENOUS_QUAL.length > 0){
         var hemoLength = json.RECORD_DATA.VENOUS_QUAL.length;
-        hemoHTML.push("<div style ='clear:both;float:left;'>Otros Parametros</div>");
-        hemoHTML.push("<br/>");
+			hemoHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter main-title'>Otros Parametros</div></div>");
         for(var i = 0;i < hemoLength;i++){
-          hemoHTML.push("<div class='div-class' style ='width: 254px; text-indent: 15px; float:left;clear:both;font-size:12px;margin-top:5px;margin-bottom:5px;'>",json.RECORD_DATA.VENOUS_QUAL[i].EVENT_NAME,"</div>");
+				hemoHTML.push("<div class='row flex-nowrap'>");
+				hemoHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.VENOUS_QUAL[i].EVENT_NAME,"</div>");
           var cells = new Array();
           for(var j = 0; j < 24;j++){
             var bRight = (j==23)?"":" border-right:none;";
-            cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
           }
           var resultsLength = json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL.length;
   
@@ -813,23 +809,23 @@ var finEjeX;
             if(prevHour != hour){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width:40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-              cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
               }
               prevHour = hour;
             }
             if(j == (resultsLength - 1)){
               var bRight = (prevHour==23)?"":" border-right:none;";
               if(valueCheck(json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j].RESULT_VAL) == true){
-                cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class = 'hvr'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j].RESULT_VAL,"' style = '"+bRight+"'>&nbsp;</div>";
               }else{
-                cells[prevHour] = "<div class = 'div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
+							cells[prevHour] = "<div class = 'col-no-gutter cell' style = '"+bRight+"'>"+json.RECORD_DATA.VENOUS_QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
               }
             }
           }//end for(var j = 0;j < resultsLength; j++)
           hemoHTML.push(cells.join(""))
-          hemoHTML.push("<br/>");
+				hemoHTML.push("</div>");
         }//end for(var i = 0;i < hemoLength; i++)
       }//end if(json.RECORD_DATA.VENOUS_QUAL.length > 0 )
     }else{
@@ -840,34 +836,34 @@ var finEjeX;
       $('[data-toggle="tooltip"]').tooltip({html:true})
     })
     
-    var hemoBody = document.createElement("div");
-    hemoBody.setAttribute("class","card-body");
-    document.getElementById("hemoSection").appendChild(hemoBody);
-    hemoBody.innerHTML=hemoHTML.join("");
+  $('#hemo-body').html(hemoHTML.join("")+"</div>");
+
   }
   
   function getNeuro(json){
     var neuroHTML = [];
+	neuroHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank' ></div>");
     if(json.RECORD_DATA.QUAL.length > 0){
       for(var i = 0;i<25;i++){
         var bRight = (i==23)?"":" border-right:none;";
-        var mLeft = (i==0)?"margin-left:244px;":""; //formerly 122px
+			var mLeft = (i==0)?"margin-left:-10px;":""; //formerly 122px
         var hour = i + 8;
         if(hour >= 24){
           hour = hour - 24;
         }
-        neuroHTML.push("<div style = '",mLeft,"width: 40px;",bRight,"text-align:left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			neuroHTML.push("<div class='col-no-gutter cell-hour' style = '",mLeft,bRight,"'>",hour,":00","</div>");
       }
   
-      neuroHTML.push("<br/>");
+		neuroHTML.push("</div>");
       var neuroLength = json.RECORD_DATA.QUAL.length;
       for(var i = 0;i < neuroLength;i++){
-        neuroHTML.push("<div class='div-class' style ='width: 254px; float:left;clear:both;font-size:12px;margin-left:18px;margin-top:5px;margin-bottom:5px;'>",json.RECORD_DATA.QUAL[i].EVENT_NAME,"</div>");
+			neuroHTML.push("<div class='row flex-nowrap'>");
+			neuroHTML.push("<div class='col-no-gutter titles'>",json.RECORD_DATA.QUAL[i].EVENT_NAME,"</div>");
         var cells = new Array();
         var hovers = new Array();
         for(var j = 0; j < 24;j++){
           var bRight = (j==23)?"":" border-right:none;";
-          cells.push("<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>&nbsp;</div>");
+				cells.push("<div class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
           hovers.push("");
         }
         var resultsLength = json.RECORD_DATA.QUAL[i].RESULT_QUAL.length;
@@ -884,21 +880,21 @@ var finEjeX;
           if(prevHour != hour){
             var bRight = (prevHour==23)?"":" border-right:none;";
             if(valueCheck(json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL) == true){
-              cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class='hvr'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+						var title = json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</br>";
               var hoverLength = json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
               if(hoverLength > 0){
-                cells[prevHour] += "<div class='hvr'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</br></div>";
                 for(var z = 0;z < hoverLength;z++){
-                  hovers[prevHour] += "<b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
+								title += "<b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
                 }
               }
+						cells[prevHour] = "<div class='col-no-gutter cell-img' data-toggle='tooltip' data-placement='top' title='",title,"' style = '"+bRight+"'>&nbsp;</div>";
               prevHour = hour;
             }else{
-              cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter cell' style = '"+bRight+"text-align: center;float:left;'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
               var hoverLength = json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL.length;
               if(hoverLength > 0){
                 for(var z = 0;z < hoverLength;z++){
-                  hovers[prevHour] += "<b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
+								hovers[prevHour] += "</br><b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].HOVER_QUAL[z].UOM+"<br/>";
                 }
               }
               prevHour = hour;
@@ -907,16 +903,16 @@ var finEjeX;
           if(j == (resultsLength - 1)){
             var bRight = (prevHour==23)?"":" border-right:none;";
             if(valueCheck(json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].RESULT_VAL) == true){
-              cells[prevHour] = "<div class='div-class' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div><div class='hvr'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter cell' data-toggle='tooltip' data-placement='top' title='",json.RECORD_DATA.QUAL[i].RESULT_QUAL[j-1].RESULT_VAL,"' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;background-image:url(./src/images/4022_16.png);background-repeat:no-repeat;background-position:center;'>&nbsp;</div>";
               var hoverLength = json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
               if(hoverLength > 0){
-                cells[prevHour] += "<div class='hvr'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</br></div>";
+							cells[prevHour]=[cells[prevHour].slice(0,22)," data-toggle='tooltip' data-placement='top' title='",json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].RESULT_VAL,"'",cells[prevHour].slice(22)].join('');
                 for(var z = 0;z < hoverLength;z++){
-                  hovers[prevHour] += "<b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
+								hovers[prevHour] += "</br><b>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].EVENT_NAME+":</b> "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].RESULT_VAL+" "+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL[z].UOM+"<br/>";
                 }
               }
             }else{
-              cells[prevHour] = "<div class='div-class' style='width: 40px;border:1px solid gray;"+bRight+";border-top:none;border-left:1px;border-bottom:1px;text-align:center;float:left;'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter cell' style='border:1px solid gray;"+bRight+"text-align:center;float:left;'>"+json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].RESULT_VAL+"</div>";
               var hoverLength = json.RECORD_DATA.QUAL[i].RESULT_QUAL[j].HOVER_QUAL.length;
               if(hoverLength > 0){
                 for(var z = 0;z < hoverLength;z++){
@@ -935,21 +931,19 @@ var finEjeX;
           }
         }//end for(var y = 0; y < 24; y++)
         neuroHTML.push(cells.join(""))
-        neuroHTML.push("<br/>");
+			neuroHTML.push("</div>");
       }//end for(var i = 0;i < neuroLength; i++)
     }else{
       neuroHTML.push("No se encontraron resultados");
     }//end if(json.RECORD_DATA.QUAL.length > 0 )
-    neuroBody = document.createElement("div");
-    neuroBody.setAttribute("class","card-body");
-    document.getElementById("neuroSection").appendChild(neuroBody);
-    neuroBody.innerHTML=neuroHTML.join("");
+  $('#neuro-body').html(neuroHTML.join("")+"</div>");
+
   }
   
   function getBalHid(json){
     var IOHTML = [];
     if(json.RECORD_DATA.IN_QUAL.length > 0 || json.RECORD_DATA.OUT_QUAL.length > 0){
-      IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-2'></div>");
+		IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank'></div>");
       for(var i = 0;i<25;i++){
         var bRight = (i==23)?"":" border-right:none;";
         var mLeft = (i==0)?"margin-left:-10px;":"";
@@ -957,19 +951,19 @@ var finEjeX;
         if(hour >= 24){
           hour = hour - 24;
         }
-        IOHTML.push("<div class='col-no-gutter cell' style = '",mLeft,bRight,"text-align: left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			IOHTML.push("<div class='col-no-gutter cell-hour' style = '",mLeft,bRight,"'>",hour,":00","</div>");
       }
       IOHTML.push("</div>");
       var ioLength = json.RECORD_DATA.IN_QUAL.length;
-      IOHTML.push("<div class='row'><div class='col-md-2 align-self-start'><b>Entradas</b></div>");
+    IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter main-title-lg'><b>Entradas</b></div>");
       var in_totals = new Array();
       for(var j = 0; j < 24;j++){
           var bRight = (j==23)?"":" border-right:none;";
           var mLeft = (j==0)?"margin-left:2px;":"";
-          IOHTML.push("<div class='col-no-gutter cell' id = 'totalIN"+j+"' style = 'border:1px solid gray;"+bRight+"text-align: center;font-size:11px;'>&nbsp;</div>");
+				IOHTML.push("<div class='col-no-gutter cell' id = 'totalIN"+j+"' style = '"+bRight+"'>&nbsp;</div>");
           in_totals[j] = 0;
       }
-      IOHTML.push("<div class='col align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#intakeSub' aria-expanded='false' aria-controls='intakeSub' style='margin-left:10px;'>+</button></div></div>");
+		IOHTML.push("<div class='col-no-gutter' align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#intakeSub' aria-expanded='false' aria-controls='intakeSub' style='margin-left:10px;'>+</button></div></div>");
       IOHTML.push("<div class='collpase' id = 'intakeSub'><div class='card card-body'>"); 
   
       for(var i = 0;i < ioLength;i++){
@@ -977,11 +971,11 @@ var finEjeX;
         if(json.RECORD_DATA.IN_QUAL[i].DAY_QUAL[0].UOM != "DND"){
           uom.push(" (",json.RECORD_DATA.IN_QUAL[i].DAY_QUAL[0].UOM,")");
         }
-        IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style='width:193px;text-indent:15px;float:left;clear:both;font-size:11px;'>",json.RECORD_DATA.IN_QUAL[i].DISPLAY,uom.join(""),"</div>");
+			IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles'>",json.RECORD_DATA.IN_QUAL[i].DISPLAY,uom.join(""),"</div>");
         var cells = new Array();
         for(var j = 0; j < 24;j++){
           var bRight = (j==23)?"":" border-right:none;";
-          cells.push("<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+				cells.push("<div class='col-no-gutter sub-cell' style='"+bRight+"'>&nbsp;</div>");
         }
         var resultLength = json.RECORD_DATA.IN_QUAL[i].DAY_QUAL.length;
         for(var j = 0;j < resultLength;j++){
@@ -999,7 +993,7 @@ var finEjeX;
               hourTotal = hourTotal + Number(json.RECORD_DATA.IN_QUAL[i].DAY_QUAL[j].TOTAL.replace(",","."));
             }else{
               var bRight = (prevHour==23)?"":" border-right:none;";
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal.toFixed()+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style='"+bRight+"'>"+hourTotal.toFixed()+"</div>";
               in_totals[prevHour] = in_totals[prevHour] + hourTotal;
               prevHour = hour;
               hourTotal = Number(json.RECORD_DATA.IN_QUAL[i].DAY_QUAL[j].TOTAL.replace(",","."));
@@ -1007,21 +1001,21 @@ var finEjeX;
             if(j == (resultLength - 1)){
               var bRight = (prevHour==23)?"":" border-right:none;";
               in_totals[prevHour] = in_totals[prevHour] + hourTotal;
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal.toFixed()+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style='"+bRight+"'>"+hourTotal.toFixed()+"</div>";
             }
           }//end for(var j = 0;j < resultLength; j++)   
         IOHTML.push(cells.join(""));
         IOHTML.push("</div>");
       }//end for(var i = 0;i < ioLength; i++) 
-      IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;margin-top:-3px;'>Entradas acumuladas</div>");
+		IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Entradas acumuladas</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='entradas"+j+"' class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='entradas"+j+"' class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
       }
       IOHTML.push("</div></div></div></div>");
   
       var ioLength = json.RECORD_DATA.OUT_QUAL.length;
-      IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-2 align-self-start'><b>Salidas</b></div>");
+    IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter main-title-lg'><b>Salidas</b></div>");
       var out_totals = new Array();
       //INICIO-CODIGO-MODIFICADO-IVAN
       var diuresis = new Array();
@@ -1030,7 +1024,7 @@ var finEjeX;
   
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='totalOUT"+j+"' class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;margin-top:7px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='totalOUT"+j+"' class='col-no-gutter cell' style = '"+bRight+"'>&nbsp;</div>");
         out_totals[j] = 0;
         //INICIO-CODIGO-MODIFICADO-IVAN
         diuresis[j] = 0;
@@ -1038,7 +1032,7 @@ var finEjeX;
         drenajes[j] = 0; //CRQ000000471396 - 20032017 Drenajes
       }//end for(var j = 0; j < 24;j++)
   
-      IOHTML.push("<div class='col align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#outputSub' aria-expanded='false' aria-controls='outputSub' style='margin-left:10px;'>+</button></div></div>");
+		IOHTML.push("<div class='col-no-gutter' align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#outputSub' aria-expanded='false' aria-controls='outputSub' style='margin-left:10px;'>+</button></div></div>");
       IOHTML.push("<div class='collpase' id = 'outputSub'><div class='card card-body'>");
   
       for(var i = 0;i < ioLength;i++){
@@ -1046,11 +1040,11 @@ var finEjeX;
         if(json.RECORD_DATA.OUT_QUAL[i].DAY_QUAL[0].UOM != "DND"){
           uom.push(" (",json.RECORD_DATA.OUT_QUAL[i].DAY_QUAL[0].UOM,")");
         }
-        IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style='width:193px;text-indent:15px;float:left;clear:both;font-size:11px;'>",json.RECORD_DATA.OUT_QUAL[i].DISPLAY,uom.join(""),"</div>");
+			IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles'>",json.RECORD_DATA.OUT_QUAL[i].DISPLAY,uom.join(""),"</div>");
         var cells = new Array();
         for(var j = 0; j < 24;j++){
           var bRight = (j==23)?"":" border-right:none;";
-          cells.push("<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+				cells.push("<div class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
         }
         var resultLength = json.RECORD_DATA.OUT_QUAL[i].DAY_QUAL.length;
         for(var j = 0;j < resultLength;j++){
@@ -1080,9 +1074,9 @@ var finEjeX;
             //CRQ000000508090 - 08032018 La función hourTotal.toFixed() falla si hourTotal es un string como es el caso de fugas y características líquido drenado
             if (json.RECORD_DATA.OUT_QUAL[i].EVENT_CD == 51754327 //Fugas
               || json.RECORD_DATA.OUT_QUAL[i].EVENT_CD == 37827196){ //Características líquido drenado
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style = '"+bRight+"'>"+hourTotal+"</div>";
             }else{
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal.toFixed()+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style = '"+bRight+"'>"+hourTotal.toFixed()+"</div>";
             }
             //CRQ000000471396 - 24032017 No sumo para salidas acumuladas los valores de los acumulados de drenajes 24h
             //CRQ000000508090 - 08032018 También excluyo las fugas y características líquido drenado porque son string
@@ -1116,9 +1110,9 @@ var finEjeX;
             //CRQ000000508090 - 08032018 La función hourTotal.toFixed() falla si hourTotal es un string como es el caso de fugas y características líquido drenado
             if (json.RECORD_DATA.OUT_QUAL[i].EVENT_CD == 51754327 //Fugas
               || json.RECORD_DATA.OUT_QUAL[i].EVENT_CD == 37827196){ //Características líquido drenado
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style = '"+bRight+"'>"+hourTotal+"</div>";
             }else{
-              cells[prevHour] = "<div class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size: 11px;'>"+hourTotal.toFixed()+"</div>";
+						cells[prevHour] = "<div class='col-no-gutter sub-cell' style = '"+bRight+"'>"+hourTotal.toFixed()+"</div>";
             }
             //INICIO-CODIGO-MODIFICADO-IVAN
             if (json.RECORD_DATA.OUT_QUAL[i].DISPLAY.substr(0,8).toLowerCase()=="diuresis"){
@@ -1140,49 +1134,46 @@ var finEjeX;
           }//end if(j == (resultLength - 1))
         }//end for(var j = 0;j < resultLength; j++)
         IOHTML.push(cells.join(""))
-        IOHTML.push("<br/>"); 
       }//end for(var i = 0;i < ioLength; i++)
-      IOHTML.push("</div><div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;'>Diuresis acumulada</div>");
+		IOHTML.push("</div><div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Diuresis acumulada</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='diuresis"+j+"' class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='diuresis"+j+"' class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
       }
       IOHTML.push("</div>");
       //CRQ000000471396 - 20032017 Drenajes acumulado
-      IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;'>Drenajes acumulados</div>");
+		IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Drenajes acumulados</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='drenajes"+j+"' class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='drenajes"+j+"' class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
       }
       IOHTML.push("</div>");
-      IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;'>Salidas acumuladas</div>");
+		IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Salidas acumuladas</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='salidas"+j+"' class='col-no-gutter cell' style = 'width: 40px;border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='salidas"+j+"' class='col-no-gutter sub-cell' style='"+bRight+"'>&nbsp;</div>");
       } 
       IOHTML.push("</div></div></div></div>");
   
-      IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col align-self-start'><b>Balance</b></div>");
-      IOHTML.push("<div class='col align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#balance' aria-expanded='false' aria-controls='balance' style='margin-left:10px;'>+</button></div></div>");
+		IOHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter main-title-lg'><b>Balance</b></div><div class='col-no-gutter blank-lg'></div>");
+		IOHTML.push("<div class='col-no-gutter' align-self-end'><button class='btn btn-sm float-right' type='button' data-toggle='collapse' data-target='#balance' aria-expanded='false' aria-controls='balance' style='margin-left:10px;'>+</button></div></div>");
       IOHTML.push("<div class='collpase' id = 'balance'><div class='card card-body'>"); 
-      IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;'>Balance</div>");
+		IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Balance</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='totalBAL"+j+"' class='col-no-gutter cell' style = ';border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='totalBAL"+j+"' class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
       }
       IOHTML.push("</div>");
-      IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter' style ='width: 193px;float:left;clear: both;font-size:14px;'>Balance acumulado</div>");
+		IOHTML.push("<div class='row flex-nowrap'><div class='col-no-gutter sub-titles-lg'>Balance acumulado</div>");
       for(var j = 0; j < 24;j++){
         var bRight = (j==23)?"":" border-right:none;";
-        IOHTML.push("<div id ='totalACCUM"+j+"' class='col-no-gutter cell' style = 'border:1px solid gray;"+bRight+"text-align: center;float:left;font-size:11px;'>&nbsp;</div>");
+			IOHTML.push("<div id ='totalACCUM"+j+"' class='col-no-gutter sub-cell' style = '"+bRight+"'>&nbsp;</div>");
       }
       IOHTML.push("</div>");
       IOHTML.push("</div></div></div>"); 
   
-      var IOBody = document.createElement("div");
-      IOBody.setAttribute("class","card-body");
-      document.getElementById("bhSection").appendChild(IOBody);
-      IOBody.innerHTML=IOHTML.join("")+"</div>";
+		$('#balanceHidrico-body').html(IOHTML.join("")+"</div>");
+
       var accumBalance = 0;
       var balance = 0;
       //INICIO-CODIGO-MODIFICADO-IVAN
@@ -1217,10 +1208,8 @@ var finEjeX;
       }//end for(var x = 0;x < 24;x++)
     }else{
       IOHTML.push("No se encontraron resultados");
-      var IOBody = document.createElement("div");
-      IOBody.setAttribute("class","card-body");
-      document.getElementById("bhSection").appendChild(IOBody);
-      IOBody.innerHTML=IOHTML.join("")+"</div>";
+		$('#balanceHidrico-body').html(IOHTML.join("")+"</div>");
+
     }//end if(json.RECORD_DATA.IN_QUAL.length > 0 || json.RECORD_DATA.OUT_QUAL.length > 0)
   }
   
@@ -1229,11 +1218,11 @@ var finEjeX;
     //create the time headers
     if(json.RECORD_DATA.QUAL.length > 0){
       //INICIO-CODIGO-MODIFICADO-IVAN
-      medsHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter style='width:260px;'>");
-      medsHTML.push("<div style = 'width:245px;float:left;'><div style = 'float:left;background-color:rgb(146,190,139);border:1px solid gray;width:40px;color:black;text-align:center;font-size:11px;'>admin</div>");//verde
-      medsHTML.push("<div style = 'float:left;background-color: rgb(209,181,181);border:1px solid gray;width:45px;color:black;text-align:center;font-size:11px;'>perdidas</div>");//rojo
-      medsHTML.push("<div style = 'float:left;background-color:  rgb(221,221,221);border:1px solid gray;width:45px;color:black;text-align:center;font-size:11px;'>atrasado</div>")//gris
-      medsHTML.push("<div style = 'float:left;background-color:rgb(140,168,251);border:1px solid gray;width:40px;color:black;text-align:center;font-size:11px;'>futura</div></div>"); //azul
+		medsHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-no-gutter blank'>");
+		medsHTML.push("<div class='col-no-gutter leyenda' id='admin'>admin</div>");//verde
+		medsHTML.push("<div class='col-no-gutter leyenda' id='perdidas'>perdidas</div>");//rojo
+		medsHTML.push("<div class='col-no-gutter leyenda' id='atrasado'>atrasado</div>")//gris
+		medsHTML.push("<div class='col-no-gutter leyenda' id='futura'>futura</div>"); //azul
       medsHTML.push("</div>");
   
       var fecha_i_cal = new Date(initDate.getFullYear(),initDate.getMonth(),initDate.getDate(),8,0);
@@ -1250,7 +1239,7 @@ var finEjeX;
           if(hour >= 24){
           hour = hour - 24;
         }
-        medsHTML.push("<div class='col-no-gutter cell' style = '",bRight,"text-align:left;font-size: 12px;float:left;'>",hour,":00","</div>");
+			medsHTML.push("<div class='col-no-gutter cell-hour' style = '",bRight,"'>",hour,":00","</div>");
       }
       medsHTML.push("</div>");
       var medsLength = json.RECORD_DATA.QUAL.length;
@@ -1268,7 +1257,7 @@ var finEjeX;
   
         if (verdad){
           medsHTML.push("<div class='row flex-nowrap'>");
-          medsHTML.push("<div class='col-no-gutter' style ='width:255px;float:left;clear:both;font-size:11px;'>",json.RECORD_DATA.QUAL[i].ORDERED_AS,"</div>");
+				medsHTML.push("<div class='col-no-gutter titles' id='med'>",json.RECORD_DATA.QUAL[i].ORDERED_AS,"</div>");
           //FIN-CODIGO-MODIFICADO-IVAN
           var cells = new Array();
           var contenido = new Array();
@@ -1277,7 +1266,7 @@ var finEjeX;
           var ritmo = new Array();
           for(var j = 0; j < 24; j++){
             var bRight = (j == 23) ? "" : " border-right:none;";
-            cells.push("<div class='col-no-gutter cell' style = 'border:1px solid gray;" + bRight + "text-align: center;float:left;'>&nbsp;</div>");
+					cells.push("<div class='col-no-gutter cell' style = '" + bRight + "'>&nbsp;</div>");
           }
           var taskLength = json.RECORD_DATA.QUAL[i].TSKQUAL.length;
           var adminLength = json.RECORD_DATA.QUAL[i].ADMQUAL.length;
@@ -1333,7 +1322,7 @@ var finEjeX;
             if (contenido[j] != undefined){contenido_texto = contenido[j];}
             if (tip[j] != undefined){tip_texto = "<b><u>" + json.RECORD_DATA.QUAL[i].MEDNAME + "</u></b><br/>" + tip[j];}
             if (color[j] != undefined){color_texto = color[j];}
-            cells[j] = "<div class='col-no-gutter cell' data-toggle='tooltip' data-placement='top' title='"+tip_texto+"' style = 'border:1px solid gray;" + bRight + "text-align: center;float:left;font-size:11px;" + color_texto + "'>" + contenido_texto + "</div>";
+					cells[j] = "<div class='col-no-gutter cell' data-toggle='tooltip' data-placement='top' title='"+tip_texto+"' style = '"+bRight+color_texto+"'>" + contenido_texto + "</div>";
              //+ tip_texto;
           }//end for(var j = 0; j < 24;j++)
           medsHTML.push(cells.join(""))
@@ -1343,10 +1332,8 @@ var finEjeX;
     }else{
       medsHTML.push("No se encontraron resultados");
     }//end if(json.RECORD_DATA.QUAL.length > 0)
-    var medsBody = document.createElement("div");
-    medsBody.setAttribute("class","card-body");
-    document.getElementById("medSection").appendChild(medsBody);
-    medsBody.innerHTML=medsHTML.join("");
+
+	$('#medicacion-body').html(medsHTML.join("")+"</div>");
   
     $(function(){
       $('[data-toggle="tooltip"]').tooltip({html:true})
@@ -1363,19 +1350,37 @@ var finEjeX;
     this.show_ind=show
   }
   
-  function makeCollapse(htmlArray,target, id, title,card_body){
+function prepareHTML(iId)
+{
+  var bHTML=[];
+  var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
+  bHTML+='<div class="accordion" id="accordion">';
+  var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
+  var catHTML = makeCollapse('cateteresSection','cateteres','Catéteres, sondas y tubos',null);
+  var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
+  var ventHTML = makeCollapse('ventSection','ventilacion','Ventilación',null);
+  var hemoHTML = makeCollapse('hemoSection','hemo','Hemodinámica',null);
+  var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
+  var bhHTML = makeCollapse('bhSection','balanceHidrico','Balance Hídrico',null);
+  var medHTML = makeCollapse('medSection','medicacion','Medicación',null);
+	bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
+				'</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
+  $("#"+iId).html(bHTML);
+}
+
+function makeCollapse(target, id, title,card_body){
+	var htmlArray = [];
     htmlArray.push('<div class="card">');
-    htmlArray.push('<div class="card-header" id=',id,'>');
+  htmlArray.push('<div class="card-header" id='+id+'>');
     htmlArray.push('<h6 class="mb-0">');
-    htmlArray.push('<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#',target,'" aria-expanded="true" aria-controls="collapseOne">');
+  htmlArray.push('<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#'+target+'" aria-expanded="true" aria-controls="collapseOne">');
     htmlArray.push(title,'</button></h6></div>');
-    htmlArray.push('<div id="',target,'" class="collapse show" aria-labelledby="',id,'" data-parent="#accordion">');
-    if(card_body!=null){
-      htmlArray.push('<div class="card-body">');
+  htmlArray.push('<div id="'+target+'" class="collapse show" aria-labelledby="'+id+'" data-parent="#accordion">');
+	htmlArray.push('<div class="card-body" id="'+id+'-body">');
+	if(card_body!=null)
       htmlArray.push(card_body);
       htmlArray.push('</div>');
-    }
-    htmlArray.push('</div></div>');
+	return htmlArray.join("");
   }
   
   function prepareData()
@@ -1492,7 +1497,7 @@ var finEjeX;
   
   function dibujaGrafica(iId, iSelect, assignedTo, iDataSeries, iXAxisObj, iYAxisObj)
   {
-    var tPlot = null, shownData = [], sSeries = [], bSeries = [], bHTML = [], sCnt = 0, oneShown = false, bpValuesShown='', invLines = [];
+  var tPlot = null, shownData = [], sSeries = [], bSeries = [], bHTML = [], sCnt = 0, oneShown = false;
     for (let i=0;i<iDataSeries.length;i++,sCnt++){
       shownData.push(iDataSeries[i][0]);
       sSeries.push(iDataSeries[i][1]);
@@ -1543,8 +1548,6 @@ var finEjeX;
         bMarker.drawLine([0,12],[19,12],context, false, bSeries[i]);
         }
       }
-      
-    resizeGraph("#"+iId);
       
     /* plotting graph */
     var opciones= {
@@ -1755,6 +1758,7 @@ var finEjeX;
   }
 
 })(window);
+
 /* Helper function for drawChoiceGraph and drawCtrGraph function (onclick event for each button) */
 function selectSeries (iBtn, mSelected, plot){
   var p = plot;
@@ -1826,29 +1830,10 @@ function seleccionaRangos (obj)
   if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
 }
 
-/* helper function for all graphs to resize accordingly */
-function resizeGraph(iPlotTarget){
-  var target = $(iPlotTarget);
-  var containerWidth = parseInt(target.parent().parent().parent().innerWidth());
-  var legend = target.parent().parent().children(".legend");
-  var legendWidth = (legend && !isNaN(parseInt(legend.innerWidth())))?parseInt(legend.innerWidth()):0;
-  var graphWidth = (containerWidth - legendWidth)*0.98;
-  target.css("width",graphWidth+"px");
-}
-
-/* helper function for showBPData, selectSeries, drawCtrGraph, drawChoiceGraph, and drawWhiskerGraph */
-function updateYAxis(iSeries, iAxis){
-var minVal = Number.POSITIVE_INFINITY, maxVal = Number.NEGATIVE_INFINITY;
-for (var i=0;i<iSeries.length;i++){
-  if (iSeries[i].show && iSeries[i].minY != null && iSeries[i].maxY != null){
-    minVal = Math.min(minVal,parseFloat(iSeries[i].minY));
-    maxVal = Math.max(maxVal,parseFloat(iSeries[i].maxY));
-  }
-}
-var isPositive = (minVal > 0);
-var newMax = (maxVal != Number.NEGATIVE_INFINITY)?maxVal*1.1:1;
-var newMin = (minVal != Number.POSITIVE_INFINITY)?minVal*0.9:0;
-newMin = (isPositive && newMin<0)?0:newMin;
-iAxis.min = newMin;
-iAxis.max = (newMin==newMax)?newMax+1:newMax;
-}
+$(window).resize(function() {
+	let plot = auxPlot;
+	if (auxPlot)
+		auxPlot.destroy();
+	auxPlot = plot;
+	auxPlot.replot();
+});

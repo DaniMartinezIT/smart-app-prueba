@@ -42,15 +42,127 @@ header{
 }
 
 .cell {
-    -ms-flex: 0 0 41px;
-    flex: 0 0 41px;
+    -ms-flex: 0 0 3%;
+    flex: 0 0 3%;
+    font-size:1vw;
+    border:1px solid gray;
+    text-align: center;
+    float:left;
+}
+
+.sub-cell {
+    -ms-flex: 0 0 3.1%;
+    flex: 0 0 3.1%;
+    font-size:1vw;
+    border:1px solid gray;
+    text-align: center;
+    float:left;
+}
+
+.cell-hour {
+    -ms-flex: 0 0 3%;
+    flex: 0 0 3%;
+    font-size:1vw;
+    text-align: left;
+    float:left;
+}
+
+.cell-img {
+    -ms-flex: 0 0 3%;
+    flex: 0 0 3%;
+    font-size:1.2vw;
+    text-align: center;
+    float:left;
+    border:1px solid gray;
+    background-image:url(../img/4022_16.png);
+    background-repeat:no-repeat;
+    background-position:center;
+}
+.main-title{
+    -ms-flex: 0 0 19%;
+    flex: 0 0 19%;
+    font-size:1.3vw;
+    float:left;
+}
+.main-title-lg{
+    -ms-flex: 0 0 19%;
+    flex: 0 0 19%;
+    font-size:1.4vw;
+    float:left;
+}
+
+.titles{
+    -ms-flex: 0 0 19%;
+    flex: 0 0 19%;
+    font-size:1vw;
+    text-indent: 10px; 
+    float:left;
+    clear:both;
+    margin-top:5px;
+    margin-bottom:5px
+}
+
+.sub-titles{
+    -ms-flex: 0 0 18.1%;
+    flex: 0 0 18.1%;
+    font-size:1vw;
+    text-indent: 10px; 
+    float:left;
+    clear:both;
+    margin-top:5px;
+    margin-bottom:5px
+}
+
+.sub-titles-lg{
+    -ms-flex: 0 0 18.1%;
+    flex: 0 0 18.1%;
+    font-size:1.1vw;
+    text-indent: 10px; 
+    float:left;
+    clear:both;
+    margin-top:5px;
+    margin-bottom:5px
+}
+
+.blank{
+    -ms-flex: 0 0 19%;
+    flex: 0 0 19%;
+}
+.blank-lg{
+    -ms-flex: 0 0 72%;
+    flex: 0 0 72%;
+}
+.leyenda{
+    -ms-flex: 0 0 5%;
+    flex: 0 0 5%;
+    float:left;
+    border:1px solid gray;
+    color:black;
+    text-align:center;
+    font-size:1vw;
+}
+#admin{
+    background-color:rgb(146,190,139);
+}
+#perdidas{
+    background-color: rgb(209,181,181);
+}
+#atrasado{
+    background-color: rgb(221,221,221);
+}
+#futura{
+    background-color:rgb(140,168,251);
+}
+#med{
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    font-size:1vw;
 }
 /* Graph style */
 #resetBtns {position: relative; width: 20%; white-space: nowrap; border: 1px solid #ddd;height:125px;overflow:auto;margin:2px 39px 2px 0;} 
-#vsSelect, #bpSelect {position: relative;  white-space: nowrap;border: 1px solid #ddd;overflow:auto;margin:2px 0; overflow:scroll; overflow-x:hidden; overflow-y:hidden;
-                      font-size:80%; margin-left:20px;}
-#ctrGraph {height: 125px; position: relative;}
-#vsGraph, #bpGraph {height: 300px; position: relative; margin-left: 20px;}
+#vsSelect, #bpSelect {position: relative;  white-space: nowrap;border: 1px solid #ddd;overflow:auto;margin:2px; overflow:scroll; overflow-y:hidden;
+                      font-size:80%; margin-left:20px; height:50%;width:22%;}
+#vsGraph, #bpGraph {height: 350px; position: relative; margin-left: 10px;}
 
 div.btn {display:inline-block;position:relative;cursor: pointer;vertical-align:middle;margin-right:2px; height:23px; width: 23px; border: 1px solid #C9DFE5; background: #FFF;}
 div.series-on{ background-color: #eeeeee;}
@@ -58,5 +170,6 @@ div.series-off{ border-right: 3px solid #C9DFE5; border-bottom: 3px solid #C9DFE
 div.btns div.closed {display:none;}
 
 canvas.buttons{margin-left:-10px;margin-top:-7px;}
+
 
 
