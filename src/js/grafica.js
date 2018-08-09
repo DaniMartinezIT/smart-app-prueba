@@ -82,7 +82,7 @@ var finEjeX;
     if (pt.gender === "male")
       headerHTML.push("<img class='align-selft-start mr-3' src='./src/images/mpatient.png' alt='logo male patient'>");
     else if (pt.gender === "female") 
-      headerHTML.push("<img class='img-fluid align-selft-start mr-3' width='25px' height='25px' src='./src/images/fpatient.png' alt='logo female patient'>");
+      headerHTML.push("<img class='img-fluid align-selft-start mr-3' width='125px' height='125px' src='./src/images/fpatient.png' alt='logo female patient'>");
     headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
     headerHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-4'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div>");
     headerHTML.push(getPatientDetail(pt));
@@ -1511,7 +1511,7 @@ var finEjeX;
         if (iDataSeries[i][1] && iDataSeries[i][1].color && iDataSeries[i][1].markerOptions){
           bSeries.push({size:8,color:iDataSeries[i][1].color,style:iDataSeries[i][1].markerOptions.style});
         }
-        bHTML.push("<div class='container-fluid'<div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
+        bHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-2'><div class='btns'><div onclick=\"selectSeries(this,",10,",",assignedTo,");\" id='");
         bHTML.push(iSelect,"btn_",sCnt);
         bHTML.push("' class='btn ",((iDataSeries[i][1].show)?"series-on":"series-off"),"'>");
         bHTML.push("<canvas class='buttons' id='",iSelect,"canvas_",sCnt,"'></canvas>");
