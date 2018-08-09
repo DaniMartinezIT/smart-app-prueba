@@ -38,8 +38,8 @@ var finEjeX;
                     }
                   });
         var meds =   smart.patient.api.fetchAll({type: 'MedicationAdministration'});
+        console.log(patient);
         console.log(meds);
-        console.log(pt);
 
         $.when(pt, obv).fail(onError);
 
