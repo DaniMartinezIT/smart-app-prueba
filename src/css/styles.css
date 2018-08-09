@@ -165,7 +165,7 @@ header{
 #resetBtns {position: relative; width: 20%; white-space: nowrap; border: 1px solid #ddd;height:125px;overflow:auto;margin:2px 39px 2px 0;} 
 #vsSelect, #bpSelect {position: relative;  white-space: nowrap;border: 1px solid #ddd;overflow:auto;margin:2px; overflow:scroll; overflow-y:hidden;
                       font-size:80%; margin-left:20px; height:50%;width:22%;}
-#vsGraph, #bpGraph {height: 350px; position: relative; margin-left: 10px;}
+#vsGraph, #bpGraph {height: 350px; position: relative; margin-left: 10px;margin-right:50px;}
 
 div.btn {display:inline-block;position:relative;cursor: pointer;vertical-align:middle;margin-right:2px; height:23px; width: 23px; border: 1px solid #C9DFE5; background: #FFF;}
 div.series-on{ background-color: #eeeeee;}
