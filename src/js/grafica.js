@@ -58,7 +58,7 @@ var finEjeX;
   };
   
   function prepareHTML(){
-    $("#load").hide();
+    $("#loading").hide();
     var bHTML=[];
     var signosVitalesBody='<div class="row flex-nowrap"><div class="col-lg-3" id="vsSelect"></div><div class="col-lg-9" id="vsGraph"></div></div></div>';
     bHTML+='<div class="accordion" id="accordion">';
