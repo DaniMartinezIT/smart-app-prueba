@@ -87,8 +87,8 @@ var finEjeX;
       headerHTML.push("<img class='align-selft-start mr-3'  width='125px' height='125px' src='./src/images/mpatient.png' alt='logo male patient'>");
     else if (pt.gender === "female") 
       headerHTML.push("<img class='img-fluid align-selft-start mr-3' width='125px' height='125px' src='./src/images/fpatient.png' alt='logo female patient'>");
-    headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
-    headerHTML.push("<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-4'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div></div>");
+    headerHTML.push("<div class='container-fluid'><div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
+    headerHTML.push("<div class='row flex-nowrap'><div class='col-md-4'><b>Nombre y apellidos:</b> "+getPatientName(pt)+"</div></div>");
     headerHTML.push(getPatientDetail(pt));
     headerHTML.push("</div></div>");
     $("#patient_name").append(headerHTML.join(" "));
@@ -194,14 +194,17 @@ var finEjeX;
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
 
-    var v1 = "<div class='container-fluid'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'><li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
-    var v2 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
-    var v3 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
-    var v4 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhAyerTotal'>ml</li>";
-    var v5 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
-    var v6 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
-    var v7 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    jsHTML.push(v1,v2,v3,v4,v5,v6,v7);
+    var v1 = "<div class='container-fluid'><div class='row flex-nowrap'><div class='col-xl-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
+    var v2 = "<li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
+    var v3 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
+    var v4 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
+    var v5 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhAyerTotal'>ml</li>";
+    var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
+    var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
+    var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
+    var v9 = "<div class='col-xl-3'><div class='input-group date' data-provide='datepicker'><input type='text' class='form-control'><div class='input-group-addon'>";
+    var v10 = "<span class='glyphicon glyphicon-th'></span></div></div></div></div></div>"
+    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
