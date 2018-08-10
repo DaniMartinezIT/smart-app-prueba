@@ -201,7 +201,7 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-  let codingCode, fecha, valor, display, seq, unidades, fechaFormateada, y, m, d, h, min;
+  let codingCode, fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
@@ -215,47 +215,49 @@ var finEjeX;
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
-        valor = component.valueQuantity.value;
+        valor.push(component.valueQuantity.value);
         if(typeof valor != 'undefined'){
-          code = component.code.coding[0].code;
-          unidades = component.valueQuantity.unit;
+          code.push(component.code.coding[0].code);
+          unidades.push(component.valueQuantity.unit);
         }
       });
     }
-    switch (code)
-    {
-      case '2710-2':
-        display = 'Saturación O2 ';
-        seq=1;
-        break;
-      case '8328-7':
-        display = 'Temperatura ';
-        seq=2;
-        break;
-      case '9279-1':
-        display = 'Frecuencia respiratoria ';
-        seq=3;
-        break;
-      case '8867-4':
-        display = 'Frecuencia cardíaca ';
-        seq=4;
-        break;
-      case '60985-9':
-        display = 'PVC ';
-        seq=5;
-        break; 
-      case '8480-6':
-        display = 'TAS ';
-        seq=6;
-        break;
-      case '8462-4':
-        display = 'TAD ';
-        seq=7;
-        break;
-      case '8478-0':
-        display = 'TAM ';
-        seq=8;
-        break; 
+    for(let i=0;i<valor.length;i++){
+      switch (code[i])
+      {
+        case '2710-2':
+          display[i] = 'Saturación O2 ';
+          seq[i] = 1;
+          break;
+        case '8328-7':
+          display[i] = 'Temperatura ';
+          seq[i] = 2;
+          break;
+        case '9279-1':
+          display[i] = 'Frecuencia respiratoria ';
+          seq[i] = 3;
+          break;
+        case '8867-4':
+          display[i] = 'Frecuencia cardíaca ';
+          seq[i] = 4;
+          break;
+        case '60985-9':
+          display[i] = 'PVC ';
+          seq[i] = 5;
+          break; 
+        case '8480-6':
+          display[i] = 'TAS ';
+          seq[i] = 6;
+          break;
+        case '8462-4':
+          display[i] = 'TAD ';
+          seq[i] = 7;
+          break;
+        case '8478-0':
+          display[i] = 'TAM ';
+          seq[i] = 8;
+          break; 
+      }
     }
     y = addZeros(fecha.getFullYear());
     m = addZeros(fecha.getMonth()+1);
@@ -263,7 +265,8 @@ var finEjeX;
     h = addZeros(fecha.getHours());
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
-    data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades, 1));
+    for(let i=0;i<valor.length;i++)
+      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades, 1));
   }
   
   function getCateteres(json){
