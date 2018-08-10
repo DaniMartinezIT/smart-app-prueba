@@ -209,9 +209,9 @@ var finEjeX;
     fecha = new Date(observation.effectiveDateTime);
 
     if(codingCode != '75367002' && codingCode != '55284-4'){
-      valor = observation.valueQuantity.value;
-      unidades = observation.valueQuantity.unit;
-      code = codingCode;
+      valor.push(observation.valueQuantity.value);
+      unidades.push(observation.valueQuantity.unit);
+      code.push(codingCode);
     }
     else if(codingCode == '55284-4'){
       observation.component.forEach(function(component){
@@ -267,6 +267,7 @@ var finEjeX;
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     for(let i=0;i<valor.length;i++)
       data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades, 1));
+    console.log(data);
   }
   
   function getCateteres(json){
