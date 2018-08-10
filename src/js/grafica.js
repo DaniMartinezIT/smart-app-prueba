@@ -185,15 +185,15 @@ var finEjeX;
   function getDemographics(json){
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
-    var v1 = "<span class='d-block p-2 bg-dark text-white' style='float:left;'><dl class='dmg-info'><dt><span style='font-weight:bold;'>D&iacute;as UCI:</span></dt><dd class='dmg-dob'><span style='font-weight:bold;'>";
-    var v2 = "</span></dd><dt><span id='bhFechaAyer'>BH Ayer - Ingresos:</span></dt><dd><span id='bhAyerIngresos' style='color:rgb(102, 153, 0);'>";
-    var v3 = "ml</span></dd><dt><span>Egresos:</span></dt><dd><span id='bhAyerEgresos' style='color:rgb(255, 102, 0);'>";
-    var v4 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhAyerTotal' style='font-weight:bold;'>";
-    var v5 = "ml</span></dd><dt><span>| BH desde ingreso en UCI - Ingresos:</span></dt><dd><span id='bhUciIngresos' style='color:rgb(102, 153, 0);'>";
-    var v6 = "ml</span></dd><dt><span>Egresos:</span></dt><dd><span id='bhUciEgresos' style='color:rgb(255, 102, 0);'>";
-    var v7 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhUciTotal' style='font-weight:bold;'>";
-    var v8 = "ml</span></dd></dl></span></span>";
-    jsHTML.push(v1,json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS,v2,v3,v4,v5,v6,v7,v8);
+
+    var v1 = "<span class='d-block p-2 bg-dark text-white'><ul class='list-inline'><li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
+    var v2 = "<li class='list-inline-item' id='bhFechaAyer'>BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
+    var v3 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
+    var v4 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhAyerTotal'>ml</li>";
+    var v5 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
+    var v6 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
+    var v7 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span>";
+    jsHTML.push(v1,json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS,v2,v3,v4,v5,v6,v7);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
