@@ -45,6 +45,7 @@ var finEjeX;
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
           console.log(patient);
           obv.forEach(function(obv){
+            console.log(obv);
             getSignosVitales(obv);
           });
           meds.forEach(function(meds){
@@ -1423,7 +1424,6 @@ var finEjeX;
   function prepareData()
   {
     data.sort(compare);
-  
     var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
     shownSeries = false,shownLabel = false,
     vsColors = [
