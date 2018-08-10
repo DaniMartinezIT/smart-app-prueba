@@ -96,12 +96,12 @@ var finEjeX;
 
   function getPatientName(pt) {
     if (pt.name) {
+      console.log(pt.name);
+      console.log(pt.name.map());
       var names = pt.name.map(function (name) {
             return name.given.join("") + " " + name.family.join("");
         }
       )
-      console.log(pt.name);
-      console.log(pt.name.map());
       return names;
     } else {
       return "anonymous";
