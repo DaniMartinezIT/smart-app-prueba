@@ -1429,105 +1429,108 @@ var finEjeX;
   {
     data.sort(compare);
     console.log(data);
-    var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
-    shownSeries = false,shownLabel = false,
-    vsColors = [
-    'rgb(12,185,206)',//Saturacion
-    'rgb(228,26,28)',//Temperatura otica 255,74,0
-    'rgb(0,255,0)',//Frecuencia respiratoria
-    'rgb(244,164,98)',//FC
-    'rgb(0,100,28)',//PVC
-    'rgb(228,26,28)',//PAS
-    'rgb(228,26,28)',//PAD
-    'rgb(16,68,4)',//
-    'rgb(0,0,100)',//
-    'rgb(0,0,0)'
-    ],
-    axisColor = [false,false,false,false,false,false];
-    for(var i=0;i<data.length;i++)
-    {
-      var tamano = 4;
-  
-      if(prevSeq!=data[i].seq)
-      {
-        var lineInd = true;
-        if(data[i].seq === 4){//FC
-          var axis = "y3axis";
-          axisColor[2] = true;
-        }else if(data[i].seq === 1){//Saturacion
-          var axis = "y5axis";
-          axisColor[4] = true;
-        }else if (data[i].seq === 2){ //Temperatura
-          var axis = "y2axis";
-          axisColor[1] = true;
-        }else if (data[i].seq === 5){//PVC
-          var axis = "y4axis";
-          lineInd = false;
-          tamano = 8;
-          axisColor[3] = true;
-        }else if (data[i].seq === 6 || data[i].seq === 7 || data[i].seq === 8){//TAS-TAD-TAM
-          var axis = "yaxis";
-          lineInd = false;
-          axisColor[0] = true;
-        }else if (data[i].seq === 3){//FR
-          var axis = "y6axis";
-          lineInd = false;
-          tamano = 10;
-          axisColor[5] = true;
-        }
-  
-        vsData.push([[]]);
-        vsSeq++;
-        prevSeq = data[i].seq;
-  
-        if (data[i].show_ind == 1){
-          shownSeries = true;
-          shownLabel = true;
-        }
-  
-        vsData[vsSeq].push({xaxis:'x2axis',yaxis: axis, minY:parseFloat(data[i].yValor),maxY:parseFloat(data[i].yValor),
-        lineWidth:2, showLine: lineInd, show:shownSeries,showLabel:shownLabel,label:data[i].display+data[i].unidades,
-        color:vsColors[(parseInt(data[i].seq)-1)%(vsColors.length)],
-        markerOptions:{show:true,size:tamano,style:vsShapes[(parseInt(data[i].seq)-1)%(vsShapes.length)], shadow: true},
-        pointLabels:{show:false}});
-      }
-  
-      vsData[vsSeq][0].push([data[i].xValor,data[i].yValor,data[i].display+data[i].unidades]);
-      vsData[vsSeq][1].minY = (vsData[vsSeq][1].minY > parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].minY;
-      vsData[vsSeq][1].maxY = (vsData[vsSeq][1].maxY < parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].maxY;
-      vsData[vsSeq][1].seq = data[i].seq;
-    }
-  
-    let dtMin=data[0].xValor;
-    let dtMax=data[0].xValor;
-  
-    for(let i = 0; i<data.length;i++)
-    {
-      let v = data[i].xValor;
-      dtMin = (v<dtMin) ? v : dtMin;
-      dtMax = (v>dtMax) ? v : dtMax;
-    }
-    let endDate=new Date();
-    let startDate=new Date();
-    endDate.setISO8601(dtMax);
-    startDate.setISO8601(dtMin);
-  
-    inicioEjeX=startDate;
-    finEjeX=endDate;
-  
-    let yAxis = {show:true, min:0, max:250, ticks:[0,25,50,75,100,125,150,175,200,225,250],useSeriesColor: axisColor[0], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//TAS-TAD
-    let y2Axis = {show:true, min:32, max:42, ticks:[32,33,34,35,36,37,38,39,40,41,42],useSeriesColor: axisColor[1],  tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Temperatura
-    let y3Axis = {show:true, min:0, max:220, ticks:[0,22,44,66,88,110,132,154,176,198,220],useSeriesColor: axisColor[2],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//FC
-    let y4Axis = {show:true, min:-20, max:30, ticks:[-15,-10,-5,0,5,10,15,20,25,30,35], useSeriesColor:axisColor[3], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//PVC
-    let y5Axis = {show:true, min:80, max:100, ticks:[80,82,84,86,88,90,92,94,96,98,100],useSeriesColor: axisColor[4],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Saturacion
-    let y6Axis = {show:true, min: 0, max: 50, ticks:[0,5,10,15,20,25,30,35,40,45,50], useSeriesColor: axisColor[5], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:' %#d'}, pad:0};//FR
     
-    let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true, formatString: '%H'}, ticksInterval: '1 hour', useDST:false, autoscale:false, pad:1, min:startDate.getTime(), max:endDate.getTime()};
-  
-    if (vsData.length>0 && vsData[0].length>0){
-      gPlots.push(dibujaGrafica('vsGraph','vsSelect','gPlots['+gPlots.length+']',vsData, xAxis, [yAxis, y2Axis, y3Axis, y4Axis, y5Axis, y6Axis]));
-    }
-  
+    if(data.length>0){
+      var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
+      shownSeries = false,shownLabel = false,
+      vsColors = [
+      'rgb(12,185,206)',//Saturacion
+      'rgb(228,26,28)',//Temperatura otica 255,74,0
+      'rgb(0,255,0)',//Frecuencia respiratoria
+      'rgb(244,164,98)',//FC
+      'rgb(0,100,28)',//PVC
+      'rgb(228,26,28)',//PAS
+      'rgb(228,26,28)',//PAD
+      'rgb(16,68,4)',//
+      'rgb(0,0,100)',//
+      'rgb(0,0,0)'
+      ],
+      axisColor = [false,false,false,false,false,false];
+      for(var i=0;i<data.length;i++)
+      {
+        var tamano = 4;
+    
+        if(prevSeq!=data[i].seq)
+        {
+          var lineInd = true;
+          if(data[i].seq === 4){//FC
+            var axis = "y3axis";
+            axisColor[2] = true;
+          }else if(data[i].seq === 1){//Saturacion
+            var axis = "y5axis";
+            axisColor[4] = true;
+          }else if (data[i].seq === 2){ //Temperatura
+            var axis = "y2axis";
+            axisColor[1] = true;
+          }else if (data[i].seq === 5){//PVC
+            var axis = "y4axis";
+            lineInd = false;
+            tamano = 8;
+            axisColor[3] = true;
+          }else if (data[i].seq === 6 || data[i].seq === 7 || data[i].seq === 8){//TAS-TAD-TAM
+            var axis = "yaxis";
+            lineInd = false;
+            axisColor[0] = true;
+          }else if (data[i].seq === 3){//FR
+            var axis = "y6axis";
+            lineInd = false;
+            tamano = 10;
+            axisColor[5] = true;
+          }
+    
+          vsData.push([[]]);
+          vsSeq++;
+          prevSeq = data[i].seq;
+    
+          if (data[i].show_ind == 1){
+            shownSeries = true;
+            shownLabel = true;
+          }
+    
+          vsData[vsSeq].push({xaxis:'x2axis',yaxis: axis, minY:parseFloat(data[i].yValor),maxY:parseFloat(data[i].yValor),
+          lineWidth:2, showLine: lineInd, show:shownSeries,showLabel:shownLabel,label:data[i].display+data[i].unidades,
+          color:vsColors[(parseInt(data[i].seq)-1)%(vsColors.length)],
+          markerOptions:{show:true,size:tamano,style:vsShapes[(parseInt(data[i].seq)-1)%(vsShapes.length)], shadow: true},
+          pointLabels:{show:false}});
+        }
+    
+        vsData[vsSeq][0].push([data[i].xValor,data[i].yValor,data[i].display+data[i].unidades]);
+        vsData[vsSeq][1].minY = (vsData[vsSeq][1].minY > parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].minY;
+        vsData[vsSeq][1].maxY = (vsData[vsSeq][1].maxY < parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].maxY;
+        vsData[vsSeq][1].seq = data[i].seq;
+      }
+    
+      let dtMin=data[0].xValor;
+      let dtMax=data[0].xValor;
+    
+      for(let i = 0; i<data.length;i++)
+      {
+        let v = data[i].xValor;
+        dtMin = (v<dtMin) ? v : dtMin;
+        dtMax = (v>dtMax) ? v : dtMax;
+      }
+      let endDate=new Date();
+      let startDate=new Date();
+      endDate.setISO8601(dtMax);
+      startDate.setISO8601(dtMin);
+    
+      inicioEjeX=startDate;
+      finEjeX=endDate;
+    
+      let yAxis = {show:true, min:0, max:250, ticks:[0,25,50,75,100,125,150,175,200,225,250],useSeriesColor: axisColor[0], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//TAS-TAD
+      let y2Axis = {show:true, min:32, max:42, ticks:[32,33,34,35,36,37,38,39,40,41,42],useSeriesColor: axisColor[1],  tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Temperatura
+      let y3Axis = {show:true, min:0, max:220, ticks:[0,22,44,66,88,110,132,154,176,198,220],useSeriesColor: axisColor[2],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//FC
+      let y4Axis = {show:true, min:-20, max:30, ticks:[-15,-10,-5,0,5,10,15,20,25,30,35], useSeriesColor:axisColor[3], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//PVC
+      let y5Axis = {show:true, min:80, max:100, ticks:[80,82,84,86,88,90,92,94,96,98,100],useSeriesColor: axisColor[4],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Saturacion
+      let y6Axis = {show:true, min: 0, max: 50, ticks:[0,5,10,15,20,25,30,35,40,45,50], useSeriesColor: axisColor[5], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:' %#d'}, pad:0};//FR
+      
+      let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true, formatString: '%H'}, ticksInterval: '1 hour', useDST:false, autoscale:false, pad:1, min:startDate.getTime(), max:endDate.getTime()};
+    
+      if (vsData.length>0 && vsData[0].length>0){
+        gPlots.push(dibujaGrafica('vsGraph','vsSelect','gPlots['+gPlots.length+']',vsData, xAxis, [yAxis, y2Axis, y3Axis, y4Axis, y5Axis, y6Axis]));
+      }
+    }//if (data.length>0)
+   
     searchDemographics();
     searchCateteres();
     searchVentilacion();
