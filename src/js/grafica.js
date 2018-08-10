@@ -43,6 +43,7 @@ var finEjeX;
         $.when(pt, obv, meds).fail(onError);
 
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
+          console.log(patient);
           obv.forEach(function(obv){
             getSignosVitales(obv);
           });
@@ -95,7 +96,7 @@ var finEjeX;
   function getPatientName(pt) {
     if (pt.name) {
       var names = pt.name.map(function (name) {
-        return name.given.join(" ") + " " + name.family.join(" ");
+        return name.given.join("") + " " + name.family.join("");
       });
       return names.join(" / ");
     } else {
