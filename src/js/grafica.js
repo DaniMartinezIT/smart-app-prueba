@@ -293,7 +293,9 @@ var finEjeX;
             seq = -1;
             showInd = 0; 
         }
-        data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades,showInd));  
+        if(showInd != 0){
+          data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades,showInd));  
+        }
       });
     }
   }
@@ -1518,7 +1520,7 @@ var finEjeX;
           markerOptions:{show:true,size:tamano,style:vsShapes[(parseInt(data[i].seq)-1)%(vsShapes.length)], shadow: true},
           pointLabels:{show:false}});
         }
-    
+        console.log(vsData);
         vsData[vsSeq][0].push([data[i].xValor,data[i].yValor,data[i].display+data[i].unidades]);
         vsData[vsSeq][1].minY = (vsData[vsSeq][1].minY > parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].minY;
         vsData[vsSeq][1].maxY = (vsData[vsSeq][1].maxY < parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].maxY;
