@@ -212,7 +212,7 @@ var finEjeX;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode.push(observationCodeCoding.code);
     });
-
+    console.log(codingCode);
     fecha = new Date(observation.effectiveDateTime);
     if(observation.status == 'final'){
       for(let i=0;i<codingCode.length;i++){
