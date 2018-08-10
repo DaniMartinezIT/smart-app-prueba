@@ -269,7 +269,7 @@ var finEjeX;
           break; 
         default:
           display[i] = '';
-          seq[i] = 0;
+          seq[i] = -1;
           showInd = 0;
           break;
       }
