@@ -264,9 +264,9 @@ var finEjeX;
     h = addZeros(fecha.getHours());
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
-    for(let i=0;i<valor.length;i++)
+    for(let i=0;i<valor.length;i++){
       data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades, 1));
-    console.log(data);
+    }
   }
   
   function getCateteres(json){
@@ -1424,6 +1424,7 @@ var finEjeX;
   function prepareData()
   {
     data.sort(compare);
+    console.log(data);
     var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
     shownSeries = false,shownLabel = false,
     vsColors = [
