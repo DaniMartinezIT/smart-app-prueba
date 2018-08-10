@@ -211,7 +211,7 @@ var finEjeX;
 
     fecha = new Date(observation.effectiveDateTime);
 
-    if(codingCode != '75367002' && codingCode != '55284-4'){
+    if(codingCode != '75367002' && codingCode != '55284-4'  && codingCode != '55284-4'){
       valor.push(observation.valueQuantity.value);
       unidades.push(observation.valueQuantity.unit);
       code.push(codingCode);
@@ -225,6 +225,7 @@ var finEjeX;
         }
       });
     }
+    else if(codingCode == '')
     for(let i=0;i<valor.length;i++){
       switch (code[i])
       {
@@ -269,7 +270,7 @@ var finEjeX;
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     for(let i=0;i<valor.length;i++){
-      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades, 1));
+      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades[i], 1));
     }
   }
   
