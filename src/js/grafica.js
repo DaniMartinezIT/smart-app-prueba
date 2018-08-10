@@ -217,6 +217,7 @@ var finEjeX;
     if(observation.status == 'final'){
       for(let i=0;i<codingCode.length;i++){
         if(codingCode[i] != '75367002' && codingCode[i] != '55284-4' && codingCode[i] != '8310-5'){
+          console.log(observation);
           valor.push(observation.valueQuantity.value);
           unidades.push(observation.valueQuantity.unit);
           code.push(codingCode);
