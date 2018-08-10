@@ -206,7 +206,7 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-  let codingCode, fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min;
+  let codingCode, fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min, showInd=1;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
@@ -263,6 +263,11 @@ var finEjeX;
           display[i] = 'TAM ';
           seq[i] = 8;
           break; 
+        default:
+          display[i] = '';
+          seq[i] = 0;
+          showInd = 0;
+          break;
       }
     }
     y = addZeros(fecha.getFullYear());
@@ -272,7 +277,7 @@ var finEjeX;
     min = addZeros(fecha.getMinutes());
     fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
     for(let i=0;i<valor.length;i++){
-      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades[i], 1));
+      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades[i], showInd));
     }
   }
   
