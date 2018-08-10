@@ -208,26 +208,28 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-  let codingCode, fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min, showInd=1;
+  let codingCode=[], fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min, showInd=1;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode = observationCodeCoding.code;
     });
 
     fecha = new Date(observation.effectiveDateTime);
     if(observation.status == 'final'){
-      if(codingCode != '75367002' && codingCode != '55284-4'){
-        valor.push(observation.valueQuantity.value);
-        unidades.push(observation.valueQuantity.unit);
-        code.push(codingCode);
-      }
-      else if(codingCode == '55284-4'){
-        observation.component.forEach(function(component){
-          valor.push(component.valueQuantity.value);
-          if(typeof valor != 'undefined'){
-            code.push(component.code.coding[0].code);
-            unidades.push(component.valueQuantity.unit);
-          }
-        });
+      for(let i=0;i<codingCode.length;i++){
+        if(codingCode[i] != '75367002' && codingCode[i] != '55284-4' && codingCode[i] != '8310-5'){
+          valor.push(observation.valueQuantity.value);
+          unidades.push(observation.valueQuantity.unit);
+          code.push(codingCode);
+        }
+        else if(codingCode == '55284-4'){
+          observation.component.forEach(function(component){
+            valor.push(component.valueQuantity.value);
+            if(typeof valor != 'undefined'){
+              code.push(component.code.coding[0].code);
+              unidades.push(component.valueQuantity.unit);
+            }
+          });
+        }
       }
     }
     for(let i=0;i<valor.length;i++){
