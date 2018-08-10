@@ -45,6 +45,7 @@ var finEjeX;
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
           console.log(patient);
           obv.forEach(function(obv){
+            console.log(obv);
             getSignosVitales(obv);
           });
           meds.forEach(function(meds){
@@ -83,7 +84,7 @@ var finEjeX;
 
     headerHTML.push("<div class='media'>");
     if (pt.gender === "male")
-      headerHTML.push("<img class='align-selft-start mr-3' src='./src/images/mpatient.png' alt='logo male patient'>");
+      headerHTML.push("<img class='align-selft-start mr-3'  width='125px' height='125px' src='./src/images/mpatient.png' alt='logo male patient'>");
     else if (pt.gender === "female") 
       headerHTML.push("<img class='img-fluid align-selft-start mr-3' width='125px' height='125px' src='./src/images/fpatient.png' alt='logo female patient'>");
     headerHTML.push("<div class='media-body'><h5 class='mt-0'>Datos demográficos</h5>");
