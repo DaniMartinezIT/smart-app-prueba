@@ -3,6 +3,7 @@ var gPlots=[];
 var rangos=[];
 var graphIndex = 0;
 var initDate = new Date();
+var balanceInfo;
 var auxPlot;
 var inicioEjeX;
 var finEjeX;
@@ -117,6 +118,15 @@ var finEjeX;
     }
   }
 
+  function searchDemographics(){
+    $.getJSON("https://esjcast.github.io/esjcast_resources/json/demographics.json", function(json){
+      getDemographics(json);
+    })
+    .fail(function(){
+      alert("Error al cargar los datos demográficos");
+    })
+  }
+
   function searchCateteres(){
     $.getJSON("https://esjcast.github.io/esjcast_resources/json/cateteres.json", function(json){
       getCateteres(json);
@@ -169,6 +179,23 @@ var finEjeX;
     .fail(function(){
       alert("Error al cargar los datos de medicación");
     })
+  }
+
+  function getDemographics(json){
+    var jsHTML = [];
+    balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
+    var v1 = "<span style='float:left;'><dl class='dmg-info'><dt><span style='font-weight:bold;'>D&iacute;as UCI:</span></dt><dd class='dmg-dob'><span style='font-weight:bold;'>";
+    var v2 = "</span></dd><dt><span id='bhFechaAyer'>BH Ayer - Ingresos:</span></dt><dd><span id='bhAyerIngresos' style='color:rgb(102, 153, 0);'>";
+    var v3 = "ml</span></dd><dt><span>Egresos:</span></dt><dd><span id='bhAyerEgresos' style='color:rgb(255, 102, 0);'>";
+    var v4 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhAyerTotal' style='font-weight:bold;'>";
+    var v5 = "ml</span></dd><dt><span>| BH desde ingreso en UCI - Ingresos:</span></dt><dd><span id='bhUciIngresos' style='color:rgb(102, 153, 0);'>";
+    var v6 = "ml</span></dd><dt><span>Egresos:</span></dt><dd><span id='bhUciEgresos' style='color:rgb(255, 102, 0);'>";
+    var v7 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhUciTotal' style='font-weight:bold;'>";
+    var v8 = "ml</span></dd></dl></span></span>";
+    jsHTML.push(v1,json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS,v2,v3,v4,v5,v6,v7,v8);
+    $("#balHidrico").html(jsHTML.join(""));
+    $("#balHid").show();
+    actualizarDatosBalance(initDate);
   }
   
   function getSignosVitales(observation) {
@@ -1492,6 +1519,7 @@ var finEjeX;
       gPlots.push(dibujaGrafica('vsGraph','vsSelect','gPlots['+gPlots.length+']',vsData, xAxis, [yAxis, y2Axis, y3Axis, y4Axis, y5Axis, y6Axis]));
     }
   
+    searchDemographics();
     searchCateteres();
     searchVentilacion();
     searchHemo();
@@ -1732,6 +1760,54 @@ var finEjeX;
     }
     return i;
   }
+
+//CRQ000000521204 Cálculos en funcón de la fecha seleccionada
+//Los datos están almaceados en balanceInfo que se inicializa en la carga de CERN_DEMO_BANNER_O1
+//function actualizarDatosBalance(dateString){
+function actualizarDatosBalance(fechaBusqueda){
+	var bh_ayer_ingresos = 0;
+  var bh_ayer_egresos = 0;
+  var bh_ayer_total = 0;
+  var bh_uci_ingresos = 0;
+  var bh_uci_egresos = 0;
+  var bh_uci_total = 0;
+  var fechaAux = new Date(fechaBusqueda.getTime()); //Creamos nueva fecha con el valor recibido
+  fechaAux.setDate(fechaBusqueda.getDate() - 1); //Restamos un día a la fechaBusqueda
+
+  //Creamos la fecha en formato añoMesDia con dos dígitos tanto mes como día para comparar con GRUPO.
+  var fechaHoy = parseInt(fechaBusqueda.getYear() + ("0" + (fechaBusqueda.getMonth() + 1)).slice(-2) + ("0" + fechaBusqueda.getDate()).slice(-2));
+  var fechaAyer = parseInt(fechaAux.getYear() + ("0" + (fechaAux.getMonth() + 1)).slice(-2) + ("0" + fechaAux.getDate()).slice(-2));
+
+  // Valores del record guardado en balanceInfo
+	// <ITEM>
+  //  <GRUPO type="STRING" length="8"><![CDATA[20180531]]></GRUPO>
+  //  <INGRESO type="INT" value="3236"/>
+  //  <EGRESO type="INT" value="1655"/>
+  // </ITEM>
+
+  for (var i = 0; i < balanceInfo.length; i++) {
+  	if(parseInt(balanceInfo[i].GRUPO) <= fechaHoy){
+			bh_uci_ingresos = bh_uci_ingresos + +balanceInfo[i].INGRESO;
+			bh_uci_egresos = bh_uci_egresos + +balanceInfo[i].EGRESO;
+		}
+  	if(parseInt(balanceInfo[i].GRUPO) == fechaAyer){
+ 			bh_ayer_ingresos = bh_ayer_ingresos + +balanceInfo[i].INGRESO
+			bh_ayer_egresos = bh_ayer_egresos + +balanceInfo[i].EGRESO;
+		}
+  }
+  bh_uci_total = bh_uci_ingresos - bh_uci_egresos;
+  bh_ayer_total = bh_ayer_ingresos - bh_ayer_egresos;
+
+  //Actualizar valores del DOM. Se visualiza en la barra superior.
+  $("#bhAyerIngresos").text(bh_ayer_ingresos + 'ml');
+  $("#bhAyerEgresos").text(bh_ayer_egresos + 'ml');
+  $("#bhAyerTotal").text(bh_ayer_total + 'ml');
+
+  $("#bhUciIngresos").text(bh_uci_ingresos + 'ml');
+  $("#bhUciEgresos").text(bh_uci_egresos + 'ml');
+  $("#bhUciTotal").text(bh_uci_total + 'ml');
+  $("#bhFechaAyer").text('BH ' + fechaAyer.toString().substr(6,2) + '/' + fechaAyer.toString().substr(4,2) + '/' + fechaAyer.toString().substr(0,4) + ' - Ingresos:');
+}
 
 })(window);
 
