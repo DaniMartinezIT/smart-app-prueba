@@ -222,7 +222,7 @@ var finEjeX;
           unidades.push(observation.valueQuantity.unit);
           code.push(codingCode);
         }
-        else if(codingCode == '55284-4'){
+        else if(codingCode[i] == '55284-4'){
           observation.component.forEach(function(component){
             valor.push(component.valueQuantity.value);
             if(typeof valor != 'undefined'){
