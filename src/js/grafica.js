@@ -212,7 +212,6 @@ var finEjeX;
     observation.code.coding.forEach(function (observationCodeCoding) {
       codingCode.push(observationCodeCoding.code);
     });
-    console.log(codingCode);
     fecha = new Date(observation.effectiveDateTime);
     if(observation.status == 'final'){
       for(let i=0;i<codingCode.length;i++){
@@ -233,6 +232,7 @@ var finEjeX;
         }
       }
     }
+    console.log(code);
     for(let i=0;i<valor.length;i++){
       switch (code[i])
       {
@@ -268,11 +268,6 @@ var finEjeX;
           display[i] = 'TAM ';
           seq[i] = 8;
           break; 
-        default:
-          display[i] = '';
-          seq[i] = -1;
-          showInd = 0;
-          break;
       }
     }
     y = addZeros(fecha.getFullYear());
