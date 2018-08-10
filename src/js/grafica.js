@@ -187,7 +187,7 @@ var finEjeX;
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
 
     var v1 = "<div class='container-fluid'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'><li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
-    var v2 = "<li class='list-inline-item' id='bhFechaAyer'>BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
+    var v2 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
     var v3 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
     var v4 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhAyerTotal'>ml</li>";
     var v5 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
