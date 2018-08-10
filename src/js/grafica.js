@@ -208,76 +208,93 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-  let codingCode=[], fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min, showInd=1;
-    observation.code.coding.forEach(function (observationCodeCoding) {
-      codingCode.push(observationCodeCoding.code);
-    });
-    fecha = new Date(observation.effectiveDateTime);
+    let codingCode = [], fecha, valor = [], display = [], seq = [], unidades = [], fechaFormateada, y, m, d, h, min, showInd=1, auxCode = 0;
     if(observation.status == 'final'){
-      for(let i=0;i<codingCode.length;i++){
-        if(codingCode[i] != '75367002' && codingCode[i] != '55284-4' && codingCode[i] != '8310-5'){
-          console.log(observation);
-          valor.push(observation.valueQuantity.value);
-          unidades.push(observation.valueQuantity.unit);
-          code.push(codingCode);
-        }
-        else if(codingCode[i] == '55284-4'){
-          observation.component.forEach(function(component){
-            valor.push(component.valueQuantity.value);
-            if(typeof valor != 'undefined'){
-              code.push(component.code.coding[0].code);
-              unidades.push(component.valueQuantity.unit);
-            }
-          });
-        }
+      fecha = new Date(observation.effectiveDateTime);
+      if(observation.code.text == 'Blood pressure'){
+        observation.component.forEach(function(component){
+          codingCode.push(component.code.coding[0].code);
+          valor.push(component.valueQuantity.value);
+          unidades.push(component.valueQuantity.unit)
+        });
       }
-    }
-    console.log(code);
-    for(let i=0;i<valor.length;i++){
-      switch (code[i])
-      {
-        case '2710-2':
-          display[i] = 'Saturación O2 ';
-          seq[i] = 1;
-          break;
-        case '8328-7':
-          display[i] = 'Temperatura ';
-          seq[i] = 2;
-          break;
-        case '9279-1':
-          display[i] = 'Frecuencia respiratoria ';
-          seq[i] = 3;
-          break;
-        case '8867-4':
-          display[i] = 'Frecuencia cardíaca ';
-          seq[i] = 4;
-          break;
-        case '60985-9':
-          display[i] = 'PVC ';
-          seq[i] = 5;
-          break; 
-        case '8480-6':
-          display[i] = 'TAS ';
-          seq[i] = 6;
-          break;
-        case '8462-4':
-          display[i] = 'TAD ';
-          seq[i] = 7;
-          break;
-        case '8478-0':
-          display[i] = 'TAM ';
-          seq[i] = 8;
-          break; 
+      else{
+        observation.code.coding.forEach(function(code){
+          if(auxCode != code.code){
+            codingCode.push(code.code);
+            auxCode=code.code;
+          }
+        });
+        valor.push(observation.valueQuantity.value);
+        unidades.push(observation.valueQuantity.unit);
       }
-    }
-    y = addZeros(fecha.getFullYear());
-    m = addZeros(fecha.getMonth()+1);
-    d = addZeros(fecha.getDate());
-    h = addZeros(fecha.getHours());
-    min = addZeros(fecha.getMinutes());
-    fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
-    for(let i=0;i<valor.length;i++){
-      data.push(new timeline(code[i],seq[i],display[i],valor[i],fechaFormateada,unidades[i], showInd));
+        /* for(let i=0;i<codingCode.length;i++){
+          if(codingCode[i] != '75367002' && codingCode[i] != '55284-4' && codingCode[i] != '8310-5'){
+            console.log(observation);
+            valor.push(observation.valueQuantity.value);
+            unidades.push(observation.valueQuantity.unit);
+            code.push(codingCode);
+          }
+          else if(codingCode[i] == '55284-4'){
+            observation.component.forEach(function(component){
+              valor.push(component.valueQuantity.value);
+              if(typeof valor != 'undefined'){
+                code.push(component.code.coding[0].code);
+                unidades.push(component.valueQuantity.unit);
+              }
+            });
+          }
+        } */
+
+      y = addZeros(fecha.getFullYear());
+      m = addZeros(fecha.getMonth()+1);
+      d = addZeros(fecha.getDate());
+      h = addZeros(fecha.getHours());
+      min = addZeros(fecha.getMinutes());
+      fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
+
+      codingCode.forEach(function(code){
+        switch (code)
+        {
+          case '2710-2':
+            display = 'Saturación O2 ';
+            seq = 1;
+            break;
+          case '8328-7':
+            display = 'Temperatura ';
+            seq = 2;
+            break;
+          case '9279-1':
+            display = 'Frecuencia respiratoria ';
+            seq = 3;
+            break;
+          case '8867-4':
+            display = 'Frecuencia cardíaca ';
+            seq = 4;
+            break;
+          case '60985-9':
+            display = 'PVC ';
+            seq = 5;
+            break; 
+          case '8480-6':
+            display = 'TAS ';
+            seq = 6;
+            break;
+          case '8462-4':
+            display = 'TAD ';
+            seq = 7;
+            break;
+          case '8478-0':
+            display = 'TAM ';
+            seq = 8;
+            break;
+          default:
+            display = '';
+            seq = -1;
+            showInd = 0; 
+        }
+        data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades,showInd));  
+      });
     }
   }
   
