@@ -103,6 +103,7 @@ var finEjeX;
           }
         }
       });
+      console.log(names);
       return names;
     } else {
       return "anonymous";
@@ -116,6 +117,7 @@ var finEjeX;
         '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
         '<div class="col-sm-5"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
       });
+      console.log(details);
       return details;
     } else {
       return "no data";
