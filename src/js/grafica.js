@@ -209,20 +209,21 @@ var finEjeX;
     });
 
     fecha = new Date(observation.effectiveDateTime);
-
-    if(codingCode != '75367002' && codingCode != '55284-4'){
-      valor.push(observation.valueQuantity.value);
-      unidades.push(observation.valueQuantity.unit);
-      code.push(codingCode);
-    }
-    else if(codingCode == '55284-4'){
-      observation.component.forEach(function(component){
-        valor.push(component.valueQuantity.value);
-        if(typeof valor != 'undefined'){
-          code.push(component.code.coding[0].code);
-          unidades.push(component.valueQuantity.unit);
-        }
-      });
+    if(observation.status == 'final'){
+      if(codingCode != '75367002' && codingCode != '55284-4'){
+        valor.push(observation.valueQuantity.value);
+        unidades.push(observation.valueQuantity.unit);
+        code.push(codingCode);
+      }
+      else if(codingCode == '55284-4'){
+        observation.component.forEach(function(component){
+          valor.push(component.valueQuantity.value);
+          if(typeof valor != 'undefined'){
+            code.push(component.code.coding[0].code);
+            unidades.push(component.valueQuantity.unit);
+          }
+        });
+      }
     }
     for(let i=0;i<valor.length;i++){
       switch (code[i])
