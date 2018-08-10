@@ -103,7 +103,7 @@ var finEjeX;
           }
         }
       });
-      return names.join(" / ");
+      return names;
     } else {
       return "anonymous";
     }
@@ -116,7 +116,7 @@ var finEjeX;
         '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
         '<div class="col-sm-5"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
       });
-      return details.join(" / ");
+      return details;
     } else {
       return "no data";
     }
@@ -1429,7 +1429,7 @@ var finEjeX;
   {
     data.sort(compare);
     console.log(data);
-    
+
     if(data.length>0){
       var vsData = [], prevSeq = -1, vsSeq = -1, vsShapes = ['filledCircle','filledCircle','filledDiamond','filledCircle','diamond','downVee','upVee','filledCircle'],
       shownSeries = false,shownLabel = false,
