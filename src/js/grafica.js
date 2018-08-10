@@ -185,7 +185,7 @@ var finEjeX;
   function getDemographics(json){
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
-    var v1 = "<span style='float:left;'><dl class='dmg-info'><dt><span style='font-weight:bold;'>D&iacute;as UCI:</span></dt><dd class='dmg-dob'><span style='font-weight:bold;'>";
+    var v1 = "<span class='d-block p-2 bg-dark text-white' style='float:left;'><dl class='dmg-info'><dt><span style='font-weight:bold;'>D&iacute;as UCI:</span></dt><dd class='dmg-dob'><span style='font-weight:bold;'>";
     var v2 = "</span></dd><dt><span id='bhFechaAyer'>BH Ayer - Ingresos:</span></dt><dd><span id='bhAyerIngresos' style='color:rgb(102, 153, 0);'>";
     var v3 = "ml</span></dd><dt><span>Egresos:</span></dt><dd><span id='bhAyerEgresos' style='color:rgb(255, 102, 0);'>";
     var v4 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhAyerTotal' style='font-weight:bold;'>";
@@ -194,7 +194,7 @@ var finEjeX;
     var v7 = "ml</span></dd><dt><span>Total:</span></dt><dd><span id='bhUciTotal' style='font-weight:bold;'>";
     var v8 = "ml</span></dd></dl></span></span>";
     jsHTML.push(v1,json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS,v2,v3,v4,v5,v6,v7,v8);
-    $("#balHidrico").html(jsHTML.join(""));
+    $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
   }
