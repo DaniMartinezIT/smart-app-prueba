@@ -44,6 +44,7 @@ var finEjeX;
 
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
           console.log(patient);
+          console.log(obv);
           obv.forEach(function(obv){
             console.log(obv);
             getSignosVitales(obv);
