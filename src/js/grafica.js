@@ -1879,7 +1879,6 @@ function seleccionaRangos (obj)
     this.dibujaRangos(numDatos,'inicial');			
   }
   auxPlot.redraw();
-  if($(obj).attr('id')=="inicial"){drawWhiskerLines(auxPlot);}	
 }
 
 function dibujaRangos (datosTotales, id)
