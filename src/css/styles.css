@@ -177,6 +177,12 @@ header{
 .list-inline-item{
     font-size:1vw;
 }
+.media{
+    font-size:1.5vw;
+}
+.card-header{
+    font-size:1.5vw;
+}
 
 /* Graph style */
 #resetBtns {position: relative; width: 20%; white-space: nowrap; border: 1px solid #ddd;height:125px;overflow:auto;margin:2px 39px 2px 0;} 
