@@ -97,7 +97,11 @@ var finEjeX;
   function getPatientName(pt) {
     if (pt.name) {
       var names = pt.name.map(function (name) {
-        return name.given.join("") + " " + name.family.join("");
+        for(let i=0;i<name.length;i++){
+          if(name[i].use === "official"){
+            return name.given.join("") + " " + name.family.join("");
+          }
+        }
       });
       return names.join(" / ");
     } else {
