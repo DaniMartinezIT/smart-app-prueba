@@ -97,13 +97,11 @@ var finEjeX;
   function getPatientName(pt) {
     if (pt.name) {
       var names = pt.name.map(function (name) {
-        for(let i=0;i<name.length;i++){
-          if(name[i].use === "official"){
             return name.given.join("") + " " + name.family.join("");
-          }
         }
-      });
-      console.log(names);
+      )
+      console.log(pt.name);
+      console.log(pt.name.map());
       return names;
     } else {
       return "anonymous";
@@ -117,8 +115,7 @@ var finEjeX;
         '<div class="col-sm-3"><b>Género:</b>' + pt.gender + '</div>'+
         '<div class="col-sm-5"><b>Fecha de nacimiento:</b>' + pt.birthDate+ '</div></div></div>';
       });
-      console.log(details);
-      return details;
+      return details[0];
     } else {
       return "no data";
     }
@@ -213,7 +210,7 @@ var finEjeX;
 
     fecha = new Date(observation.effectiveDateTime);
 
-    if(codingCode != '75367002' && codingCode != '55284-4'  && codingCode != '55284-4'){
+    if(codingCode != '75367002' && codingCode != '55284-4'){
       valor.push(observation.valueQuantity.value);
       unidades.push(observation.valueQuantity.unit);
       code.push(codingCode);
@@ -227,7 +224,6 @@ var finEjeX;
         }
       });
     }
-    else if(codingCode == '')
     for(let i=0;i<valor.length;i++){
       switch (code[i])
       {
