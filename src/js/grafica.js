@@ -210,7 +210,7 @@ var finEjeX;
   function getSignosVitales(observation) {
   let codingCode=[], fecha, code=[], valor=[], display=[], seq=[], unidades=[], fechaFormateada, y, m, d, h, min, showInd=1;
     observation.code.coding.forEach(function (observationCodeCoding) {
-      codingCode = observationCodeCoding.code;
+      codingCode.push(observationCodeCoding.code);
     });
 
     fecha = new Date(observation.effectiveDateTime);
