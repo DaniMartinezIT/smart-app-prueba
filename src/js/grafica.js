@@ -33,7 +33,7 @@ var finEjeX;
                           'http://loinc.org|' + '9279-1', //respiratory_rate
                           'http://loinc.org|' + '8328-7', //Axillary temperature
                           'http://loinc.org|' + '60985-9', //PVC
-                          'http://loinc.org|' + '8478-0', //Mean blood pressure TAM
+                          'http://loinc.org|' + '8478-0', //Mean Arterial pressure TAM
                           ]
                       }
                     }
@@ -186,13 +186,13 @@ var finEjeX;
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
 
-    var v1 = "<span class='d-block p-2 bg-dark text-white'><ul class='list-inline'><li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
+    var v1 = "<div class='container-fluid'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'><li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
     var v2 = "<li class='list-inline-item' id='bhFechaAyer'>BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
     var v3 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
     var v4 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhAyerTotal'>ml</li>";
     var v5 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v6 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
-    var v7 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span>";
+    var v7 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
     jsHTML.push(v1,json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS,v2,v3,v4,v5,v6,v7);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
@@ -253,7 +253,7 @@ var finEjeX;
         break;
       case '8478-0':
         display = 'TAM ';
-        seq=7;
+        seq=8;
         break; 
     }
     y = addZeros(fecha.getFullYear());
@@ -1457,7 +1457,7 @@ var finEjeX;
           lineInd = false;
           tamano = 8;
           axisColor[3] = true;
-        }else if (data[i].seq === 6 || data[i].seq === 7){//TAS-TAD-TAM
+        }else if (data[i].seq === 6 || data[i].seq === 7 || data[i].seq === 8){//TAS-TAD-TAM
           var axis = "yaxis";
           lineInd = false;
           axisColor[0] = true;
