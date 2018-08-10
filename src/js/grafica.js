@@ -43,14 +43,11 @@ var finEjeX;
         $.when(pt, obv, meds).fail(onError);
 
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
-          console.log(patient);
           obv.forEach(function(obv){
-            console.log(obv);
             getSignosVitales(obv);
           });
           meds.forEach(function(meds){
-            console.log(meds);
-          })
+          });
           prepareHTML(patient);
           prepareData();
         });
