@@ -203,7 +203,7 @@ var finEjeX;
     var v9 = "<div class='col-md-3' id=datePicker><div class='btn'><i class='fa fa-angle-double-left'></i></div><div class='input-group date'>";
     var v10 = "<input type='text' class='form-control' id='date-input'><div class='input-group-addon calendar-icon'><i class='fa fa-th'></i>";
     var v11 = "<div class='btn'><i class='fa fa-angle-double-right'></i></div></div></div></div></div></div>";
-    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10);
+    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10, v11);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
