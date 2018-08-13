@@ -200,7 +200,7 @@ var finEjeX;
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
     var v9 = "<div class='col-md-3' id=datePicker><div class='input-group date'><input type='text' class='form-control'>";
-    var v10 = "<span class='input-group-addon'><i class='fa fa-th'></i></span></div></div></div></div>";
+    var v10 = "<div class='input-group-addon'><span class='fa fa-th'></span></div></div></div></div></div>";
     jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
