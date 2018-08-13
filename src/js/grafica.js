@@ -208,7 +208,9 @@ var finEjeX;
     actualizarDatosBalance(initDate);
     $('#datePicker .input-group.date').datepicker({
       autoclose:true,
-      todayHighlight:true
+      todayHighlight:true,
+      language: "es",
+      weekStart: 1
     });
   }
   
