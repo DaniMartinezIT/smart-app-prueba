@@ -199,8 +199,7 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-md-3'><div class='input-group date'><input type='text' class='form-control'><span class='input-group-addon'>";
-    var v10 = "<i class='fa fa-calendar'></i></span></div></div></div></div>"
+    var v9 = "<div class='col-md-3'></div></div></div>"
     jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8, v9, v10);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
@@ -218,7 +217,7 @@ var finEjeX;
         observation.component.forEach(function(component){
           codingCode.push(component.code.coding[0].code);
           valor.push(component.valueQuantity.value);
-          unidades.push(component.valueQuantity.unit)
+          unidades.push(component.valueQuantity.unit);
         });
       }
       else{
@@ -239,8 +238,8 @@ var finEjeX;
       min = addZeros(fecha.getMinutes());
       fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
 
-      codingCode.forEach(function(code){
-        switch (code)
+      for(let i=0;i<codingCode.length;i++){
+        switch (codingCode[i])
         {
           case '2710-2':
             display = 'Saturación O2 ';
@@ -280,9 +279,9 @@ var finEjeX;
             showInd = 0; 
         }
         if(showInd != 0){
-          data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades[0],showInd));  
+          data.push(new timeline(codingCode[i],seq,display,valor[i],fechaFormateada,unidades[i],showInd));  
         }
-      });
+      }
     }
   }
   
