@@ -202,7 +202,7 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-xl-3'><div class='input-group date' data-provide='datepicker'><input type='text' class='form-control'><div class='input-group-addon'>";
+    var v9 = "<div class='col-xl-3'><div class='input-group date'><input type='text' class='form-control'><div class='input-group-addon'>";
     var v10 = "<span class='glyphicon glyphicon-th'></span></div></div></div></div></div>"
     jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
