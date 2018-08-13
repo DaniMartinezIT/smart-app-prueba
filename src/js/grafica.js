@@ -211,6 +211,7 @@ var finEjeX;
   
   function getSignosVitales(observation) {
     let codingCode = [], fecha, valor = [], display = [], seq = [], unidades = [], fechaFormateada, y, m, d, h, min, showInd=1, auxCode = 0;
+    console.log(observation);
     if(observation.status == 'final'){
       fecha = new Date(observation.effectiveDateTime);
       if(observation.code.text == 'Blood pressure'){
@@ -1505,7 +1506,6 @@ var finEjeX;
           markerOptions:{show:true,size:tamano,style:vsShapes[(parseInt(data[i].seq)-1)%(vsShapes.length)], shadow: true},
           pointLabels:{show:false}});
         }
-        console.log(vsData);
         vsData[vsSeq][0].push([data[i].xValor,data[i].yValor,data[i].display+data[i].unidades]);
         vsData[vsSeq][1].minY = (vsData[vsSeq][1].minY > parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].minY;
         vsData[vsSeq][1].maxY = (vsData[vsSeq][1].maxY < parseFloat(data[i].yValor))?parseFloat(data[i].yValor):vsData[vsSeq][1].maxY;
