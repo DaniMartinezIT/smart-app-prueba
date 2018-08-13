@@ -200,26 +200,18 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-md-3' id=datePicker><div class='input-group date'>";
-    var v10 = "<input type='text' class='form-control' id='date-input'><div class='input-group-addon calendar-icon'><i class='fa fa-th'></i>";
-    var v11 = "</div></div></div></div></div>";
-    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10, v11);
+    var v9 = "<div class='col-md-3' id=datePicker><div class='form-group'><div class='input-group date' id='datetimepicker1' data-target-input='nearest'>";
+    var v10 = "<input type='text' class='form-control datetimepicker-input' data-target='#datetimepicker1'/>";
+    var v11 = "<div class='input-group-append' data-target='#datetimepicker1' data-toggle='datetimepicker'><div class='input-group-text'>";
+    var v12 = "<i class='fa fa-calendar'></i></div></div></div></div></div></div></div>";
+    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
-    $('#datePicker .input-group.date').datepicker({
-      autoclose:true,
-      todayHighlight:true,
-      immediateUpdates: true,
-      language: "es",
-      weekStart: 1,
-      format: "dd-mm-yyyy",
-      endDate: new Date(),
-      setDate: new Date(),
-      leftArrow: '<i class="fa fa-long-arrow-left"></i>',
-      rightArrow: '<i class="fa fa-long-arrow-right"></i>'
-    });
+    $(function () {
+      $('#datetimepicker1').datetimepicker();
+  });
   }
   
   function getSignosVitales(observation) {
