@@ -209,7 +209,6 @@ var finEjeX;
     $("#balHid").show();
     actualizarDatosBalance(initDate);
     $('#datePicker .input-group.date').datepicker({
-      container: '#date-input',
       autoclose:true,
       todayHighlight:true,
       immediateUpdates: true,
