@@ -191,7 +191,8 @@ var finEjeX;
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
 
-    var v1 = "<div class='container-fluid'><div class='row flex-nowrap align-items-center'><div class='col-md-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
+    var v1 = "<div class='container-fluid'><div class='row flex-nowrap align-items-center
+    '><div class='col-md-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
     var v2 = "<li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
     var v3 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
     var v4 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
