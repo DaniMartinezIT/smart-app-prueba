@@ -1963,3 +1963,6 @@ $(window).resize(function() {
   }
 });
 
+$('.datepicker').datepicker();
+
+
