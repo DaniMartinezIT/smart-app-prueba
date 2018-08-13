@@ -210,7 +210,8 @@ var finEjeX;
       autoclose:true,
       todayHighlight:true,
       language: "es",
-      weekStart: 1
+      weekStart: 1,
+      format: "dd-mm-yyyy"
     });
   }
   
