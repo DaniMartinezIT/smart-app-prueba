@@ -47,6 +47,7 @@ var finEjeX;
             getSignosVitales(obv);
           });
           meds.forEach(function(meds){
+            // Function to call when meds are retrieved
           });
           prepareHTML(patient);
           prepareData();
@@ -75,7 +76,7 @@ var finEjeX;
     var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
     var bhHTML = makeCollapse('bhSection','balanceHidrico','Balance Hídrico',null);
     var medHTML = makeCollapse('medSection','medicacion','Medicación',null);
-    bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+dvHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
+    bHTML+=vsHTML+'</div>'+catHTML+'</div>'+'</div>'+ventHTML+'</div>'+'</div>'+hemoHTML+
           '</div>'+'</div>'+neuroHTML+'</div>'+'</div>'+bhHTML+'</div>'+'</div>'+medHTML+'</div>'+'</div>'+'</div>';
     $("#contenedor").html(bHTML);
 
