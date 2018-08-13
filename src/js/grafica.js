@@ -191,7 +191,7 @@ var finEjeX;
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
 
-    var v1 = "<div class='container-fluid'><div class='row flex-nowrap'><div class='col-md-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
+    var v1 = "<div class='container-fluid'><div class='row flex-nowrap align-items-center'><div class='col-md-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
     var v2 = "<li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
     var v3 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
     var v4 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
@@ -199,7 +199,7 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-md-3 justify-content-center align-items-center'><div class='input-group date'><input type='text' class='form-control'><div class='input-group-addon'>";
+    var v9 = "<div class='col-md-3'><div class='input-group date'><input type='text' class='form-control'><div class='input-group-addon'>";
     var v10 = "<span class='glyphicon glyphicon-th'></span></div></div></div></div></div>"
     jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8, v9, v10);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
