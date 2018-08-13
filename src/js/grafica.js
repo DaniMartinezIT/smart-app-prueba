@@ -211,7 +211,9 @@ var finEjeX;
       todayHighlight:true,
       language: "es",
       weekStart: 1,
-      format: "dd-mm-yyyy"
+      format: "dd-mm-yyyy",
+      leftArrow: '<i class="fa fa-long-arrow-left"></i>',
+      rightArrow: '<i class="fa fa-long-arrow-right"></i>'
     });
   }
   
