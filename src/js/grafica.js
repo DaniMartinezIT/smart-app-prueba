@@ -209,9 +209,7 @@ var finEjeX;
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
-    $(function () {
-      $('#datetimepicker1').datetimepicker();
-  });
+    $('#datetimepicker1').datetimepicker();
   }
   
   function getSignosVitales(observation) {
