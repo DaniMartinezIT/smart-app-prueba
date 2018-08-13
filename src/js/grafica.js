@@ -200,7 +200,7 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-md-3' id=datePicker><div class='input-group date' data-provide='datepicker' data-date-container='#date-dropdown'><input type='text' class='form-control'>";
+    var v9 = "<div class='col-md-3' id=datePicker><div class='input-group date'><input type='text' class='form-control' id='date-input'>";
     var v10 = "<div class='input-group-addon calendar-icon'><span class='fa fa-th'></span></div></div></div></div></div>";
     jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
@@ -208,7 +208,7 @@ var finEjeX;
     $("#balHid").show();
     actualizarDatosBalance(initDate);
     $('#datePicker .input-group.date').datepicker({
-      container: '#date-dropdown',
+      container: '#date-input',
       autoclose:true,
       todayHighlight:true,
       immediateUpdates: true,
