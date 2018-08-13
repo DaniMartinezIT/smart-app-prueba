@@ -279,7 +279,7 @@ var finEjeX;
             showInd = 0; 
         }
         if(showInd != 0){
-          data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades,showInd));  
+          data.push(new timeline(code,seq,display,valor,fechaFormateada,unidades[0],showInd));  
         }
       });
     }
