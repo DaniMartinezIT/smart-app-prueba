@@ -212,7 +212,8 @@ var finEjeX;
     $('#datetimepicker1').datetimepicker({
       format: "dd-mm-yyyy",
       maxDate: new Date(),
-      defaultDate: new Date()
+      defaultDate: new Date(),
+      locale: moment.local('es');
     });
   }
   
