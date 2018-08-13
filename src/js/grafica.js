@@ -212,6 +212,7 @@ var finEjeX;
       language: "es",
       weekStart: 1,
       format: "dd-mm-yyyy",
+      endDate: today,
       leftArrow: '<i class="fa fa-long-arrow-left"></i>',
       rightArrow: '<i class="fa fa-long-arrow-right"></i>'
     });
