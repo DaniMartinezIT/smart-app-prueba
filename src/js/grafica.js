@@ -209,6 +209,7 @@ var finEjeX;
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
+    $('.datepicker').datepicker();
   }
   
   function getSignosVitales(observation) {
@@ -1962,7 +1963,4 @@ $(window).resize(function() {
     auxPlot.replot();
   }
 });
-
-$('.datepicker').datepicker();
-
 
