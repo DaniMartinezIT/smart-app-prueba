@@ -187,9 +187,7 @@ header{
     margin-left:4px;
     padding-top: 5px;
 }
-.datepicker{
-    top:270px;
-}
+
 
 /* Graph style */
 #resetBtns {position: relative; width: 20%; white-space: nowrap; border: 1px solid #ddd;height:125px;overflow:auto;margin:2px 39px 2px 0;} 
