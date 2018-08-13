@@ -206,7 +206,10 @@ var finEjeX;
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
-    $('#datePicker .input-group.date').datepicker();
+    $('#datePicker .input-group.date').datepicker({
+      autoclose:true,
+      todayHighlight:true
+    });
   }
   
   function getSignosVitales(observation) {
