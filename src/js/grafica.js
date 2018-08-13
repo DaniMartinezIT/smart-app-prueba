@@ -69,7 +69,7 @@ var finEjeX;
     bHTML+='<div class="accordion" id="accordion">';
     var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
     var catHTML = makeCollapse('cateteresSection','cateteres','Catéteres, sondas y tubos',null);
-    var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
+    //var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
     var ventHTML = makeCollapse('ventSection','ventilacion','Ventilación',null);
     var hemoHTML = makeCollapse('hemoSection','hemo','Hemodinámica',null);
     var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
