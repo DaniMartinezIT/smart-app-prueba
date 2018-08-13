@@ -209,7 +209,11 @@ var finEjeX;
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
-    $('#datetimepicker1').datetimepicker();
+    $('#datetimepicker1').datetimepicker({
+      format: "dd-mm-yyyy",
+      maxDate: new Date(),
+      defaultDate: new Date()
+    });
   }
   
   function getSignosVitales(observation) {
