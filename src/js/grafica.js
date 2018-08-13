@@ -43,10 +43,7 @@ var finEjeX;
         $.when(pt, obv, meds).fail(onError);
 
         $.when(pt, obv, meds).done(function (patient,obv, meds) {
-          console.log(patient);
-          console.log(obv);
           obv.forEach(function(obv){
-            console.log(obv);
             getSignosVitales(obv);
           });
           meds.forEach(function(meds){
@@ -233,23 +230,6 @@ var finEjeX;
         valor.push(observation.valueQuantity.value);
         unidades.push(observation.valueQuantity.unit);
       }
-        /* for(let i=0;i<codingCode.length;i++){
-          if(codingCode[i] != '75367002' && codingCode[i] != '55284-4' && codingCode[i] != '8310-5'){
-            console.log(observation);
-            valor.push(observation.valueQuantity.value);
-            unidades.push(observation.valueQuantity.unit);
-            code.push(codingCode);
-          }
-          else if(codingCode[i] == '55284-4'){
-            observation.component.forEach(function(component){
-              valor.push(component.valueQuantity.value);
-              if(typeof valor != 'undefined'){
-                code.push(component.code.coding[0].code);
-                unidades.push(component.valueQuantity.unit);
-              }
-            });
-          }
-        } */
 
       y = addZeros(fecha.getFullYear());
       m = addZeros(fecha.getMonth()+1);
