@@ -191,8 +191,8 @@ var finEjeX;
   function getDemographics(json){
     var jsHTML = [];
     balanceInfo = json.RECORD_DATA.DEMOGRAPHICS.BALANCE_HIDRICO;
-
-    var v1 = "<div class='container-fluid'><div class='row flex-nowrap align-items-center'><div class='col-md-9'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
+  
+    var v1 = "<div class='container-fluid'><div class='row flex-nowrap'><div class='col-lg-auto-no-gutter'><span class='d-block p-2 bg-dark text-white'><ul class='list-inline'>";
     var v2 = "<li class='list-inline-item balHid'>D&iacute;as UCI:</li><li class='list-inline-item balHid' id='diasBH'></li>";
     var v3 = "<li class='list-inline-item' id='bhFechaAyer'> BH Ayer - Ingresos:</li><li class='list-inline-item' id='bhAyerIngresos'>ml</li>";
     var v4 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item' id='bhAyerEgresos'>ml</li>";
@@ -200,20 +200,46 @@ var finEjeX;
     var v6 = "<li class='list-inline-item'>| BH desde ingreso en UCI - Ingresos:</li><li class='list-inline-item ingresos' id='bhUciIngresos'>ml</li>";
     var v7 = "<li class='list-inline-item'>Egresos:</li><li class='list-inline-item egresos' id='bhUciEgresos'>ml</li>";
     var v8 = "<li class='list-inline-item'>Total:</li><li class='list-inline-item balHid' id='bhUciTotal'>ml</li></ul></span></div>";
-    var v9 = "<div class='col-md-3' id=datePicker><div class='form-group'><div class='input-group date' id='datetimepicker1' data-target-input='nearest'>";
-    var v10 = "<input type='text' class='form-control datetimepicker-input' data-target='#datetimepicker1'/>";
-    var v11 = "<div class='input-group-append' data-target='#datetimepicker1' data-toggle='datetimepicker'><div class='input-group-text'>";
-    var v12 = "<i class='fa fa-calendar'></i></div></div></div></div></div></div></div>";
-    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12);
+    var v9 = "<div class='col-lg-auto align-self-center ml-auto'><form class='form-inline'><div class='form-group'><button class='btn btn-light' type='button' id='day-before'>";
+    var v10 = "<i class='fas fa-angle-double-left' title='Day Before'></i></button>";
+    var v11 = "<div class='input-group date' data-provide='datepicker'><input type='text' class='form-control'>";
+    var v12 = "<div class='input-group-text'><div class='input-group-append'><i class='fas fa-calendar'></i></div></div></div>";
+    var v13 = "<button class='btn btn-light' type='button' id='day-after'><i class='fas fa-angle-double-right' title='Day After'></i></button>";
+    var v14 = "</div></form></div></div></div>";
+    jsHTML.push(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14);
     $("#diasBH").html(json.RECORD_DATA.DEMOGRAPHICS.ICU_DAYS);
     $("#balHid").html(jsHTML.join(""));
     $("#balHid").show();
     actualizarDatosBalance(initDate);
-    $('#datetimepicker1').datetimepicker({
+    $('.input-group.date').datepicker({
+      autoclose: true,
+      endDate: new Date(),
       format: "dd-mm-yyyy",
-      maxDate: new Date(),
-      defaultDate: new Date(),
-      locale: 'es'
+      language: 'es',
+      todayBtn: true,
+      todayHighlight: true,
+      weekStart: 1
+    });
+    $('.input-group.date').datepicker('setDate', new Date().toISOString());
+    $('#day-before').on('click', function(event){
+      event.preventDefault();
+      var initDate = $('.input-group.date').datepicker('getDate');
+      var newDate = new Date(initDate.getTime());
+      newDate.setDate(initDate.getDate()-1);
+      $('.input-group.date').datepicker('setDate', newDate);
+    });
+    $('#day-after').on('click', function(event){
+      event.preventDefault();
+      var endDate = $('.input-group.date').datepicker('getEndDate');
+      var initDate = $('.input-group.date').datepicker('getDate');
+      var newDate = new Date(initDate.getTime());
+      newDate.setDate(initDate.getDate()+1);
+      if(newDate<endDate){
+        $('.input-group.date').datepicker('setDate', newDate);	
+      }
+      else{
+        $('.input-group.date').datepicker('setDate', "0");	
+      }
     });
   }
   
