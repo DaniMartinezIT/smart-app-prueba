@@ -244,7 +244,7 @@ var finEjeX;
   }
   
   function getSignosVitales(observation) {
-    let codingCode = [], fecha, valor = [], display = [], seq = [], unidades = [], fechaFormateada, y, m, d, h, min, showInd=1, auxCode = 0;
+    let codingCode = [], fecha, fechaAux, valor = [], display = [], seq = [], unidades = [], fechaFormateada, y, m, d, h, min, showInd=1, auxCode = 0;
     console.log(observation);
     if(observation.status == 'final'){
       fecha = new Date(observation.effectiveDateTime);
@@ -265,12 +265,14 @@ var finEjeX;
         valor.push(observation.valueQuantity.value);
         unidades.push(observation.valueQuantity.unit);
       }
+      
+      fechaAux=new Date(fecha.getTime());
 
-      y = addZeros(fecha.getFullYear());
-      m = addZeros(fecha.getMonth()+1);
-      d = addZeros(fecha.getDate());
-      h = addZeros(fecha.getHours());
-      min = addZeros(fecha.getMinutes());
+      y = addZeros(fechaAux.getFullYear());
+      m = addZeros(fechaAux.getMonth()+1);
+      d = addZeros(fechaAux.getDate());
+      h = addZeros(fechaAux.getHours());
+      min = addZeros(fechaAux.getMinutes());
       fechaFormateada = y + "-" + m + "-" + d + " " + h + ":" + min;
 
       for(let i=0;i<codingCode.length;i++){
