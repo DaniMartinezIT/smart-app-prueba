@@ -223,17 +223,17 @@ var finEjeX;
     $('.input-group.date').datepicker('setDate', new Date().toISOString());
     $('#day-before').on('click', function(event){
       event.preventDefault();
-      var initDate = $('.input-group.date').datepicker('getDate');
-      var newDate = new Date(initDate.getTime());
-      newDate.setDate(initDate.getDate()-1);
+      let inDate = $('.input-group.date').datepicker('getDate');
+      var newDate = new Date(inDate.getTime());
+      newDate.setDate(inDate.getDate()-1);
       $('.input-group.date').datepicker('setDate', newDate);
     });
     $('#day-after').on('click', function(event){
       event.preventDefault();
       var endDate = $('.input-group.date').datepicker('getEndDate');
-      var initDate = $('.input-group.date').datepicker('getDate');
-      var newDate = new Date(initDate.getTime());
-      newDate.setDate(initDate.getDate()+1);
+      let inDate = $('.input-group.date').datepicker('getDate');
+      var newDate = new Date(inDate.getTime());
+      newDate.setDate(inDate.getDate()+1);
       if(newDate<endDate){
         $('.input-group.date').datepicker('setDate', newDate);	
       }
@@ -241,6 +241,7 @@ var finEjeX;
         $('.input-group.date').datepicker('setDate', "0");	
       }
     });
+    initDate.setDate($('.input-group.date').datepicker('getDate'));
   }
   
   function getSignosVitales(observation) {
@@ -266,7 +267,7 @@ var finEjeX;
         unidades.push(observation.valueQuantity.unit);
       }
       
-      fechaAux=new Date(fecha.getTime());
+      fechaAux = new Date(fecha.getTime());
 
       y = addZeros(fechaAux.getFullYear());
       m = addZeros(fechaAux.getMonth()+1);
@@ -1557,6 +1558,33 @@ var finEjeX;
         dtMin = (v<dtMin) ? v : dtMin;
         dtMax = (v>dtMax) ? v : dtMax;
       }
+      var endDate = new Date();
+      var startDate = new Date(initDate);
+
+      if (initDate.getHours() < 8)
+      {
+        startDate.setDate(startDate.getDate()-1);
+        startDate.setHours(8);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
+        endDate.setTime(startDate.getTime());
+        endDate.setDate(startDate.getDate()+1);
+      }
+      else
+      {
+        startDate.setDate(startDate.getDate());
+        startDate.setHours(8);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
+        endDate.setTime(startDate.getTime());
+        endDate.setDate(startDate.getDate()+1);
+      }
+      var newDtMin = startDate.getTime();
+      var newDtMax = endDate.getTime();
+
+
       let endDate=new Date();
       let startDate=new Date();
       endDate.setISO8601(dtMax);
@@ -1572,7 +1600,7 @@ var finEjeX;
       let y5Axis = {show:true, min:80, max:100, ticks:[80,82,84,86,88,90,92,94,96,98,100],useSeriesColor: axisColor[4],tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Saturacion
       let y6Axis = {show:true, min: 0, max: 50, ticks:[0,5,10,15,20,25,30,35,40,45,50], useSeriesColor: axisColor[5], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:' %#d'}, pad:0};//FR
       
-      let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true}, ticksInterval: '1 day', useDST:false, autoscale:false, pad:1, min:startDate.getTime(), max:endDate.getTime()};
+      let xAxis = {show:true, autoscaleOnZoom:false, useSeriesColor:false, renderer:$.jqplot.DateAxisRenderer, labelRenderer:$.jqplot.CanvasAxisLabelRenderer, tickOptions:{fontSize:12,mark:'outside',showGridline:true}, ticksInterval: '1 day', useDST:false, autoscale:false, pad:1, min:newDtMin, max:newDtMax};
     
       if (vsData.length>0 && vsData[0].length>0){
         gPlots.push(dibujaGrafica('vsGraph','vsSelect','gPlots['+gPlots.length+']',vsData, xAxis, [yAxis, y2Axis, y3Axis, y4Axis, y5Axis, y6Axis]));
