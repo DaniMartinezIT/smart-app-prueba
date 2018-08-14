@@ -1584,11 +1584,10 @@ var finEjeX;
       var newDtMin = startDate.getTime();
       var newDtMax = endDate.getTime();
 
-
-      let endDate=new Date();
-      let startDate=new Date();
-      endDate.setISO8601(dtMax);
-      startDate.setISO8601(dtMin);
+      //let endDate=new Date();
+      //let startDate=new Date();
+      //endDate.setISO8601(dtMax);
+      //startDate.setISO8601(dtMin);
     
       inicioEjeX=newDtMin;
       finEjeX=newDtMax;
