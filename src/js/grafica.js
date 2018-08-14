@@ -1590,8 +1590,11 @@ var finEjeX;
       endDate.setISO8601(dtMax);
       startDate.setISO8601(dtMin);
     
-      inicioEjeX=startDate;
-      finEjeX=endDate;
+      inicioEjeX=newDtMin;
+      finEjeX=newDtMax;
+    
+      //inicioEjeX=startDate;
+      //finEjeX=endDate;
     
       let yAxis = {show:true, min:0, max:250, ticks:[0,25,50,75,100,125,150,175,200,225,250],useSeriesColor: axisColor[0], tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//TAS-TAD
       let y2Axis = {show:true, min:32, max:42, ticks:[32,33,34,35,36,37,38,39,40,41,42],useSeriesColor: axisColor[1],  tickOptions:{fontSize:12, mark:'outside', showGridline:true, formatString:'%#d'}, pad:0};//Temperatura
