@@ -70,7 +70,6 @@ var finEjeX;
     bHTML+='<div class="accordion" id="accordion">';
     var vsHTML = makeCollapse('vsSection','signosVitales','Gráfica de signos vitales',signosVitalesBody);
     var catHTML = makeCollapse('cateteresSection','cateteres','Catéteres, sondas y tubos',null);
-    //var dvHTML = makeCollapse('valDiscSection','valoresDiscretos','Valores discretos de constantes vitales',null);
     var ventHTML = makeCollapse('ventSection','ventilacion','Ventilación',null);
     var hemoHTML = makeCollapse('hemoSection','hemo','Hemodinámica',null);
     var neuroHTML = makeCollapse('neuroSection','neuro','Neuromonitorización y valoración neurológica',null);
@@ -221,28 +220,41 @@ var finEjeX;
       weekStart: 1
     });
     $('.input-group.date').datepicker('setDate', new Date().toISOString());
+
     $('#day-before').on('click', function(event){
       event.preventDefault();
-      let inDate = $('.input-group.date').datepicker('getDate');
+		var inDate = $('.input-group.date').datepicker('getDate');
       var newDate = new Date(inDate.getTime());
       newDate.setDate(inDate.getDate()-1);
       $('.input-group.date').datepicker('setDate', newDate);
+		initDate.setTime(newDate.getTime());
+		console.log(initDate);
     });
+	
+	
     $('#day-after').on('click', function(event){
       event.preventDefault();
       var endDate = $('.input-group.date').datepicker('getEndDate');
-      let inDate = $('.input-group.date').datepicker('getDate');
+		var inDate = $('.input-group.date').datepicker('getDate');
       var newDate = new Date(inDate.getTime());
       newDate.setDate(inDate.getDate()+1);
       if(newDate<endDate){
         $('.input-group.date').datepicker('setDate', newDate);	
+			initDate.setTime(newDate.getTime());
       }
       else{
         $('.input-group.date').datepicker('setDate', "0");	
+			initDate.setTime(new Date());
       }
+		console.log(initDate);
     });
-    initDate.setDate($('.input-group.date').datepicker('getDate'));
-  }
+
+	$('.input-group.date').datepicker()
+    .on('changeDate', function(e) {
+			initDate.setTime(e.date.getTime());
+			console.log(initDate);
+    });
+}
   
   function getSignosVitales(observation) {
     let codingCode = [], fecha, fechaAux, valor = [], display = [], seq = [], unidades = [], fechaFormateada, y, m, d, h, min, showInd=1, auxCode = 0;
@@ -1851,57 +1863,53 @@ var finEjeX;
     return i;
   }
 
-//CRQ000000521204 Cálculos en funcón de la fecha seleccionada
-//Los datos están almaceados en balanceInfo que se inicializa en la carga de CERN_DEMO_BANNER_O1
-//function actualizarDatosBalance(dateString){
-function actualizarDatosBalance(fechaBusqueda){
-	var bh_ayer_ingresos = 0;
-  var bh_ayer_egresos = 0;
-  var bh_ayer_total = 0;
-  var bh_uci_ingresos = 0;
-  var bh_uci_egresos = 0;
-  var bh_uci_total = 0;
-  var fechaAux = new Date(fechaBusqueda.getTime()); //Creamos nueva fecha con el valor recibido
-  fechaAux.setDate(fechaBusqueda.getDate() - 1); //Restamos un día a la fechaBusqueda
+  function actualizarDatosBalance(fechaBusqueda){
+    var bh_ayer_ingresos = 0;
+    var bh_ayer_egresos = 0;
+    var bh_ayer_total = 0;
+    var bh_uci_ingresos = 0;
+    var bh_uci_egresos = 0;
+    var bh_uci_total = 0;
+    var fechaAux = new Date(fechaBusqueda.getTime()); //Creamos nueva fecha con el valor recibido
+    fechaAux.setDate(fechaBusqueda.getDate() - 1); //Restamos un día a la fechaBusqueda
 
-  //Creamos la fecha en formato añoMesDia con dos dígitos tanto mes como día para comparar con GRUPO.
-  var fechaHoy = parseInt(fechaBusqueda.getYear() + ("0" + (fechaBusqueda.getMonth() + 1)).slice(-2) + ("0" + fechaBusqueda.getDate()).slice(-2));
-  var fechaAyer = parseInt(fechaAux.getYear() + ("0" + (fechaAux.getMonth() + 1)).slice(-2) + ("0" + fechaAux.getDate()).slice(-2));
+    //Creamos la fecha en formato añoMesDia con dos dígitos tanto mes como día para comparar con GRUPO.
+    var fechaHoy = parseInt(fechaBusqueda.getYear() + ("0" + (fechaBusqueda.getMonth() + 1)).slice(-2) + ("0" + fechaBusqueda.getDate()).slice(-2));
+    var fechaAyer = parseInt(fechaAux.getYear() + ("0" + (fechaAux.getMonth() + 1)).slice(-2) + ("0" + fechaAux.getDate()).slice(-2));
 
-  // Valores del record guardado en balanceInfo
-	// <ITEM>
-  //  <GRUPO type="STRING" length="8"><![CDATA[20180531]]></GRUPO>
-  //  <INGRESO type="INT" value="3236"/>
-  //  <EGRESO type="INT" value="1655"/>
-  // </ITEM>
+    // Valores del record guardado en balanceInfo
+    // <ITEM>
+    //  <GRUPO type="STRING" length="8"><![CDATA[20180531]]></GRUPO>
+    //  <INGRESO type="INT" value="3236"/>
+    //  <EGRESO type="INT" value="1655"/>
+    // </ITEM>
 
-  for (var i = 0; i < balanceInfo.length; i++) {
-  	if(parseInt(balanceInfo[i].GRUPO) <= fechaHoy){
-			bh_uci_ingresos = bh_uci_ingresos + +balanceInfo[i].INGRESO;
-			bh_uci_egresos = bh_uci_egresos + +balanceInfo[i].EGRESO;
-		}
-  	if(parseInt(balanceInfo[i].GRUPO) == fechaAyer){
- 			bh_ayer_ingresos = bh_ayer_ingresos + +balanceInfo[i].INGRESO
-			bh_ayer_egresos = bh_ayer_egresos + +balanceInfo[i].EGRESO;
-		}
+    for (var i = 0; i < balanceInfo.length; i++) {
+      if(parseInt(balanceInfo[i].GRUPO) <= fechaHoy){
+        bh_uci_ingresos = bh_uci_ingresos + +balanceInfo[i].INGRESO;
+        bh_uci_egresos = bh_uci_egresos + +balanceInfo[i].EGRESO;
+      }
+      if(parseInt(balanceInfo[i].GRUPO) == fechaAyer){
+        bh_ayer_ingresos = bh_ayer_ingresos + +balanceInfo[i].INGRESO
+        bh_ayer_egresos = bh_ayer_egresos + +balanceInfo[i].EGRESO;
+      }
+    }
+    bh_uci_total = bh_uci_ingresos - bh_uci_egresos;
+    bh_ayer_total = bh_ayer_ingresos - bh_ayer_egresos;
+
+    //Actualizar valores del DOM. Se visualiza en la barra superior.
+    $("#bhAyerIngresos").text(bh_ayer_ingresos + 'ml');
+    $("#bhAyerEgresos").text(bh_ayer_egresos + 'ml');
+    $("#bhAyerTotal").text(bh_ayer_total + 'ml');
+
+    $("#bhUciIngresos").text(bh_uci_ingresos + 'ml');
+    $("#bhUciEgresos").text(bh_uci_egresos + 'ml');
+    $("#bhUciTotal").text(bh_uci_total + 'ml');
+    $("#bhFechaAyer").text('BH ' + fechaAyer.toString().substr(6,2) + '/' + fechaAyer.toString().substr(4,2) + '/' + fechaAyer.toString().substr(0,4) + ' - Ingresos:');
   }
-  bh_uci_total = bh_uci_ingresos - bh_uci_egresos;
-  bh_ayer_total = bh_ayer_ingresos - bh_ayer_egresos;
-
-  //Actualizar valores del DOM. Se visualiza en la barra superior.
-  $("#bhAyerIngresos").text(bh_ayer_ingresos + 'ml');
-  $("#bhAyerEgresos").text(bh_ayer_egresos + 'ml');
-  $("#bhAyerTotal").text(bh_ayer_total + 'ml');
-
-  $("#bhUciIngresos").text(bh_uci_ingresos + 'ml');
-  $("#bhUciEgresos").text(bh_uci_egresos + 'ml');
-  $("#bhUciTotal").text(bh_uci_total + 'ml');
-  $("#bhFechaAyer").text('BH ' + fechaAyer.toString().substr(6,2) + '/' + fechaAyer.toString().substr(4,2) + '/' + fechaAyer.toString().substr(0,4) + ' - Ingresos:');
-}
 
 })(window);
 
-/* Helper function for drawChoiceGraph and drawCtrGraph function (onclick event for each button) */
 function selectSeries (iBtn, mSelected, plot){
   var p = plot;
   var numSelected = 0;
